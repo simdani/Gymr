@@ -26,7 +26,17 @@ async function create (req, res) {
   }
 }
 
+async function findByCity (req, res) {
+  try {
+    const result = await gymService.findGyms(req);
+    res.status(200).json(result);
+  } catch (e) {
+    res.status(500).json('Erro getting gyms');
+  }
+}
+
 module.exports = {
   all,
-  create
+  create,
+  findByCity
 };

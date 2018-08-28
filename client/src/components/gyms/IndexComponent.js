@@ -3,25 +3,38 @@ import axios from 'axios';
 
 import { API_ROOT } from '../../api-config';
 
+import SearchGymComponent from './searchGymCompoent';
+
 export default class IndexComponent extends Component {
-  state = {
-    gyms: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      gyms: []
+    };
+
+    this.getData = this.getData.bind(this);
   }
 
-  componentDidMount() {
-    axios.get(`${API_ROOT}/gyms`)
-      .then(res => {
+  getData = (keyword) => {
+    if (keyword !== '') {
+      this.getGymByKeyword(keyword);
+    } else {
+      this.getAllGyms();
+    }
+  }
+
+  getGymByKeyword = (keyword) => {
+    axios.get(`${API_ROOT}/gyms/find/${keyword}`)
+    .then(res => {
+      if (res.data !== null) {
         const gyms = res.data;
         this.setState({ gyms });
-      })
+      }
+    })
   }
 
-  render() {
+  renderGyms() {
     return (
-      <div className="starter-template container">
-        <div className="input-group mb-3">
-        <input type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-        </div>
         <div className="row">
           { this.state.gyms.map(gym => 
           <div className="col-sm-4 mb-3">
@@ -32,6 +45,26 @@ export default class IndexComponent extends Component {
           </div>
           )}
         </div>
+    )
+  }
+
+  componentDidMount() {
+    this.getAllGyms();
+  }
+
+  getAllGyms() {
+    axios.get(`${API_ROOT}/gyms`)
+    .then(res => {
+      const gyms = res.data;
+      this.setState({ gyms });
+    })
+  }
+
+  render() {
+    return (
+      <div className="starter-template container">
+        <SearchGymComponent sendKeyword={this.getData}/>
+        { this.renderGyms() }
       </div>
     )
   }

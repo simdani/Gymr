@@ -18,7 +18,15 @@ async function createGym (req) {
   return gym.save();
 }
 
+// find gyms by city
+async function findGyms (req) {
+  return Gym.find({
+    city: req.params.city
+  });
+}
+
 module.exports = {
   getGyms,
-  createGym
+  createGym,
+  findGyms
 };
