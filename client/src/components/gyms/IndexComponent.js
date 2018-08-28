@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
+import { API_ROOT } from '../../api-config';
+
 export default class IndexComponent extends Component {
   state = {
     gyms: []
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/gyms')
+    axios.get(`${API_ROOT}/gyms`)
       .then(res => {
         const gyms = res.data;
         this.setState({ gyms });
