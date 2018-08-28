@@ -1,2 +1,6 @@
 .vs/
 node_modules/
+.idea/
+/config/default.json
+/config/dev.json
+/config/test.json
