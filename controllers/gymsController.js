@@ -11,6 +11,22 @@ async function all(req, res) {
     }
 }
 
+async function create(req, res) {
+    const name = req.body.name;
+
+    const gym = new Gym({
+        name
+    });
+
+    try {
+        const result = await gym.save();
+        res.status(200).json(result);
+    } catch (e) {
+        res.status(400).json('Error create new gym');
+    }
+}
+
 module.exports = {
-    all
+    all,
+    create
 };

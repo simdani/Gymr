@@ -18,7 +18,7 @@ if (config.util.getEnv('NODE_ENV') !== 'test') {
     app.use(morgan('combined'));
     port = 5000;
 } else {
-    port = 5001;
+    port = 5002;
 }
 
 // bodyparse middleware
