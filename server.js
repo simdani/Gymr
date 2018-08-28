@@ -10,9 +10,26 @@ mongoose.connect(config.DATABASE_URL, { useNewUrlParser: true })
     .then(() => console.log('MongoDb connected...'))
     .catch(err => console.log(err));
 
-// test
+// load routes
+const gyms = require('./routes/gyms');
 
-const port = 3000;
+let port;
+if (config.util.getEnv('NODE_ENV') !== 'test') {
+    app.use(morgan('combined'));
+    port = 5000;
+} else {
+    port = 5001;
+}
+
+// bodyparse middleware
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+
+// handle routes
+app.use('/gyms', gyms);
+
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
+
+module.exports = app;
