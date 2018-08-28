@@ -18,10 +18,20 @@ export default class IndexComponent extends Component {
 
   render() {
     return (
-      <div>
-        <ul>
-          { this.state.gyms.map(gym => <li>{gym.name}</li>)}
-        </ul>
+      <div className="starter-template container">
+        <div className="input-group mb-3">
+        <input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+        </div>
+        <div className="row">
+          { this.state.gyms.map(gym => 
+          <div className="col-sm-4 mb-3">
+            <div className="card">
+              <h4 className="card-title">{gym.name}</h4>
+              <p>{gym.city}</p>
+            </div>
+          </div>
+          )}
+        </div>
       </div>
     )
   }
