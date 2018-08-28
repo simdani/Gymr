@@ -20,7 +20,7 @@ export default class IndexComponent extends Component {
     return (
       <div className="starter-template container">
         <div className="input-group mb-3">
-        <input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+        <input type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
         </div>
         <div className="row">
           { this.state.gyms.map(gym => 
