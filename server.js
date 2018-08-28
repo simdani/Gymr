@@ -5,6 +5,10 @@ const config = require('config');
 const path = require('path');
 const app = express();
 
+// bodyparse middleware
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+
 // connect with mongoose to mongodb
 mongoose.connect(config.DATABASE_URL, { useNewUrlParser: true })
     .then(() => console.log('MongoDb connected...'))
@@ -12,6 +16,9 @@ mongoose.connect(config.DATABASE_URL, { useNewUrlParser: true })
 
 // load routes
 const gyms = require('./routes/api/gyms');
+
+// handle routes
+app.use('/api/gyms', gyms);
 
 let port;
 if (config.util.getEnv('NODE_ENV') !== 'test') {
@@ -27,13 +34,6 @@ if (config.util.getEnv('NODE_ENV') !== 'test') {
 } else {
     port = 5002;
 }
-
-// bodyparse middleware
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
-
-// handle routes
-app.use('/api/gyms', gyms);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
