@@ -32,13 +32,25 @@ describe('Gyms', () => {
     });
 
     describe('/POST gym', () => {
-        it('it should post 1 gym with name', (done) => {
+        it('it should post 1 gym with valid data', (done) => {
             chai.request(server)
                 .post('/gyms')
-                .send({name: 'test'})
+                .send({name: 'test', city: 'test1'})
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.name.should.equal('test');
+                    done();
+                });
+        });
+    });
+
+    describe('/POST gym (with errors)', () => {
+        it('it should not create new gym', (done) => {
+            chai.request(server)
+                .post('/gyms')
+                .send({name: '', city: ''})
+                .end((err, res) => {
+                    res.should.have.status(400);
                     done();
                 });
         });

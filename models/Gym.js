@@ -7,6 +7,12 @@ const GymSchema = new Schema({
         required: true,
         minlength: 1,
         maxLength: 50
+    },
+    city: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxLength: 60
     }
 });
 
