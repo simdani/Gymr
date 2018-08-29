@@ -31,12 +31,22 @@ async function findByCity (req, res) {
     const result = await gymService.findGyms(req);
     res.status(200).json(result);
   } catch (e) {
-    res.status(500).json('Erro getting gyms');
+    res.status(500).json('Error getting gyms');
+  }
+}
+
+async function GetOne (req, res) {
+  try {
+    const result = await gymService.findGym(req);
+    res.status(200).json(result);
+  } catch (e) {
+    res.status(500).json('Error getting gym');
   }
 }
 
 module.exports = {
   all,
   create,
-  findByCity
+  findByCity,
+  GetOne
 };

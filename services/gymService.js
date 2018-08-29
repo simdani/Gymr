@@ -25,8 +25,16 @@ async function findGyms (req) {
   });
 }
 
+// find gym by id
+async function findGym (req) {
+  return Gym.findById({
+    _id: req.params.id
+  });
+}
+
 module.exports = {
   getGyms,
   createGym,
-  findGyms
+  findGyms,
+  findGym
 };

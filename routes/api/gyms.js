@@ -9,5 +9,7 @@ router.get('/', gymsController.all);
 router.post('/', gymsController.create);
 // find gym by city
 router.get('/find/:city', gymsController.findByCity);
+// get one gym by if
+router.get('/:id', gymsController.GetOne);
 
 module.exports = router;

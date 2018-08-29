@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import IndexComponent from './components/gyms/IndexComponent';
 import Navbar from './components/layout/navbar';
@@ -12,7 +12,9 @@ class App extends Component {
       <Router>
         <div>
           <Navbar/>
-          <Route path='/' component={IndexComponent} />
+          <Switch>
+            <Route path='/' component={IndexComponent} />
+          </Switch>
         </div>
       </Router>
     );
