@@ -4,13 +4,15 @@ import axios from 'axios';
 import { API_ROOT } from '../../api-config';
 
 import BackButton from '../utils/BackButton';
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 export default class ShowGym extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      gym: ''
+      gym: '',
+      loading: false
     };
   }
 
@@ -19,13 +21,19 @@ export default class ShowGym extends Component {
   }
 
   getGymById = (gymId) => {
-    axios.get(`${API_ROOT}/gyms/${gymId}`)
-    .then(res => {
-      if (res.data !== null) {
-        const gym = res.data;
-        this.setState({ gym });
-      }
-    })
+    this.setState({
+      loading: true
+    }, () =>
+      axios.get(`${API_ROOT}/gyms/${gymId}`)
+      .then(res => {
+        if (res.data !== null) {
+          const gym = res.data;
+          this.setState({ 
+            gym,
+            loading: false
+          });
+        }
+      }));
   }
 
   renderGym() {
@@ -51,9 +59,11 @@ export default class ShowGym extends Component {
   }
 
   render() {
+    const { loading } = this.state;
+
     return (
       <div className="starter-template container">
-        {this.renderGym()}
+        {loading ? <LoadingSpinner/> : this.renderGym() } 
       </div>
     )
   }

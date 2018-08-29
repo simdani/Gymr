@@ -4,14 +4,15 @@ import axios from 'axios';
 import { API_ROOT } from '../../api-config';
 import { Link } from 'react-router-dom';
 
-
+import LoadingSpinner from '../utils/LoadingSpinner';
 import SearchGymComponent from './searchGymCompoent';
 
 export default class AllGyms extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gyms: []
+      gyms: [],
+      loading: false
     };
 
     this.getData = this.getData.bind(this);
@@ -26,13 +27,19 @@ export default class AllGyms extends Component {
   }
 
   getGymByKeyword = (keyword) => {
-    axios.get(`${API_ROOT}/gyms?search=${keyword}`)
-    .then(res => {
-      if (res.data !== null) {
-        const gyms = res.data;
-        this.setState({ gyms });
-      }
-    })
+    this.setState({
+      loading: true
+    }, () =>
+      axios.get(`${API_ROOT}/gyms?search=${keyword}`)
+      .then(res => {
+        if (res.data !== null) {
+          const gyms = res.data;
+          this.setState({ 
+            gyms,
+            loading: false
+          });
+        }
+      }));
   }
 
   renderGyms() {
@@ -58,18 +65,26 @@ export default class AllGyms extends Component {
   }
 
   getAllGyms() {
-    axios.get(`${API_ROOT}/gyms`)
-    .then(res => {
-      const gyms = res.data;
-      this.setState({ gyms });
-    })
+    this.setState({
+      loading: true
+    }, () =>
+      axios.get(`${API_ROOT}/gyms`)
+      .then(res => {
+        const gyms = res.data;
+        this.setState({ 
+          gyms,
+          loading: false
+        });
+      }));
   }
 
   render() {
+    const { loading } = this.state;
+
     return (
       <div className="starter-template container">
         <SearchGymComponent sendKeyword={this.getData}/>
-        { this.renderGyms() }
+        {loading ? <LoadingSpinner/> : this.renderGyms() } 
       </div>
     )
   }
