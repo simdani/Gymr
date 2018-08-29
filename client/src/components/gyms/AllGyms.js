@@ -26,7 +26,7 @@ export default class AllGyms extends Component {
   }
 
   getGymByKeyword = (keyword) => {
-    axios.get(`${API_ROOT}/gyms/find/${keyword}`)
+    axios.get(`${API_ROOT}/gyms?search=${keyword}`)
     .then(res => {
       if (res.data !== null) {
         const gyms = res.data;

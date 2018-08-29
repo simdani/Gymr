@@ -1,4 +1,5 @@
 const Gym = require('../models/Gym');
+const regexHelper = require('../helpers/regexHelper');
 
 // get all gyms
 async function getGyms () {
@@ -19,9 +20,10 @@ async function createGym (req) {
 }
 
 // find gyms by city
-async function findGyms (req) {
+async function searchGyms (req) {
+  const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
   return Gym.find({
-    city: req.params.city
+    city: regex
   });
 }
 
@@ -35,6 +37,6 @@ async function findGym (req) {
 module.exports = {
   getGyms,
   createGym,
-  findGyms,
-  findGym
+  findGym,
+  searchGyms
 };

@@ -31,10 +31,19 @@ export default class ShowGym extends Component {
   renderGym() {
     if (this.state.gym !== '') {
       return (
+        <div className="card text-center">
+        <div className="card-header">
+          <ul className="nav nav-tabs card-header-tabs">
+          <li className="nav-item">
+            <BackButton />
+          </li>
+        </ul>
+      </div>
         <div className="card">
         <h4 className="card-title">{this.state.gym.name}</h4>
         <div className="card-body">
-          <p>{this.state.gym.city}</p>
+          <p className="card-text">{this.state.gym.city}</p>
+        </div>
         </div>
         </div>
       )
@@ -44,7 +53,6 @@ export default class ShowGym extends Component {
   render() {
     return (
       <div className="starter-template container">
-        <BackButton />
         {this.renderGym()}
       </div>
     )
