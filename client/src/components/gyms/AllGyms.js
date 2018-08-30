@@ -1,51 +1,30 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 
-import { API_ROOT } from '../../api-config';
 import { Link } from 'react-router-dom';
 
-import LoadingSpinner from '../utils/LoadingSpinner';
+import LoadingSpinner from '../common/LoadingSpinner';
 import SearchGymComponent from './searchGymCompoent';
 
-export default class AllGyms extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gyms: [],
-      loading: false
-    };
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import { getGyms, getGymsByKeyword } from '../../actions/gymActions';
 
-    this.getData = this.getData.bind(this);
+class AllGyms extends Component {
+  componentDidMount() {
+    this.props.getGyms();
   }
 
   getData = (keyword) => {
-    if (keyword !== '') {
-      this.getGymByKeyword(keyword);
-    } else {
-      this.getAllGyms();
-    }
+    if (keyword !== '')
+      this.props.getGymsByKeyword(keyword);
+    else
+      this.props.getGyms();
   }
 
-  getGymByKeyword = (keyword) => {
-    this.setState({
-      loading: true
-    }, () =>
-      axios.get(`${API_ROOT}/gyms?search=${keyword}`)
-      .then(res => {
-        if (res.data !== null) {
-          const gyms = res.data;
-          this.setState({ 
-            gyms,
-            loading: false
-          });
-        }
-      }));
-  }
-
-  renderGyms() {
+  renderGyms(gyms) {
     return (
         <div className="row">
-          { this.state.gyms.map(gym => 
+          { gyms.map(gym => 
           <div key={gym._id} className="col-sm-4 mb-3">
             <div className="card">
               <h4 className="card-title">
@@ -60,32 +39,27 @@ export default class AllGyms extends Component {
     )
   }
 
-  componentDidMount() {
-    this.getAllGyms();
-  }
-
-  getAllGyms() {
-    this.setState({
-      loading: true
-    }, () =>
-      axios.get(`${API_ROOT}/gyms`)
-      .then(res => {
-        const gyms = res.data;
-        this.setState({ 
-          gyms,
-          loading: false
-        });
-      }));
-  }
-
   render() {
-    const { loading } = this.state;
+    const { gyms, loading } = this.props.gym;
 
     return (
       <div className="starter-template container">
-        <SearchGymComponent sendKeyword={this.getData}/>
-        {loading ? <LoadingSpinner/> : this.renderGyms() } 
+        <SearchGymComponent sendKeyword={this.getData.bind(this)}/>
+        
+        {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms) } 
       </div>
     )
   }
 }
+
+AllGyms.propTypes = {
+  getGyms: PropTypes.func.isRequired,
+  getGymsByKeyword: PropTypes.func.isRequired,
+  gym: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  gym: state.gym
+})
+
+export default connect(mapStateToProps, {getGyms, getGymsByKeyword})(AllGyms);

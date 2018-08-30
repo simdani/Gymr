@@ -3,8 +3,8 @@ import axios from 'axios';
 
 import { API_ROOT } from '../../api-config';
 
-import BackButton from '../utils/BackButton';
-import LoadingSpinner from '../utils/LoadingSpinner';
+import BackButton from '../common/BackButton';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 export default class ShowGym extends Component {
   constructor(props) {
