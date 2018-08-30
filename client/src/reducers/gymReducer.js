@@ -1,6 +1,7 @@
-import { GET_GYMS, GYM_LOADING } from '../actions/types';
+import { GET_GYMS, GET_GYM, GYM_LOADING } from '../actions/types';
 
 const initialState = {
+  gym: {},
   gyms: [],
   loading: false
 };
@@ -16,6 +17,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         gyms: action.payload,
+        loading: false
+      };
+    case GET_GYM:
+      return {
+        ...state,
+        gym: action.payload,
         loading: false
       };
     default:

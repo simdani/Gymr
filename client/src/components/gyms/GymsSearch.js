@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class SearchGymComponent extends Component {
+export default class GymsSeach extends Component {
 
   constructor(props) {
     super(props);

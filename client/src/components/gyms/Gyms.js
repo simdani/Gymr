@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../common/LoadingSpinner';
-import SearchGymComponent from './searchGymCompoent';
+import GymsSearch from './GymsSearch';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -44,7 +44,7 @@ class AllGyms extends Component {
 
     return (
       <div className="starter-template container">
-        <SearchGymComponent sendKeyword={this.getData.bind(this)}/>
+        <GymsSearch sendKeyword={this.getData.bind(this)}/>
         
         {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms) } 
       </div>

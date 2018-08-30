@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import IndexComponent from './components/gyms/IndexComponent';
-import Navbar from './components/layout/navbar';
+import Gyms from '../components/gyms/Gyms';
+import Gym from '../components/gym/Gym';
+
+import Navbar from '../components/layout/navbar';
 
 import { Provider } from 'react-redux';
-import store from './store';
+import store from '../store';
 
 import './App.css';
 
@@ -17,7 +19,8 @@ class App extends Component {
           <div>
             <Navbar/>
             <Switch>
-              <Route path='/' component={IndexComponent} />
+              <Route exact path='/' component={Gyms}/>
+              <Route path='/gyms/:id' component={Gym}/>
             </Switch>
           </div>
         </Router>
