@@ -13,6 +13,6 @@ export default class BackButton extends Component {
         onClick={this.context.router.history.goBack}>
           Back
       </button>
-    )
+    );
   }
 }

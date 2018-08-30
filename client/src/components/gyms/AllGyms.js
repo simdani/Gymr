@@ -36,7 +36,7 @@ class AllGyms extends Component {
           </div>
           )}
         </div>
-    )
+    );
   }
 
   render() {
@@ -48,7 +48,7 @@ class AllGyms extends Component {
         
         {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms) } 
       </div>
-    )
+    );
   }
 }
 
@@ -56,10 +56,10 @@ AllGyms.propTypes = {
   getGyms: PropTypes.func.isRequired,
   getGymsByKeyword: PropTypes.func.isRequired,
   gym: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = state => ({
   gym: state.gym
-})
+});
 
 export default connect(mapStateToProps, {getGyms, getGymsByKeyword})(AllGyms);

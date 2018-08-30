@@ -11,6 +11,6 @@ export default class IndexComponent extends Component {
         <Route exact path='/' component={AllGyms}/>
         <Route path='/gyms/:id' component={ShowGym}/>
       </Switch>
-    )
+    );
   }
 }

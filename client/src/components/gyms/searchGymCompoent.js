@@ -20,11 +20,9 @@ export default class SearchGymComponent extends Component {
 
   render() {
     return (
-    
-        <div className="input-group mb-3">
-        <input value={this.state.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-        </div>
-
-    )
+      <div className="input-group mb-3">
+      <input value={this.state.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+      </div>
+    );
   }
 }

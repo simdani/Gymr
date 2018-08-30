@@ -3,7 +3,7 @@ import { GET_GYMS, GYM_LOADING } from '../actions/types';
 const initialState = {
   gyms: [],
   loading: false
-}
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {

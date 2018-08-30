@@ -1,13 +1,8 @@
 module.exports = {
-    "extends": "standard",
+    "extends": "react-app",
     "rules": {
         "semi": ["error", "always"],
         "quotes": ["error", "single"]
-    },
-    "env": {
-        "node": "true",
-        "mocha": "true"
     }
-    
 };
 

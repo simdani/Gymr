@@ -54,7 +54,7 @@ export default class ShowGym extends Component {
         </div>
         </div>
         </div>
-      )
+      );
     }
   }
 
@@ -65,6 +65,6 @@ export default class ShowGym extends Component {
       <div className="starter-template container">
         {loading ? <LoadingSpinner/> : this.renderGym() } 
       </div>
-    )
+    );
   }
 }

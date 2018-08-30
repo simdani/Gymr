@@ -17,7 +17,7 @@ export const getGyms = () => dispatch => {
         type: GET_GYMS,
         payload: null
       })
-    )
+    );
 };
 
 export const getGymsByKeyword = (keyword) => dispatch => {
@@ -34,7 +34,7 @@ export const getGymsByKeyword = (keyword) => dispatch => {
         type: GET_GYMS,
         payload: null
       })
-    )
+    );
 };
 
 // set gym loading
