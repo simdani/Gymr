@@ -25,7 +25,7 @@ class AllGyms extends Component {
     return (
         <div className="row">
           { gyms.map(gym => 
-          <div key={gym._id} className="col-sm-4 mb-3">
+          <div key={gym._id} className="col-sm-4 mb-3 grow">
             <div className="card">
               <h4 className="card-title">
               <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
