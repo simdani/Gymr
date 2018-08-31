@@ -20,7 +20,7 @@ async function all (req, res) {
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .then(gyms => {
-          Gym.countDocuments()
+          Gym.countDocuments({city: regex})
             .then(count => {
               res.status(200).json({
                 gyms: gyms,

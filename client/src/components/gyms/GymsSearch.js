@@ -7,7 +7,6 @@ import { searchGyms } from '../../actions/gymActions';
 class GymsSeach extends Component {
   handleChange = (event) => {
     this.props.searchGyms(event.target.value);
-    console.log(event.target.value);
   }
 
   render() {

@@ -17,7 +17,12 @@ class AllGyms extends Component {
   }
 
   handleClick = (pageNumber) => {
-    this.props.getGyms(Number(pageNumber));
+    const { keyword } = this.props.gym;
+    if (keyword !== '') {
+      this.props.getGymsByKeyword(Number(pageNumber), keyword);
+    } else {
+      this.props.getGyms(Number(pageNumber));
+    }
   }
 
   renderGyms(gyms, current) {
@@ -74,4 +79,4 @@ const mapStateToProps = state => ({
   gym: state.gym
 });
 
-export default connect(mapStateToProps, {getGyms, getGymsByKeyword})(AllGyms);
+export default connect(mapStateToProps, {getGyms, getGymsByKeyword })(AllGyms);

@@ -19,27 +19,28 @@ export const getGym = gymId => dispatch => {
   );
 };
 
-export const getGyms = (current) => dispatch => {
+export const getGyms = (current, keyword) => dispatch => {
+  if (keyword === '')
   dispatch(setGymLoading());
   getGymsFromApi(current, '', dispatch);
 };
 
-export const getGymsByKeyword = keyword => dispatch => {
+export const getGymsByKeyword = (current, keyword) => dispatch => {
   dispatch(setGymLoading());
-  getGymsFromApi(1, keyword, dispatch);
+  getGymsFromApi(current, keyword, dispatch);
 };
 
 export const searchGyms = keyword => dispatch => {
   dispatch({
     type: GYM_SEARCH,
     payload: keyword
-  }, dispatch(getGymsByKeyword(keyword)));
+  }, dispatch(getGymsByKeyword(1, keyword)));
 };
 
 const getGymsFromApi = (current, keyword, dispatch) => {
   let request;
   if (keyword !== '') 
-    request = `${API_ROOT}/gyms?search=${keyword}`;
+    request = `${API_ROOT}/gyms?search=${keyword}&page=${current}`;
   else
     request = `${API_ROOT}/gyms?page=${current}`;
   
