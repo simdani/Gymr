@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_GYMS, GET_GYM, GYM_LOADING } from './types';
+import { GET_GYMS, GET_GYM, GYM_SEARCH, GYM_LOADING } from './types';
 import { API_ROOT } from '../utils/api-config';
 
 export const getGym = gymId => dispatch => {
@@ -19,22 +19,29 @@ export const getGym = gymId => dispatch => {
   );
 };
 
-export const getGyms = () => dispatch => {
+export const getGyms = (current) => dispatch => {
   dispatch(setGymLoading());
-  getGymsFromApi('', dispatch);
+  getGymsFromApi(current, '', dispatch);
 };
 
 export const getGymsByKeyword = keyword => dispatch => {
   dispatch(setGymLoading());
-  getGymsFromApi(keyword, dispatch);
+  getGymsFromApi(1, keyword, dispatch);
 };
 
-const getGymsFromApi = (keyword, dispatch) => {
+export const searchGyms = keyword => dispatch => {
+  dispatch({
+    type: GYM_SEARCH,
+    payload: keyword
+  }, dispatch(getGymsByKeyword(keyword)));
+};
+
+const getGymsFromApi = (current, keyword, dispatch) => {
   let request;
   if (keyword !== '') 
     request = `${API_ROOT}/gyms?search=${keyword}`;
   else
-    request = `${API_ROOT}/gyms`;
+    request = `${API_ROOT}/gyms?page=${current}`;
   
 
   axios.get(request)

@@ -9,20 +9,20 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getGyms, getGymsByKeyword } from '../../actions/gymActions';
 
+import Pagination from 'react-js-pagination';
+
 class AllGyms extends Component {
   componentDidMount() {
     this.props.getGyms();
   }
 
-  getData = (keyword) => {
-    if (keyword !== '')
-      this.props.getGymsByKeyword(keyword);
-    else
-      this.props.getGyms();
+  handleClick = (pageNumber) => {
+    this.props.getGyms(Number(pageNumber));
   }
 
-  renderGyms(gyms) {
+  renderGyms(gyms, current) {
     return (
+      <div>
         <div className="row">
           { gyms.map(gym => 
           <div key={gym._id} className="col-sm-4 mb-3 grow">
@@ -36,17 +36,29 @@ class AllGyms extends Component {
           </div>
           )}
         </div>
+
+      <Pagination
+          activePage={current}
+          itemsCountPerPage={10}
+          totalItemsCount={this.props.gym.pages * 10}
+          pageRangeDisplayed={5}
+          onChange={this.handleClick}
+          itemClass="page-item"
+          linkClass="page-link"
+        />
+
+      </div>
     );
   }
 
   render() {
-    const { gyms, loading } = this.props.gym;
+    const { gyms, loading, current } = this.props.gym;
 
     return (
       <div className="starter-template container">
-        <GymsSearch sendKeyword={this.getData.bind(this)}/>
+        <GymsSearch />
         
-        {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms) } 
+        {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms, current) } 
       </div>
     );
   }

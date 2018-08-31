@@ -2,8 +2,24 @@ const Gym = require('../models/Gym');
 const regexHelper = require('../helpers/regexHelper');
 
 // get all gyms
-async function getGyms () {
-  return Gym.find();
+function getGyms (req) {
+  let perPage = 10; // gyms per page
+  let page = (parseInt(req.query.page) || 1); // curent page
+
+  Gym.find()
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
+    .then(gyms => {
+      Gym.count()
+        .then(count => {
+          return {
+            gyms: gyms,
+            current: page,
+            pages: Math.ceil(count / perPage)
+          };
+        });
+    }
+    );
 };
 
 // create new gym
