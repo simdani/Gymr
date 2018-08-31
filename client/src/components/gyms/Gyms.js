@@ -13,7 +13,11 @@ import Pagination from 'react-js-pagination';
 
 class AllGyms extends Component {
   componentDidMount() {
-    this.props.getGyms();
+    if (this.props.gym.keyword !== '') {
+      this.props.getGymsByKeyword(this.props.gym.current, this.props.gym.keyword);
+    } else {
+      this.props.getGyms(this.props.gym.current);
+    }
   }
 
   handleClick = (pageNumber) => {

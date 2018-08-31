@@ -30,11 +30,11 @@ export const getGymsByKeyword = (current, keyword) => dispatch => {
   getGymsFromApi(current, keyword, dispatch);
 };
 
-export const searchGyms = keyword => dispatch => {
+export const searchGyms = (current, keyword) => dispatch => {
   dispatch({
     type: GYM_SEARCH,
     payload: keyword
-  }, dispatch(getGymsByKeyword(1, keyword)));
+  }, dispatch(getGymsByKeyword(current, keyword)));
 };
 
 const getGymsFromApi = (current, keyword, dispatch) => {
