@@ -20,21 +20,16 @@ export const getGym = gymId => dispatch => {
 };
 
 export const getGyms = (current, keyword) => dispatch => {
-  if (keyword === '')
-  dispatch(setGymLoading());
-  getGymsFromApi(current, '', dispatch);
-};
-
-export const getGymsByKeyword = (current, keyword) => dispatch => {
   dispatch(setGymLoading());
   getGymsFromApi(current, keyword, dispatch);
 };
+
 
 export const searchGyms = (current, keyword) => dispatch => {
   dispatch({
     type: GYM_SEARCH,
     payload: keyword
-  }, dispatch(getGymsByKeyword(current, keyword)));
+  }, dispatch(getGyms(current, keyword)));
 };
 
 const getGymsFromApi = (current, keyword, dispatch) => {
@@ -44,7 +39,6 @@ const getGymsFromApi = (current, keyword, dispatch) => {
   else
     request = `${API_ROOT}/gyms?page=${current}`;
   
-
   axios.get(request)
   .then(res => 
     dispatch({

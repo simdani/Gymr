@@ -7,26 +7,18 @@ import GymsSearch from './GymsSearch';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { getGyms, getGymsByKeyword } from '../../actions/gymActions';
+import { getGyms } from '../../actions/gymActions';
 
 import Pagination from 'react-js-pagination';
 
 class AllGyms extends Component {
   componentDidMount() {
-    if (this.props.gym.keyword !== '') {
-      this.props.getGymsByKeyword(this.props.gym.current, this.props.gym.keyword);
-    } else {
-      this.props.getGyms(this.props.gym.current);
-    }
+    this.props.getGyms(this.props.gym.current, this.props.gym.keyword);
   }
 
   handleClick = (pageNumber) => {
     const { keyword } = this.props.gym;
-    if (keyword !== '') {
-      this.props.getGymsByKeyword(Number(pageNumber), keyword);
-    } else {
-      this.props.getGyms(Number(pageNumber));
-    }
+    this.props.getGyms(Number(pageNumber), keyword);
   }
 
   renderGyms(gyms, current) {
@@ -75,7 +67,6 @@ class AllGyms extends Component {
 
 AllGyms.propTypes = {
   getGyms: PropTypes.func.isRequired,
-  getGymsByKeyword: PropTypes.func.isRequired,
   gym: PropTypes.object.isRequired
 };
 
@@ -83,4 +74,4 @@ const mapStateToProps = state => ({
   gym: state.gym
 });
 
-export default connect(mapStateToProps, {getGyms, getGymsByKeyword })(AllGyms);
+export default connect(mapStateToProps, {getGyms})(AllGyms);

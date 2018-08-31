@@ -2,24 +2,18 @@ const Gym = require('../models/Gym');
 const regexHelper = require('../helpers/regexHelper');
 
 // get all gyms
-function getGyms (req) {
+async function getGyms (req) {
   let perPage = 10; // gyms per page
   let page = (parseInt(req.query.page) || 1); // curent page
 
-  Gym.find()
-    .skip((perPage * page) - perPage)
-    .limit(perPage)
-    .then(gyms => {
-      Gym.count()
-        .then(count => {
-          return {
-            gyms: gyms,
-            current: page,
-            pages: Math.ceil(count / perPage)
-          };
-        });
-    }
-    );
+  const gyms = await Gym.find().skip((perPage * page) - perPage).limit(perPage);
+  const count = await Gym.countDocuments();
+
+  return {
+    gyms,
+    current: page,
+    pages: Math.ceil(count / perPage)
+  };
 };
 
 // create new gym
@@ -37,10 +31,19 @@ async function createGym (req) {
 
 // find gyms by city
 async function searchGyms (req) {
+  let perPage = 10; // gyms per page
+  let page = (parseInt(req.query.page) || 1); // curent page
+
   const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
-  return Gym.find({
-    city: regex
-  });
+
+  const gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);
+  const count = await Gym.countDocuments({city: regex});
+
+  return {
+    gyms,
+    current: page,
+    pages: Math.ceil(count / perPage)
+  };
 }
 
 // find gym by id
