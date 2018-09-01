@@ -11,6 +11,9 @@ import { Provider } from 'react-redux';
 import store from '../store';
 
 import './App.css';
+import 'react-notifications/lib/notifications.css';
+
+import {NotificationContainer} from 'react-notifications';
 
 class App extends Component {
   render() {
@@ -24,6 +27,8 @@ class App extends Component {
               <Route path='/gyms/add' component={GymForm}/>
               <Route path='/gyms/:id' component={Gym}/>
             </Switch>
+
+           <NotificationContainer/>
           </div>
         </Router>
       </Provider>

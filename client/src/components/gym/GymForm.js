@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import BackButton from '../common/BackButton';
 import { addGym } from '../../actions/gymActions';
 
+import { NotificationManager} from 'react-notifications';
+
+
 class GymForm extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +29,7 @@ class GymForm extends Component {
 
     this.props.addGym(newGym, () => {
       this.props.history.push('/');
+      NotificationManager.success('Gym created successfully!', 'Success');
     });
   }
 
