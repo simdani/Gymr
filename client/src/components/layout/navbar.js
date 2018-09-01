@@ -17,7 +17,10 @@ export default class Navbar extends Component {
           <Link to="/" className="nav-link">Home <span className="sr-only">(current)</span></Link>
           </li>
           <li className="nav-item">
-            <Link to ="/" className="nav-link">Link</Link>
+            <Link to ="/" className="nav-link">Search</Link>
+          </li>
+          <li className="nav-item">
+            <Link to ="/gyms/add" className="nav-link btn btn-primary">Add Gym</Link>
           </li>
         </ul>
       </div>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Gyms from '../components/gyms/Gyms';
 import Gym from '../components/gym/Gym';
+import GymForm from '../components/gym/GymForm';
 
 import Navbar from '../components/layout/navbar';
 
@@ -20,6 +21,7 @@ class App extends Component {
             <Navbar/>
             <Switch>
               <Route exact path='/' component={Gyms}/>
+              <Route path='/gyms/add' component={GymForm}/>
               <Route path='/gyms/:id' component={Gym}/>
             </Switch>
           </div>

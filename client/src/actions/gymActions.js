@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_GYMS, GET_GYM, GYM_SEARCH, GYM_LOADING } from './types';
+import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING } from './types';
 import { API_ROOT } from '../utils/api-config';
 
 export const getGym = gymId => dispatch => {
@@ -17,6 +17,24 @@ export const getGym = gymId => dispatch => {
       payload: null
     })
   );
+};
+
+export const addGym = (postData, callback) => dispatch => {
+  axios
+    .post(`${API_ROOT}/gyms`, postData)
+    .then(res =>
+      dispatch({
+        type: ADD_GYM,
+        gym: {},
+        gyms: [],
+        loading: false,
+        pages: null,
+        current: 1,
+        keyword: ''
+      }, 
+      dispatch(getGyms),
+      callback())
+    );
 };
 
 export const getGyms = (current, keyword) => dispatch => {
