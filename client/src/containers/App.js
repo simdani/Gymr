@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Gyms from '../components/gyms/Gyms';
 import Gym from '../components/gym/Gym';
 import GymForm from '../components/gym/GymForm';
+import GymSearchMain from '../components/gymsSearch/GymSearchMain';
 
 import Navbar from '../components/layout/navbar';
 
@@ -25,6 +26,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' component={Gyms}/>
               <Route path='/gyms/add' component={GymForm}/>
+              <Route path='/gyms/search' component={GymSearchMain} />
               <Route path='/gyms/:id' component={Gym}/>
             </Switch>
 
