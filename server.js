@@ -2,9 +2,14 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 const config = require('config');
+const passport = require('passport');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+
+// load routes
+const gyms = require('./routes/api/gyms');
+const users = require('./routes/api/users');
 
 // bodyparse middleware
 app.use(cors());
@@ -16,11 +21,12 @@ mongoose.connect(config.DATABASE_URL, { useNewUrlParser: true })
   .then(() => console.log('MongoDb connected...'))
   .catch(err => console.log(err));
 
-// load routes
-const gyms = require('./routes/api/gyms');
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 // handle routes
 app.use('/api/gyms', gyms);
+app.use('/api/users', users);
 
 let port;
 if (config.util.getEnv('NODE_ENV') !== 'test') {
