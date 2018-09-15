@@ -3,7 +3,7 @@ const regexHelper = require('../helpers/regexHelper');
 
 // get all gyms
 async function getGyms (req) {
-  let perPage = 10; // gyms per page
+  let perPage = 12; // gyms per page
   let page = (parseInt(req.query.page) || 1); // curent page
 
   const gyms = await Gym.find().skip((perPage * page) - perPage).limit(perPage);
@@ -31,7 +31,7 @@ async function createGym (req) {
 
 // find gyms by city
 async function searchGyms (req) {
-  let perPage = 10; // gyms per page
+  let perPage = 12; // gyms per page
   let page = (parseInt(req.query.page) || 1); // curent page
 
   const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
