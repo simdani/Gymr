@@ -2,7 +2,7 @@ import axios from 'axios';
 import setToken from '../utils/setToken';
 import jwtDecode from 'jwt-decode';
 
-import { SET_CURRENT_USER } from './types';
+import { SET_CURRENT_USER, GET_ERRORS } from './types';
 import { API_ROOT } from '../utils/api-config';
 
 export const loginUser = (user, callback) => dispatch => {
@@ -18,7 +18,13 @@ export const loginUser = (user, callback) => dispatch => {
       const decoded = jwtDecode(token);
       // set current user
       dispatch(setCurrentUser(decoded), callback());
-    });
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 export const logoutUser = (callback) => dispatch => {

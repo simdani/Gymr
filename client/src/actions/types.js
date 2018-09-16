@@ -1,3 +1,6 @@
+export const GET_ERRORS = 'GET_ERRORS';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
 export const GET_GYMS = 'GET_GYMS';
 export const GET_GYM = 'GET_GYM';
 export const GYM_SEARCH = 'GYM_SEARCH';

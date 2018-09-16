@@ -38,7 +38,7 @@ async function login (req, res) {
       res.status(200).json(result);
     }
   } catch (e) {
-    res.status(500).json('Error when loggin in');
+    res.status(500).json({errors: 'Error when loggin in'});
   }
 }
 

@@ -63,6 +63,9 @@ async function login (req) {
         success: true,
         token: 'Bearer ' + token
       };
+    } else {
+      errors.password = 'Password is incorrect';
+      return { errors };
     }
   } catch (e) {
     return { errors: e };

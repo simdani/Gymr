@@ -11,7 +11,8 @@ class Login extends Component {
     super();
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errors: {}
     };
   }
 
@@ -24,6 +25,11 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push('/');
+    }
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
     }
   }
 
@@ -61,23 +67,27 @@ class Login extends Component {
 
             <form onSubmit={this.onSubmit}>
             <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input type="email"
-              className="form-control"
-              value={this.state.email}
-              placeholder="Email"
-              name="email"
-              onChange={this.onChange}
-            />
+              <label htmlFor="email">Email:</label>
+              <input type="email"
+                className="form-control"
+                value={this.state.email}
+                placeholder="Email"
+                name="email"
+                onChange={this.onChange}
+              />
+              {this.state.errors.email && <div className="invalid-feedback d-block">{this.state.errors.email}</div>}
+            </div>
 
-            <label htmlFor="password">Password</label>
-            <input type="password"
-              className="form-control"
-              value={this.state.password}
-              placeholder="Password"
-              name="password"
-              onChange={this.onChange}
-            />
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input type="password"
+                className="form-control"
+                value={this.state.password}
+                placeholder="Password"
+                name="password"
+                onChange={this.onChange}
+              />
+              {this.state.errors.password && <div className="invalid-feedback d-block">{this.state.errors.password}</div>}
             </div>
 
             <button type="submit" className="btn btn-secondary">
@@ -94,11 +104,13 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(mapStateToProps, {loginUser})(Login);
