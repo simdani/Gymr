@@ -9,7 +9,7 @@ import Gyms from '../components/gyms/Gyms';
 import Gym from '../components/gym/Gym';
 import GymForm from '../components/gym/GymForm';
 import GymSearchMain from '../components/gymsSearch/GymSearchMain';
-import Navbar from '../components/layout/Navbar';
+import Navbar from '../components/layout/Nav';
 import Login from '../components/auth/Login';
 
 import { Provider } from 'react-redux';
