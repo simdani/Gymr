@@ -1,8 +1,41 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logoutUser } from '../../actions/authActions';
 
-export default class Navbar extends Component {
+import { NotificationManager} from 'react-notifications';
+
+class Navbar extends Component {
+  onLogoutClick = e => {
+    e.preventDefault();
+    this.props.logoutUser(() => {
+      NotificationManager.success('Logged out successfully!', 'Success');
+    });
+  }
+
   render() {
+    const { isAuthenticated } = this.props.auth;
+
+    const guestLinks = (
+      <ul className="navbar-nav">
+        <li className="nav-item">
+          <Link to ="/users/register" className="nav-link">Register</Link>
+        </li>
+        <li className="nav-item">
+          <Link to ="/users/login" className="nav-link">Login</Link>
+        </li>
+      </ul>
+    );
+
+    const authLinks = (
+      <ul className="navbar-nav">
+        <li className="nav-item">
+          <a href="" onClick={this.onLogoutClick} className="nav-link">Logout</a>
+        </li>
+      </ul>
+    );
+
     return (
       <div>
 
@@ -25,8 +58,7 @@ export default class Navbar extends Component {
                 <Link to ="/gyms/add" className="nav-link btn btn-primary">Add Gym</Link>
               </li>
             </ul>
-
-                <Link to ="/gyms/add" className="nav-link">Login</Link>
+              {isAuthenticated ? authLinks : guestLinks}
           </div>
           </div>
         </nav>
@@ -35,3 +67,14 @@ export default class Navbar extends Component {
     );
   }
 }
+
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {logoutUser})(Navbar);
