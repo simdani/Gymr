@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BackButton from '../common/BackButton';
 import { connect } from 'react-redux';
-import { loginUser } from '../../actions/authActions';
+import { loginUser, loginGoogle } from '../../actions/authActions';
+import { GoogleLogin } from 'react-google-login';
 
 import { NotificationManager} from 'react-notifications';
 
@@ -32,6 +33,21 @@ class Login extends Component {
       });
     }
   }
+
+  googleResponse = (response) => {
+    const token = {
+      access_token: response.accessToken
+    };
+
+    this.props.loginGoogle(token, () => {
+      NotificationManager.success('Logged in with google', 'Success');
+    });
+  };
+
+  onFailure = () => {
+    NotificationManager.warning('Failed to log in with google', 'Error');
+  };
+
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -64,6 +80,13 @@ class Login extends Component {
           <div className="card">
             <h5 className="card-title">Login</h5>
             <div className="card-body">
+
+            <GoogleLogin
+                        clientId="203901133016-ac7ijvdt8ri6it94p8m534a51e6gnkpq.apps.googleusercontent.com"
+                        buttonText="Google Login"
+                        onSuccess={this.googleResponse}
+                        onFailure={this.onFailure}
+            />
 
             <form onSubmit={this.onSubmit}>
             <div className="form-group">
@@ -104,6 +127,7 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  loginGoogle: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -113,4 +137,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser})(Login);
+export default connect(mapStateToProps, {loginUser, loginGoogle})(Login);
