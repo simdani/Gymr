@@ -1,4 +1,6 @@
 {
   "DATABASE_URL": "<database-connection-string>",
-  "PASS_SECRET": "<passport-secret>"
+  "PASS_SECRET": "<passport-secret>",
+  "clientID": "<google-client-id>",
+  "clientSecret": "<google-client-secret>"
 }

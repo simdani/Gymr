@@ -25,15 +25,11 @@ module.exports = passport => {
 
   passport.use(
     'googleToken', new GooglePlusTokenStrategy({
-      clientID: config.google.clientID,
-      clientSecret: config.google.clientSecret
+      clientID: config.clientID,
+      clientSecret: config.clientSecret
     }, async (accessToken, refreshToken, profile, done) => {
       // fulle user profile
       try {
-        console.log('profile', profile);
-        console.log('accessToken', accessToken);
-        console.log('refreshToken', refreshToken);
-
         const user = await User.findOne({'google.id': profile.id});
         if (user) {
           return done(null, user);

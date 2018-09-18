@@ -9,16 +9,19 @@ const validateLoginInput = require('../validation/login');
 
 const signToken = payload => {
   return jwt.sign(
-    payload,
+    payload.toJSON(),
     config.PASS_SECRET,
     { expiresIn: 3600 }
   );
 };
 
 async function googleOAuth (req, res) {
-  console.log('google oauth');
   const token = signToken(req.user);
-  res.status(200).json({ token });
+  const success = {
+    success: true,
+    token: 'Bearer ' + token
+  };
+  res.status(200).json(success);
 }
 
 async function register (req, res) {
