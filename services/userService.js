@@ -3,6 +3,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+const signToken = payload => {
+  return jwt.sign(
+    payload,
+    config.PASS_SECRET,
+    { expiresIn: 3600 }
+  );
+};
+
 // register user
 async function register (req) {
   const user = await findUser(req.body.email);
@@ -53,11 +61,7 @@ async function login (req) {
         username: user.username
       };
 
-      const token = await jwt.sign(
-        payload,
-        config.PASS_SECRET,
-        { expiresIn: 3600 }
-      );
+      const token = signToken(payload);
 
       return {
         success: true,

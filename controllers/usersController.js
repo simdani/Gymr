@@ -1,8 +1,25 @@
 const userService = require('../services/userService');
 
+const jwt = require('jsonwebtoken');
+const config = require('config');
+
 // load register validation
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
+
+const signToken = payload => {
+  return jwt.sign(
+    payload,
+    config.PASS_SECRET,
+    { expiresIn: 3600 }
+  );
+};
+
+async function googleOAuth (req, res) {
+  console.log('google oauth');
+  const token = signToken(req.user);
+  res.status(200).json({ token });
+}
 
 async function register (req, res) {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -44,5 +61,6 @@ async function login (req, res) {
 
 module.exports = {
   register,
-  login
+  login,
+  googleOAuth
 };
