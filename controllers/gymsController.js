@@ -11,7 +11,7 @@ async function all (req, res) {
       res.status(200).json(result);
     }
   } catch (err) {
-    res.status(500).json('failed to get gyms');
+    res.status(501).json('failed to get gyms');
   }
 }
 
@@ -25,9 +25,9 @@ async function create (req, res) {
 
   try {
     const result = await gymService.createGym(req);
-    res.status(200).json(result);
+    res.status(201).json(result);
   } catch (e) {
-    res.status(500).json('Error creating new gym');
+    res.status(501).json('Error creating new gym');
   }
 }
 
@@ -36,7 +36,7 @@ async function GetOne (req, res) {
     const result = await gymService.findGym(req);
     res.status(200).json(result);
   } catch (e) {
-    res.status(500).json('Error getting gym');
+    res.status(501).json('Error getting gym');
   }
 }
 

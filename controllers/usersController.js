@@ -36,10 +36,10 @@ async function register (req, res) {
     if (result.errors) {
       res.status(400).json(result.errors);
     } else {
-      res.status(200).json(result);
+      res.status(201).json(result);
     }
   } catch (e) {
-    res.status(500).json('Error when registering.');
+    res.status(501).json('Error when registering.');
   }
 }
 
@@ -47,7 +47,7 @@ async function login (req, res) {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(40).json(errors);
   }
 
   try {
@@ -55,10 +55,10 @@ async function login (req, res) {
     if (result.errors) {
       res.status(400).json(result.errors);
     } else {
-      res.status(200).json(result);
+      res.status(201).json(result);
     }
   } catch (e) {
-    res.status(500).json({errors: 'Error when loggin in'});
+    res.status(501).json({errors: 'Error when loggin in'});
   }
 }
 

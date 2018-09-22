@@ -1,6 +1,7 @@
 // set environment to test
 process.env.NODE_ENV = 'test';
 
+const { expect } = require('chai');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../server');
@@ -26,8 +27,9 @@ describe('Gyms', () => {
           if (err) {
             console.log(err);
           }
-          res.should.have.status(200);
-          res.body.should.be.a('array');
+          expect(res).to.have.status(200);
+          expect(res.body.gyms).to.be.a('array');
+          expect(res.body.current).to.be.equal(1);
           done();
         });
     });
@@ -42,8 +44,8 @@ describe('Gyms', () => {
           if (err) {
             console.log(err);
           }
-          res.should.have.status(200);
-          res.body.name.should.equal('test');
+          expect(res).to.have.status(201);
+          expect(res.body.name).to.be.equal('test');
           done();
         });
     });
@@ -58,7 +60,7 @@ describe('Gyms', () => {
           if (err) {
             console.log(err);
           }
-          res.should.have.status(400);
+          expect(res).to.have.status(400);
           done();
         });
     });
