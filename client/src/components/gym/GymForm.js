@@ -19,6 +19,12 @@ class GymForm extends Component {
     };
   }
 
+  componentDidMount() {
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
     
@@ -84,7 +90,12 @@ class GymForm extends Component {
 }
 
 GymForm.propTypes = {
-  addGym: PropTypes.func.isRequired
+  addGym: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default connect(null, { addGym})(GymForm);
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { addGym})(GymForm);

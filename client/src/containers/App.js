@@ -11,6 +11,7 @@ import GymForm from '../components/gym/GymForm';
 import GymSearchMain from '../components/gymsSearch/GymSearchMain';
 import Navbar from '../components/layout/Nav';
 import Login from '../components/auth/Login';
+import Register from '../components/auth/Register';
 
 import { Provider } from 'react-redux';
 import store from '../store';
@@ -44,6 +45,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' component={Gyms}/>
               <Route exact path="/users/login" component={Login} />
+              <Route exact path="/users/register" component={Register} />
               <Route exact path='/gyms/add' component={GymForm}/>
               <Route exact path='/gyms/search' component={GymSearchMain} />
               <Route exact path='/gyms/:id' component={Gym}/>

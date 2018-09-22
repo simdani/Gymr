@@ -5,6 +5,18 @@ import jwtDecode from 'jwt-decode';
 import { SET_CURRENT_USER, GET_ERRORS } from './types';
 import { API_ROOT } from '../utils/api-config';
 
+export const registerUser = (user, history, callback) => dispatch => {
+  axios
+    .post(`${API_ROOT}/users/register`, user)
+    .then(res => history.push('/users/login', callback()))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 export const loginUser = (user, callback) => dispatch => {
   axios
     .post(`${API_ROOT}/users/login`, user)

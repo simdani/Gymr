@@ -10,11 +10,15 @@ module.exports = function validateRegisterInput (data) {
   data.password2 = !isEmpty(data.password2) ? data.password2 : '';
 
   if (!Validator.isLength(data.username, { min: 1, max: 30 })) {
-    errors.name = 'Name must be between 1 and 30 characters';
+    errors.username = 'UserName must be between 1 and 30 characters';
+  }
+
+  if (data.email.includes('gmail')) {
+    errors.email = 'Users with gmail account, use Google Login!';
   }
 
   if (Validator.isEmpty(data.username)) {
-    errors.name = 'Userame field is required';
+    errors.username = 'Username field is required';
   }
 
   if (Validator.isEmpty(data.email)) {
