@@ -29,6 +29,11 @@ async function createGym (req) {
   return gym.save();
 }
 
+// delete gym
+async function deleteGym (req) {
+  await Gym.findByIdAndRemove(req.params.id);
+}
+
 // find gyms by city
 async function searchGyms (req) {
   let perPage = 12; // gyms per page
@@ -57,5 +62,6 @@ module.exports = {
   getGyms,
   createGym,
   findGym,
-  searchGyms
+  searchGyms,
+  deleteGym
 };

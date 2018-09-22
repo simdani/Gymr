@@ -11,4 +11,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), gymsControlle
 // get one gym by if
 router.get('/:id', gymsController.GetOne);
 
+router.delete('/:id', passport.authenticate('jwt', { session: false }), gymsController.deleteGym);
+
 module.exports = router;

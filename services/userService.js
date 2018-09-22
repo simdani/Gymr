@@ -41,6 +41,22 @@ async function register (req) {
   }
 }
 
+// login with google
+async function loginGoogle (req) {
+  const payload = {
+    id: req.user.id,
+    username: req.user.username,
+    email: req.user.email
+  };
+
+  const token = signToken(payload);
+
+  return {
+    success: true,
+    token: 'Bearer ' + token
+  };
+}
+
 // login user
 async function login (req) {
   const email = req.body.email;
@@ -83,5 +99,6 @@ async function findUser (email) {
 
 module.exports = {
   register,
-  login
+  login,
+  loginGoogle
 };

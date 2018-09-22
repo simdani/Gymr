@@ -31,6 +31,18 @@ async function create (req, res) {
   }
 }
 
+// fix deleting
+async function deleteGym (req, res) {
+  try {
+    await gymService.deleteGym(req);
+    res.status(200).json({
+      success: true
+    });
+  } catch (e) {
+    res.status(501).json('Error deleting gym');
+  }
+}
+
 async function GetOne (req, res) {
   try {
     const result = await gymService.findGym(req);
@@ -43,5 +55,6 @@ async function GetOne (req, res) {
 module.exports = {
   all,
   create,
-  GetOne
+  GetOne,
+  deleteGym
 };
