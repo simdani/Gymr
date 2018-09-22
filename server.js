@@ -25,8 +25,8 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // handle routes
-app.use('/api/gyms', gyms);
-app.use('/api/users', users);
+app.use('/api/v1/gyms', gyms);
+app.use('/api/v1/users', users);
 
 let port;
 if (config.util.getEnv('NODE_ENV') !== 'test') {

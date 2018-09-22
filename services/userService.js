@@ -58,7 +58,8 @@ async function login (req) {
     if (checkPassword) {
       const payload = {
         id: user.id,
-        username: user.username
+        username: user.username,
+        email: user.email
       };
 
       const token = signToken(payload);

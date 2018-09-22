@@ -22,7 +22,7 @@ describe('Gyms', () => {
   describe('/GET all gyms', () => {
     it('it should get all gyms', (done) => {
       chai.request(server)
-        .get('/api/gyms')
+        .get('/api/v1/gyms')
         .end((err, res) => {
           if (err) {
             console.log(err);
@@ -38,7 +38,7 @@ describe('Gyms', () => {
   describe('/POST gym', () => {
     it('it should post 1 gym with valid data', (done) => {
       chai.request(server)
-        .post('/api/gyms')
+        .post('/api/v1/gyms')
         .send({name: 'test', city: 'test1'})
         .end((err, res) => {
           if (err) {
@@ -54,7 +54,7 @@ describe('Gyms', () => {
   describe('/POST gym (with errors)', () => {
     it('it should not create new gym', (done) => {
       chai.request(server)
-        .post('/api/gyms')
+        .post('/api/v1/gyms')
         .send({name: '', city: ''})
         .end((err, res) => {
           if (err) {

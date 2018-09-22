@@ -6,4 +6,4 @@ if (process.env.NODE_ENV === 'production') {
   backendHost = 'http://localhost:5000';
 }
 
-export const API_ROOT = `${backendHost}/api`;
+export const API_ROOT = `${backendHost}/api/v1`;

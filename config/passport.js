@@ -36,6 +36,8 @@ module.exports = passport => {
         }
 
         const newUser = new User({
+          username: profile.displayName,
+          email: profile.emails[0].value,
           google: {
             id: profile.id,
             email: profile.emails[0].value
