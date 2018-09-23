@@ -1,6 +1,5 @@
 const gymService = require('../services/gymService');
 const createGymValidation = require('../validation/createGym');
-const Gym = require('../models/Gym');
 
 async function all (req, res) {
   try {
@@ -13,6 +12,22 @@ async function all (req, res) {
     }
   } catch (err) {
     res.status(501).json('failed to get gyms');
+  }
+}
+
+async function updateGym (req, res) {
+  const { errors, isValid } = createGymValidation(req.body);
+
+  // check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  try {
+    const result = await gymService.updateGym(req);
+    res.status(201).json(result);
+  } catch (e) {
+    res.status(404).json({errors: 'Gym does not exists'});
   }
 }
 
@@ -57,5 +72,6 @@ module.exports = {
   all,
   create,
   GetOne,
+  updateGym,
   deleteGym
 };

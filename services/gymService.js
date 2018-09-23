@@ -29,6 +29,19 @@ async function createGym (req) {
   return gym.save();
 }
 
+// update gym
+async function updateGym (req) {
+  const gym = await Gym.findById(req.params.id);
+
+  const name = req.body.name;
+  const city = req.body.city;
+
+  gym.name = name;
+  gym.city = city;
+
+  return gym.save();
+}
+
 // delete gym
 async function deleteGym (req) {
   const gym = await Gym.findById(req.params.id);
@@ -62,6 +75,7 @@ async function findGym (req) {
 module.exports = {
   getGyms,
   createGym,
+  updateGym,
   findGym,
   searchGyms,
   deleteGym
