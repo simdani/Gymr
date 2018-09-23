@@ -72,11 +72,27 @@ async function findGym (req) {
   });
 }
 
+async function addReview (req) {
+  const gym = await Gym.findById(req.params.id);
+
+  const newReview = {
+    username: req.body.username,
+    text: req.body.text,
+    user: req.user.id
+  };
+
+  await gym.reviews.unshift(newReview);
+  await gym.save();
+
+  return gym;
+}
+
 module.exports = {
   getGyms,
   createGym,
   updateGym,
   findGym,
   searchGyms,
-  deleteGym
+  deleteGym,
+  addReview
 };

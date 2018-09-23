@@ -13,6 +13,29 @@ const GymSchema = new Schema({
     required: true,
     minlength: 1,
     maxLength: 60
+  },
+  reviews: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      },
+      username: {
+        type: String
+      },
+      text: {
+        type: String,
+        required: true
+      },
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

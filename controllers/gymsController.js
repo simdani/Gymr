@@ -55,7 +55,7 @@ async function deleteGym (req, res) {
       success: true
     });
   } catch (e) {
-    res.status(404).json({errors: 'Gym does not exists'});
+    res.status(404).json({errors: 'Gym does not exist'});
   }
 }
 
@@ -68,10 +68,21 @@ async function GetOne (req, res) {
   }
 }
 
+//  reviews
+async function addReview (req, res) {
+  try {
+    const result = await gymService.addReview(req);
+    res.status(201).json(result);
+  } catch (e) {
+    res.status(404).json({errors: 'Gym does not exist'});
+  }
+}
+
 module.exports = {
   all,
   create,
   GetOne,
   updateGym,
-  deleteGym
+  deleteGym,
+  addReview
 };

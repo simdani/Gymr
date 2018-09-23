@@ -1,0 +1,80 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addReview } from '../../actions/gymActions';
+
+class ReviewForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: '',
+      errors: {}
+    };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.errors) {
+      this.setState({ errors: newProps.errors });
+    }
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const { user } = this.props.auth;
+    const { gymId } = this.props;
+
+    const newReview = {
+      text: this.state.text,
+      username: user.username
+    };
+
+    this.props.addReview(gymId, newReview);
+    this.setState({ text: '' });
+  }
+
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  render() {
+    return (
+        <div className="card card-info">
+          <div className="card-header bg-dark  text-white">
+            Post your review
+          </div>
+          <div className="card-body">
+            <form onSubmit={this.onSubmit}>
+
+            <div className="form-group">
+              <input type="text"
+                className="form-control"
+                value={this.state.text}
+                placeholder="write your review.."
+                name="text"
+                onChange={this.onChange}
+              />
+              {this.state.errors.text && <div className="invalid-feedback d-block">{this.state.errors.text}</div>}
+            </div>
+              <button type="submit" className="btn btn-dark">
+                Post
+              </button>
+            </form>
+          </div>
+        </div>
+    );
+  }
+}
+
+ReviewForm.propTypes = {
+  auth: PropTypes.object.isRequired,
+  gymId: PropTypes.string.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { addReview })(ReviewForm);

@@ -4,6 +4,8 @@ import { getGym } from '../../actions/gymActions';
 
 import BackButton from '../common/BackButton';
 import LoadingSpinner from '../common/LoadingSpinner';
+import ReviewFeed from './ReviewFeed';
+import ReviewForm from './ReviewForm';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,6 +16,8 @@ class Gym extends Component {
   }
 
   renderGym(gym) {
+    const { isAuthenticated } = this.props.auth;
+
     return (
       <div className="card text-center">
         <div className="card-header">
@@ -36,7 +40,10 @@ class Gym extends Component {
               <hr/>
 
               <h5>User reviews</h5>
-              <p>Currently, there are no user reviews</p>
+              {isAuthenticated ? <ReviewForm gymId={gym._id} /> : (null)}
+              
+              <ReviewFeed reviews={gym.reviews} />
+
             </div>
           </div>
         </div>
@@ -57,11 +64,13 @@ class Gym extends Component {
 
 Gym.propTypes = {
   getGym: PropTypes.func.isRequired,
-  gym: PropTypes.object.isRequired
+  gym: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  gym: state.gym
+  gym: state.gym,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { getGym })(Gym);
