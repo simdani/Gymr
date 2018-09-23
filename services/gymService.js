@@ -31,7 +31,8 @@ async function createGym (req) {
 
 // delete gym
 async function deleteGym (req) {
-  await Gym.findByIdAndRemove(req.params.id);
+  const gym = await Gym.findById(req.params.id);
+  await gym.remove();
 }
 
 // find gyms by city

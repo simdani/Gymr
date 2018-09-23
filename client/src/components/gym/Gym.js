@@ -27,6 +27,17 @@ class Gym extends Component {
           <h4 className="card-title">{gym.name}</h4>
           <div className="card-body">
             <p className="card-text">{gym.city}</p>
+
+            <div className="text-left">
+              <h5>Details</h5>
+              <p><strong>Description:</strong></p>
+              <p><strong>Website:</strong></p>
+
+              <hr/>
+
+              <h5>User reviews</h5>
+              <p>Currently, there are no user reviews</p>
+            </div>
           </div>
         </div>
       </div>

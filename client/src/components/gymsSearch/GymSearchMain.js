@@ -74,7 +74,22 @@ class GymSearchMain extends Component {
             </div>
           </div>
           <div className="col-8">
-            <h4>Found gyms:</h4>
+          
+          <div className="d-flex">
+            <div>
+              <h5>Found Gyms:</h5>
+            </div>
+            <div className="ml-auto dropdown show">
+              <a className="btn btn-secondary dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort By
+              </a>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a className="dropdown-item" href="">Newest</a>
+                <a className="dropdown-item" href="">Oldest</a>
+                <a className="dropdown-item" href="">Rating</a>
+              </div>
+            </div>        
+          </div>
             {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms, current) } 
           </div>
 

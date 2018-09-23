@@ -1,5 +1,6 @@
 const gymService = require('../services/gymService');
 const createGymValidation = require('../validation/createGym');
+const Gym = require('../models/Gym');
 
 async function all (req, res) {
   try {
@@ -39,7 +40,7 @@ async function deleteGym (req, res) {
       success: true
     });
   } catch (e) {
-    res.status(501).json('Error deleting gym');
+    res.status(404).json({errors: 'Gym does not exists'});
   }
 }
 
