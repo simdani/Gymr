@@ -1,5 +1,6 @@
 const gymService = require('../services/gymService');
 const createGymValidation = require('../validation/createGym');
+const Gym = require('../models/Gym');
 
 async function all (req, res) {
   try {
@@ -78,11 +79,38 @@ async function addReview (req, res) {
   }
 }
 
+// delete review
+async function deleteReview (req, res) {
+  try {
+    // const result = await gymService.deleteReview(req);
+    const gym = await Gym.findById(req.params.id);
+
+    if (gym.reviews.filter(
+      review => review._id.toString() === req.params.reviewId).length === 0
+    ) {
+      return res.status(405)
+        .json({ commentNotExists: 'Comment does not exist' });
+    }
+    // ret review index
+    const removeIndex = gym.reviews
+      .map(item => item._id.toString())
+      .indexOf(req.params.reviewId);
+
+    gym.reviews.splice(removeIndex, 1);
+
+    gym.save();
+    res.status(200).json(gym);
+  } catch (e) {
+    res.status(404).json({errors: 'Gym review does not exist'});
+  }
+}
+
 module.exports = {
   all,
   create,
   GetOne,
   updateGym,
   deleteGym,
-  addReview
+  addReview,
+  deleteReview
 };

@@ -17,4 +17,6 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), gymsCont
 
 router.post('/:id/reviews', passport.authenticate('jwt', { session: false }), gymsController.addReview);
 
+router.delete('/:id/reviews/:reviewId', passport.authenticate('jwt', { session: false }), gymsController.deleteReview);
+
 module.exports = router;

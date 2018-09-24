@@ -90,6 +90,24 @@ export const addReview = (gymId, review) => dispatch => {
     );
 };
 
+// delete gym review
+export const deleteReview = (gymId, reviewId) => dispatch => {
+  axios
+    .delete(`${API_ROOT}/gyms/${gymId}/reviews/${reviewId}`)
+    .then(res =>
+      dispatch({
+        type: GET_GYM,
+        payload: res.data
+      })
+    )
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // set gym loading
 export const setGymLoading = () => {
   return {

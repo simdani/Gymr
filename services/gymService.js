@@ -45,8 +45,21 @@ async function updateGym (req) {
 // delete gym
 async function deleteGym (req) {
   const gym = await Gym.findById(req.params.id);
-  await gym.remove();
-}
+
+  if (gym.reviews.filter(
+    review => review._id.toString() === req.params.reviewId).length !== 0
+  ) {
+    // ret review index
+    const removeIndex = gym.reviews
+      .map(item => item._id.toString())
+      .indexOf(req.params.reviewId);
+
+    gym.reviews.splice(removeIndex, 1);
+
+    gym.save();
+    return gym;
+  }
+};
 
 // find gyms by city
 async function searchGyms (req) {
