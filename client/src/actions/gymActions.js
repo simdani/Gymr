@@ -108,6 +108,24 @@ export const deleteReview = (gymId, reviewId) => dispatch => {
     );
 };
 
+// udpate gym review
+export const updateReview = (updateReview, gymId, reviewId, callback) => dispatch => {
+  axios
+    .put(`${API_ROOT}/gyms/${gymId}/reviews/${reviewId}`, updateReview)
+    .then(res =>
+      dispatch({
+        type: GET_GYM,
+        payload: res.data
+      }, callback())
+    )
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // set gym loading
 export const setGymLoading = () => {
   return {

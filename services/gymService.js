@@ -110,7 +110,7 @@ async function updateReview (req) {
 
   const text = req.body.text;
 
-  gym.reviews[reviewIndex] = text;
+  gym.reviews[reviewIndex].text = text;
 
   gym.save();
 

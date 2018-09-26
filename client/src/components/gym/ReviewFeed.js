@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteReview } from '../../actions/gymActions';
+import Modal from 'react-bootstrap4-modal';
+import { updateReview, deleteReview } from '../../actions/gymActions';
 
 class ReviewFeed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ''
+      text: '',
+      reviewId: '',
+      showModal: false
     };
   }
 
@@ -19,35 +22,39 @@ class ReviewFeed extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+
+    const { gymId } = this.props;
     
     const updateReview = {
       text: this.state.text
     };
 
-    console.log(updateReview);
-
-    // this.props.addGym(updateReview, () => {
-    //   this.props.history.push('/');
-    //   // NotificationManager.success('Gym created successfully!', 'Success');
-    // });
+    this.props.updateReview(updateReview, gymId, this.state.reviewId, () => {
+      console.log('test');
+      this.setState({
+        showModal: false
+      });
+      // NotificationManager.success('Gym created successfully!', 'Success');
+    });
   }
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  showEditModal = (reviewText) => {
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  }
+
+  showEditModal = () => {
     return (
-      <div className="modal" id="myModal">
-      <div className="modal-dialog">
-        <div className="modal-content">
-
-          <div className="modal-header">
-            <h4 className="modal-title">Edit your review</h4>
-            <button type="button" className="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <form onSubmit={this.onSubmit}>
+      <Modal visible={this.state.showModal} onClickBackdrop={this.toggleModal}>
+        <div className="modal-header">
+          <h5 className="modal-title">Edit your review</h5>
+        </div>
+        <form onSubmit={this.onSubmit}>
             <div className="modal-body">
               <div className="form-group">
                 <label htmlFor="text">Your review:</label>
@@ -63,14 +70,11 @@ class ReviewFeed extends Component {
 
             <div className="modal-footer">        
               <button type="submit" className="btn btn-secondary">
-                  Create
+                  Update
               </button>
             </div>
           </form>
-
-        </div>
-      </div>
-    </div>
+      </Modal>
     );
   }
 
@@ -87,7 +91,7 @@ class ReviewFeed extends Component {
             
             { review.user === user.id ? 
               <p className="ml-auto">
-                <button type="button" onClick={() => this.setState({text: review.text})} className="btn btn-dark" data-toggle="modal" data-target="#myModal">
+                <button type="button" onClick={() => this.setState({text: review.text, reviewId: review._id, showModal: true})} className="btn btn-dark">
                   Edit
                 </button>
                 <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gymId, review._id)}>
@@ -97,9 +101,10 @@ class ReviewFeed extends Component {
 
               </p>
               : (null)
+              
             }
-            {this.showEditModal(review.text)}
           </div>   
+          { this.showEditModal() }
           
           <p>{review.text}</p>
         </div>
@@ -118,4 +123,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { deleteReview })(ReviewFeed);
+export default connect(mapStateToProps, { deleteReview, updateReview })(ReviewFeed);
