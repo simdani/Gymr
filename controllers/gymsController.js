@@ -105,6 +105,23 @@ async function deleteReview (req, res) {
   }
 }
 
+async function updateReview (req, res) {
+  // TODO: add text validation
+  // const { errors, isValid } = createGymValidation(req.body);
+
+  // check validation
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
+
+  try {
+    const result = await gymService.updateReview(req);
+    res.status(201).json(result);
+  } catch (e) {
+    res.status(404).json({errors: 'Gym or review does not exist'});
+  }
+}
+
 module.exports = {
   all,
   create,
@@ -112,5 +129,6 @@ module.exports = {
   updateGym,
   deleteGym,
   addReview,
-  deleteReview
+  deleteReview,
+  updateReview
 };

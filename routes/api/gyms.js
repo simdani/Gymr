@@ -15,8 +15,13 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), gymsControl
 
 router.delete('/:id', passport.authenticate('jwt', { session: false }), gymsController.deleteGym);
 
+// post gym review
 router.post('/:id/reviews', passport.authenticate('jwt', { session: false }), gymsController.addReview);
 
+// delete gym review
 router.delete('/:id/reviews/:reviewId', passport.authenticate('jwt', { session: false }), gymsController.deleteReview);
+
+// update gym review
+router.put('/:id/reviews/:reviewId', passport.authenticate('jwt', { session: false }), gymsController.updateReview);
 
 module.exports = router;

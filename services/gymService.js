@@ -100,6 +100,23 @@ async function addReview (req) {
   return gym;
 }
 
+// update gym review
+async function updateReview (req) {
+  const gym = await Gym.findById(req.params.id);
+
+  const reviewIndex = gym.reviews
+    .map(item => item._id.toString())
+    .indexOf(req.params.reviewId);
+
+  const text = req.body.text;
+
+  gym.reviews[reviewIndex] = text;
+
+  gym.save();
+
+  return gym;
+}
+
 module.exports = {
   getGyms,
   createGym,
@@ -107,5 +124,6 @@ module.exports = {
   findGym,
   searchGyms,
   deleteGym,
-  addReview
+  addReview,
+  updateReview
 };
