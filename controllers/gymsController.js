@@ -51,10 +51,19 @@ async function create (req, res) {
 // fix deleting
 async function deleteGym (req, res) {
   try {
-    await gymService.deleteGym(req);
-    res.status(200).json({
-      success: true
+    // await gymService.deleteGym(req);
+    const gym = await Gym.findOneAndRemove({
+      _id: req.params.id
     });
+    if (!gym) {
+      res.status(404).json({
+        errors: 'Gym not found'
+      });
+    } else {
+      res.status(200).json({
+        success: true
+      });
+    }
   } catch (e) {
     res.status(404).json({errors: 'Gym does not exist'});
   }

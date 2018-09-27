@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, GET_ERRORS } from './types';
+import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, GET_ERRORS, DELETE_GYM } from './types';
 import { API_ROOT } from '../utils/api-config';
 
 export const getGym = gymId => dispatch => {
@@ -34,6 +34,24 @@ export const addGym = (postData, callback) => dispatch => {
       }, 
       dispatch(getGyms),
       callback())
+    );
+};
+
+// delete gym 
+export const deleteGym = (gymId, callback) => dispatch => {
+  axios
+    .delete(`${API_ROOT}/gyms/${gymId}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_GYM,
+        payload: gymId
+      }, callback())
+    )
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
     );
 };
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-bootstrap4-modal';
 import { updateReview, deleteReview } from '../../actions/gymActions';
+import { NotificationManager} from 'react-notifications';
 
 class ReviewFeed extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class ReviewFeed extends Component {
       this.setState({
         showModal: false
       });
-      // NotificationManager.success('Gym created successfully!', 'Success');
+      NotificationManager.success('Review updated successfully!', 'Success');
     });
   }
 

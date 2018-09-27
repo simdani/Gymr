@@ -1,4 +1,4 @@
-import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING } from '../actions/types';
+import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, DELETE_GYM } from '../actions/types';
 
 const initialState = {
   gym: {},
@@ -39,6 +39,11 @@ export default function(state = initialState, action) {
         pages: action.pages,
         current: action.current,
         keyword: action.keyword
+      };
+    case DELETE_GYM:
+      return {
+        ...state,
+        gyms: state.gyms.filter(gym => gym._id !== action.payload)
       };
     case GYM_SEARCH:
       return {

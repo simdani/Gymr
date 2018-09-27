@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { getGym } from '../../actions/gymActions';
+import { getGym, deleteGym } from '../../actions/gymActions';
 
 import BackButton from '../common/BackButton';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -9,10 +9,21 @@ import ReviewForm from './ReviewForm';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NotificationManager} from 'react-notifications';
 
 class Gym extends Component {
   componentDidMount() {
     this.props.getGym(this.props.match.params.id);
+  }
+
+  // remove gym
+  removeReview = (e, gymId) => {
+    e.preventDefault();
+
+    this.props.deleteGym(gymId, () => {
+      NotificationManager.success('Gym deleted successfully!', 'Success');
+      this.props.history.push('/');
+    });
   }
 
   renderGym(gym) {
@@ -21,9 +32,14 @@ class Gym extends Component {
     return (
       <div className="card text-center">
         <div className="card-header">
-          <ul className="nav nav-tabs card-header-tabs">
+          <ul className="nav nav-tabs card-header-tabs d-flex">
             <li className="nav-item">
               <BackButton />
+            </li>
+            <li className="nav-item ml-auto">
+              <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gym._id)}>
+                Delete
+              </button>
             </li>
           </ul>
         </div>
@@ -73,4 +89,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getGym })(Gym);
+export default connect(mapStateToProps, { getGym, deleteGym })(Gym);
