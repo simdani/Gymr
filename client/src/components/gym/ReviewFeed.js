@@ -86,13 +86,13 @@ class ReviewFeed extends Component {
 
     return reviews.map(review => 
       <div key={review._id} className="card card-info">
-        <div className="card-body">
+        <div className="card-body bg-darker">
           <div className="d-flex">  
             <p><strong>{review.username} ({review.date})</strong></p>  
             
             { review.user === user.id ? 
               <p className="ml-auto">
-                <button type="button" onClick={() => this.setState({text: review.text, reviewId: review._id, showModal: true})} className="btn btn-dark">
+                <button onClick={() => this.setState({text: review.text, reviewId: review._id, showModal: true})} className="btn btn-light mr-1">
                   Edit
                 </button>
                 <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gymId, review._id)}>

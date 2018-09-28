@@ -113,7 +113,7 @@ class Login extends Component {
               {this.state.errors.password && <div className="invalid-feedback d-block">{this.state.errors.password}</div>}
             </div>
 
-            <button type="submit" className="btn btn-secondary">
+            <button type="submit" className="btn btn-light">
               Login
             </button>
             </form>

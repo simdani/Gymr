@@ -36,11 +36,17 @@ class Gym extends Component {
             <li className="nav-item">
               <BackButton />
             </li>
+            {isAuthenticated ? 
             <li className="nav-item ml-auto">
-              <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gym._id)}>
+              <button className="btn btn-light mb-2 mr-1">
+                Edit gym
+              </button>
+              <button className="btn btn-danger mb-2" onClick={(e) => this.removeReview(e, gym._id)}>
                 Delete
               </button>
             </li>
+            : (null)
+            }
           </ul>
         </div>
         <div className="card">

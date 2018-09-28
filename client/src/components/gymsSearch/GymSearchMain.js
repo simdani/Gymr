@@ -2,40 +2,23 @@ import React, {Component} from 'react';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { getGyms } from '../../actions/gymActions';
-
-import { Link } from 'react-router-dom';
+import { getGyms, searchGyms } from '../../actions/gymActions';
 
 import LoadingSpinner from '../common/LoadingSpinner';
+
+import GymsRender from '../gyms/GymsRender';
 
 class GymSearchMain extends Component {
   componentDidMount() {
     this.props.getGyms(this.props.gym.current, this.props.gym.keyword);
   }
 
-  renderGyms(gyms, current) {
-    return (
-      <div>
-        <div className="row">
-          { gyms.map(gym => 
-          <div key={gym._id} className="col-12">
-            <div className="card">
-              <h4 className="card-title">
-              <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
-                           
-              </h4>
-              <p>{gym.city}</p>
-            </div>
-          </div>
-          )}
-        </div>
-
-      </div>
-    );
+  handleChange = (event) => {
+    this.props.searchGyms(1, event.target.value);
   }
 
   render() {
-    const { gyms, loading, current } = this.props.gym;
+    const { gyms, loading } = this.props.gym;
 
     return (
       <div className="starter-template container">
@@ -46,30 +29,8 @@ class GymSearchMain extends Component {
             <h4>Search gyms</h4>
             <div className="card text-center">
                 <div className="card-body">
+                <input value={this.props.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
 
-                <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                <label htmlFor="name">Gym name:</label>
-                <input type="text"
-                  className="form-control"
-                  placeholder="enter gym name"
-                  name="name"
-                  onChange={this.onChange}
-                />
-
-                <label htmlFor="city">City:</label>
-                <input type="text"
-                  className="form-control"
-                  placeholder="enter city"
-                  name="city"
-                  onChange={this.onChange}
-                />
-                </div>
-
-                <button type="submit" className="btn btn-secondary">
-                  Search
-                </button>
-                </form>
               </div>
             </div>
           </div>
@@ -90,7 +51,7 @@ class GymSearchMain extends Component {
               </div>
             </div>        
           </div>
-            {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms, current) } 
+            {gyms === null || loading ? <LoadingSpinner/> : <GymsRender /> } 
           </div>
 
          </div>
@@ -101,11 +62,14 @@ class GymSearchMain extends Component {
 
 GymSearchMain.propTypes = {
   getGyms: PropTypes.func.isRequired,
-  gym: PropTypes.object.isRequired
+  gym: PropTypes.object.isRequired,
+  searchGyms: PropTypes.func.isRequired,
+  keyword: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  gym: state.gym
+  gym: state.gym,
+  keyword: state.gym.keyword
 });
 
-export default connect(mapStateToProps, {getGyms})(GymSearchMain);
+export default connect(mapStateToProps, {getGyms, searchGyms})(GymSearchMain);

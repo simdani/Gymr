@@ -141,7 +141,7 @@ class Register extends Component {
               {this.state.errors.password2 && <div className="invalid-feedback d-block">{this.state.errors.password2}</div>}
             </div>
 
-            <button type="submit" className="btn btn-secondary">
+            <button type="submit" className="btn btn-light">
               Register
             </button>
             </form>

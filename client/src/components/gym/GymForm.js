@@ -77,7 +77,7 @@ class GymForm extends Component {
             />
             </div>
 
-            <button type="submit" className="btn btn-secondary">
+            <button type="submit" className="btn btn-light">
               Create
             </button>
             </form>

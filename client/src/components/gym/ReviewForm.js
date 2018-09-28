@@ -40,10 +40,10 @@ class ReviewForm extends Component {
   render() {
     return (
         <div className="card card-info">
-          <div className="card-header bg-dark  text-white">
+          <div className="card-header bg-light text-white">
             Post your review
           </div>
-          <div className="card-body">
+          <div className="card-body bg-darker">
             <form onSubmit={this.onSubmit}>
 
             <div className="form-group">
@@ -56,7 +56,7 @@ class ReviewForm extends Component {
               />
               {this.state.errors.text && <div className="invalid-feedback d-block">{this.state.errors.text}</div>}
             </div>
-              <button type="submit" className="btn btn-dark">
+              <button type="submit" className="btn btn-light">
                 Post
               </button>
             </form>

@@ -9,7 +9,7 @@ export default class BackButton extends Component {
   render() {
     return (
       <button
-        className="btn btn-secondary"
+        className="btn btn-light mb-2"
         onClick={this.context.router.history.goBack}>
           Back
       </button>

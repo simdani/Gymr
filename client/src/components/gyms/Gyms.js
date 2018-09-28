@@ -61,7 +61,7 @@ class AllGyms extends Component {
       <div className="col-md-5 p-lg-2 mx-auto my-auto">
         <h1 className="display-4 font-weight-normal">Find and rate gyms in your city!</h1>
         <p className="lead font-weight-normal">Rate gyms.</p>
-        <Link to="/gyms/search" className="btn btn-outline-secondary">Search Gyms</Link>
+        <Link to="/gyms/search" className="btn btn-secondary">Search Gyms</Link>
       </div>
         <GymsSearch />
         
