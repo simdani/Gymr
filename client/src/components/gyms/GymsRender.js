@@ -19,8 +19,8 @@ class GymsRender extends Component {
       <div>
       <div className="row">
         { gyms.map(gym => 
-        <div key={gym._id} className="col-12">
-          <div className="card">
+        <div key={gym._id} className="col-6">
+          <div className="card mb-3">
             <h4 className="card-title">
             <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
                          

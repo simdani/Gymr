@@ -64,8 +64,10 @@ class Gym extends Component {
               <h5>User reviews</h5>
               {isAuthenticated ? <ReviewForm gymId={gym._id} /> : (null)}
               
+              { gym.reviews.length !== 0 ?
               <ReviewFeed gymId={ gym._id } reviews={ gym.reviews} />
-
+              : <p>There are no reviews yet.</p>
+              }
             </div>
           </div>
         </div>

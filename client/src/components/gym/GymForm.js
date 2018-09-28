@@ -60,21 +60,23 @@ class GymForm extends Component {
 
             <form onSubmit={this.onSubmit}>
             <div className="form-group">
-            <label htmlFor="name">Gym name:</label>
-            <input type="text"
-              className="form-control"
-              placeholder="enter gym name"
-              name="name"
-              onChange={this.onChange}
-            />
+              <label htmlFor="name">Gym name:</label>
+              <input type="text"
+                className="form-control"
+                placeholder="enter gym name"
+                name="name"
+                onChange={this.onChange}
+              />
+            </div>
 
-            <label htmlFor="city">City:</label>
-            <input type="text"
-              className="form-control"
-              placeholder="enter city"
-              name="city"
-              onChange={this.onChange}
-            />
+            <div className="form-group">
+              <label htmlFor="city">City:</label>
+              <input type="text"
+                className="form-control"
+                placeholder="enter city"
+                name="city"
+                onChange={this.onChange}
+              />
             </div>
 
             <button type="submit" className="btn btn-light">

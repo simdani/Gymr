@@ -59,10 +59,10 @@ class AllGyms extends Component {
       
       <div className="starter-template container">
       <div className="col-md-5 p-lg-2 mx-auto my-auto">
-        <h1 className="display-4 font-weight-normal">Find and review gyms in your city!</h1>
-        <p className="lead font-weight-normal">Rate gyms.</p>
-        <Link to="/gyms/search" className="btn btn-secondary">Search Gyms</Link>
+        <h1 className="display-4 font-weight-normal mb-3"><span className="orangeText">Find</span> and <span className="orangeText">review</span> gyms in your city!</h1>
+        <Link to="/gyms/search" className="btn btn-secondary mb-3">Search Gyms</Link>
       </div>
+        
         <GymsSearch />
         
         {gyms === null || loading ? <LoadingSpinner/> : this.renderGyms(gyms, current) } 

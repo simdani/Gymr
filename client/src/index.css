@@ -6,3 +6,7 @@ body {
 .bg-darker {
   background-color: #304151 !important;
 }
+
+.orangeText {
+  color: #DD6727;
+}
