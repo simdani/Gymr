@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, GET_ERRORS, DELETE_GYM } from './types';
+import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, GET_ERRORS, DELETE_GYM, EDIT_GYM } from './types';
 import { API_ROOT } from '../utils/api-config';
 
 export const getGym = gymId => dispatch => {
+  dispatch(setGymLoading());
   axios.get(`${API_ROOT}/gyms/${gymId}`)
   .then(res => 
     dispatch({
@@ -25,6 +26,24 @@ export const addGym = (postData, callback) => dispatch => {
     .then(res =>
       dispatch({
         type: ADD_GYM,
+        gym: {},
+        gyms: [],
+        loading: false,
+        pages: null,
+        current: 1,
+        keyword: ''
+      }, 
+      dispatch(getGyms),
+      callback())
+    );
+};
+
+export const editGym = (gymId, postData, callback) => dispatch => {
+  axios
+    .put(`${API_ROOT}/gyms/${gymId}`, postData)
+    .then(res =>
+      dispatch({
+        type: EDIT_GYM,
         gym: {},
         gyms: [],
         loading: false,

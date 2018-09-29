@@ -20,6 +20,7 @@ import './App.css';
 import 'react-notifications/lib/notifications.css';
 
 import {NotificationContainer} from 'react-notifications';
+import GymEditForm from '../components/gym/GymEditForm';
 
 if (localStorage.jwtToken) {
   // set auth token header auth
@@ -49,6 +50,7 @@ class App extends Component {
               <Route exact path='/gyms/add' component={GymForm}/>
               <Route exact path='/gyms/search' component={GymSearchMain} />
               <Route exact path='/gyms/:id' component={Gym}/>
+              <Route exact path='/gyms/:id/edit' component={GymEditForm} />
             </Switch>
 
            <NotificationContainer/>

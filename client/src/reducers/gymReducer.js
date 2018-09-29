@@ -1,4 +1,4 @@
-import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, DELETE_GYM } from '../actions/types';
+import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, DELETE_GYM, EDIT_GYM } from '../actions/types';
 
 const initialState = {
   gym: {},
@@ -31,6 +31,16 @@ export default function(state = initialState, action) {
         loading: false
       };
     case ADD_GYM:
+      return {
+        ...state,
+        gym: action.gym,
+        gyms: action.gyms,
+        loading: action.loading,
+        pages: action.pages,
+        current: action.current,
+        keyword: action.keyword
+      };
+    case EDIT_GYM:
       return {
         ...state,
         gym: action.gym,

@@ -34,7 +34,6 @@ class ReviewFeed extends Component {
     };
 
     this.props.updateReview(updateReview, gymId, this.state.reviewId, () => {
-      console.log('test');
       this.setState({
         showModal: false
       });

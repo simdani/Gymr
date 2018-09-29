@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import { getGym, deleteGym } from '../../actions/gymActions';
 
+import { Link } from 'react-router-dom';
+
 import BackButton from '../common/BackButton';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ReviewFeed from './ReviewFeed';
@@ -41,9 +43,11 @@ class Gym extends Component {
             </li>
             {isAuthenticated ? 
             <li className="nav-item ml-auto">
-              <button className="btn btn-light mb-2 mr-1">
-              <FontAwesomeIcon icon={faEdit} /> Edit gym
-              </button>
+              <Link to={`/gyms/${gym._id}/edit`}>
+                <button className="btn btn-dark mb-2 mr-1">
+                  <FontAwesomeIcon icon={faEdit} /> Edit gym
+                </button>
+              </Link>
               <button className="btn btn-danger mb-2" onClick={(e) => this.removeReview(e, gym._id)}>
               <FontAwesomeIcon icon={faTrash} /> Delete
               </button>
