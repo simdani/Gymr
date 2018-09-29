@@ -5,6 +5,9 @@ import Modal from 'react-bootstrap4-modal';
 import { updateReview, deleteReview } from '../../actions/gymActions';
 import { NotificationManager} from 'react-notifications';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 class ReviewFeed extends Component {
   constructor(props) {
     super(props);
@@ -93,10 +96,10 @@ class ReviewFeed extends Component {
             { review.user === user.id ? 
               <p className="ml-auto">
                 <button onClick={() => this.setState({text: review.text, reviewId: review._id, showModal: true})} className="btn btn-light mr-1">
-                  Edit
+                <FontAwesomeIcon icon={faEdit} /> Edit
                 </button>
                 <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gymId, review._id)}>
-                  Delete
+                <FontAwesomeIcon icon={faTrash} />  Delete
                 </button>
                 
 

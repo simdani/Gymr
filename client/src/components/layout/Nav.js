@@ -6,6 +6,9 @@ import { logoutUser } from '../../actions/authActions';
 
 import { NotificationManager} from 'react-notifications';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
 class Navbar extends Component {
   onLogoutClick = e => {
     e.preventDefault();
@@ -34,7 +37,7 @@ class Navbar extends Component {
         <a href="" className="nav-link">{user.email}</a>
         </li>
         <li className="nav-item">
-          <a href="" onClick={this.onLogoutClick} className="nav-link">Logout</a>
+          <a href="" onClick={this.onLogoutClick} className="nav-link">Logout <FontAwesomeIcon icon={faSignOutAlt} /></a>
         </li>
       </ul>
     );

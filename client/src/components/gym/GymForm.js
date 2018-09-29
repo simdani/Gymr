@@ -8,6 +8,9 @@ import { addGym } from '../../actions/gymActions';
 
 import { NotificationManager} from 'react-notifications';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 class GymForm extends Component {
   constructor(props) {
@@ -80,7 +83,7 @@ class GymForm extends Component {
             </div>
 
             <button type="submit" className="btn btn-light">
-              Create
+            <FontAwesomeIcon icon={faPencilAlt} /> Create
             </button>
             </form>
             </div>

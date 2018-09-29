@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../common/LoadingSpinner';
 import GymsSearch from './GymsSearch';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
+
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -29,7 +33,7 @@ class AllGyms extends Component {
           <div key={gym._id} className="col-sm-4 mb-3 grow">
             <div className="card">
               <h4 className="card-title">
-              <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
+              <Link to={`/gyms/${gym._id}`}>{gym.name}</Link> <FontAwesomeIcon icon={faDumbbell} />
                            
               </h4>
               <p>{gym.city}</p>
@@ -60,7 +64,7 @@ class AllGyms extends Component {
       <div className="starter-template container">
       <div className="col-md-5 p-lg-2 mx-auto my-auto">
         <h1 className="display-4 font-weight-normal mb-3"><span className="orangeText">Find</span> and <span className="orangeText">review</span> gyms in your city!</h1>
-        <Link to="/gyms/search" className="btn btn-secondary mb-3">Search Gyms</Link>
+        <Link to="/gyms/search" className="btn btn-secondary mb-3"><FontAwesomeIcon icon={faSearch} /> Search Gyms</Link>
       </div>
         
         <GymsSearch />

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addReview } from '../../actions/gymActions';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+
 class ReviewForm extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +60,7 @@ class ReviewForm extends Component {
               {this.state.errors.text && <div className="invalid-feedback d-block">{this.state.errors.text}</div>}
             </div>
               <button type="submit" className="btn btn-light">
-                Post
+              <FontAwesomeIcon icon={faPencilAlt} /> Post
               </button>
             </form>
           </div>

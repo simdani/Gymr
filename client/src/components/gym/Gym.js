@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NotificationManager} from 'react-notifications';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 class Gym extends Component {
   componentDidMount() {
     this.props.getGym(this.props.match.params.id);
@@ -39,10 +42,10 @@ class Gym extends Component {
             {isAuthenticated ? 
             <li className="nav-item ml-auto">
               <button className="btn btn-light mb-2 mr-1">
-                Edit gym
+              <FontAwesomeIcon icon={faEdit} /> Edit gym
               </button>
               <button className="btn btn-danger mb-2" onClick={(e) => this.removeReview(e, gym._id)}>
-                Delete
+              <FontAwesomeIcon icon={faTrash} /> Delete
               </button>
             </li>
             : (null)

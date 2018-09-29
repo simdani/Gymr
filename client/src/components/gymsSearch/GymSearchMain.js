@@ -7,6 +7,8 @@ import { getGyms, searchGyms } from '../../actions/gymActions';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 import GymsRender from '../gyms/GymsRender';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 class GymSearchMain extends Component {
   componentDidMount() {
@@ -26,7 +28,7 @@ class GymSearchMain extends Component {
         <div className="row">
 
           <div className="col-4">
-            <h4>Search gyms</h4>
+            <h4><FontAwesomeIcon icon={faSearch} /> Search gyms</h4>
             <div className="card text-center">
                 <div className="card-body">
                 <input value={this.props.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
