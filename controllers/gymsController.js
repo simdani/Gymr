@@ -1,6 +1,6 @@
 const gymService = require('../services/gymService');
-const updateGymReviewValidation= require('../validation/updateGymReview');
-const Gym = require('../models/Gym');
+const updateGymReviewValidation = require('../validation/updateGymReview');
+const createGymValidation = require('../validation/createGym');
 
 async function all (req, res) {
   try {
@@ -28,7 +28,7 @@ async function updateGym (req, res) {
     const result = await gymService.updateGym(req);
     res.status(201).json(result);
   } catch (e) {
-    res.status(404).json({errors: 'Gym does not exists'});
+    res.status(404).json({ errors: 'Gym does not exists' });
   }
 }
 
@@ -63,7 +63,7 @@ async function deleteGym (req, res) {
       });
     }
   } catch (e) {
-    res.status(404).json({errors: 'Gym does not exist'});
+    res.status(404).json({ errors: 'Gym does not exist' });
   }
 }
 
@@ -78,11 +78,18 @@ async function GetOne (req, res) {
 
 //  reviews
 async function addReview (req, res) {
+  const { errors, isValid } = updateGymReviewValidation(req.body);
+
+  // check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   try {
     const result = await gymService.addReview(req);
     res.status(201).json(result);
   } catch (e) {
-    res.status(404).json({errors: 'Gym does not exist'});
+    res.status(501).json({ errors: 'Error when creating a new review' });
   }
 }
 
@@ -93,10 +100,10 @@ async function deleteReview (req, res) {
     if (result) {
       res.status(200).json(result);
     } else {
-      res.status(404).json({errors: 'Comment does not exists'});
+      res.status(404).json({ errors: 'Comment does not exists' });
     }
   } catch (e) {
-    res.status(404).json({errors: 'Gym review does not exist'});
+    res.status(404).json({ errors: 'Gym review does not exist' });
   }
 }
 
@@ -113,7 +120,7 @@ async function updateReview (req, res) {
     const result = await gymService.updateReview(req);
     res.status(201).json(result);
   } catch (e) {
-    res.status(404).json({errors: 'Gym or review does not exist'});
+    res.status(404).json({ errors: 'Gym or review does not exist' });
   }
 }
 

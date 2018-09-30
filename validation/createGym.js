@@ -2,7 +2,7 @@ const validator = require('validator');
 const isEmpty = require('./isEmpty');
 
 module.exports = function validateCreateGym (data) {
-  let errors = [];
+  let errors = {};
 
   data.name = !isEmpty(data.name) ? data.name : '';
   data.city = !isEmpty(data.city) ? data.city : '';

@@ -14,8 +14,15 @@ class ReviewFeed extends Component {
     this.state = {
       text: '',
       reviewId: '',
-      showModal: false
+      showModal: false,
+      errors: {}
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.errors) {
+      this.setState({ errors: newProps.errors });
+    }
   }
 
   removeReview = (e, gymId, reviewId) => {
@@ -68,6 +75,7 @@ class ReviewFeed extends Component {
                   value={this.state.text}
                   onChange={this.onChange}
                 />
+                {this.state.errors.text && <div className="invalid-feedback d-block">{this.state.errors.text}</div>}
               </div>
             </div>
 
@@ -119,11 +127,13 @@ class ReviewFeed extends Component {
 ReviewFeed.propTypes = {
   reviews: PropTypes.array.isRequired,
   gymId: PropTypes.string.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(mapStateToProps, { deleteReview, updateReview })(ReviewFeed);

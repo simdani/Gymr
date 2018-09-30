@@ -19,7 +19,8 @@ class GymEditForm extends Component {
     this.state = {
       name: '',
       city: '',
-      completed: false
+      completed: false,
+      errors: {}
     };
   }
 
@@ -33,6 +34,12 @@ class GymEditForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+
     if (nextProps.gym) {
       this.setState({
         name: nextProps.gym.gym.name,
@@ -84,6 +91,7 @@ class GymEditForm extends Component {
                 value={this.state.name}
                 onChange={this.onChange}
               />
+              {this.state.errors.name && <div className="invalid-feedback d-block">{this.state.errors.name}</div>}
             </div>
 
             <div className="form-group">
@@ -95,6 +103,7 @@ class GymEditForm extends Component {
                 value={this.state.city}
                 onChange={this.onChange}
               />
+              {this.state.errors.city && <div className="invalid-feedback d-block">{this.state.errors.city}</div>}
             </div>
 
             <button type="submit" className="btn btn-light">
@@ -124,11 +133,13 @@ GymEditForm.propTypes = {
   getGym: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   gym: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  gym: state.gym
+  gym: state.gym,
+  errors: state.errors
 });
 
 export default connect(mapStateToProps, { editGym, getGym})(GymEditForm);
