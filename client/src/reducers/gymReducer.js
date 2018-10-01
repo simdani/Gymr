@@ -19,9 +19,9 @@ export default function(state = initialState, action) {
     case GET_GYMS:
       return {
         ...state,
-        gyms: action.payload.gyms,
-        pages: action.payload.pages,
-        current: action.payload.current,
+        gyms: action.payload,
+        pages: action.totalPages,
+        current: action.current,
         loading: false
       };
     case GET_GYM:

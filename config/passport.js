@@ -30,7 +30,7 @@ module.exports = passport => {
     }, async (accessToken, refreshToken, profile, done) => {
       // fulle user profile
       try {
-        const user = await User.findOne({'google.id': profile.id});
+        const user = await User.findOne({ 'google.id': profile.id });
         if (user) {
           return done(null, user);
         }
