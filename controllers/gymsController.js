@@ -6,13 +6,20 @@ async function all (req, res) {
   try {
     if (req.query.search) {
       const result = await gymService.searchGyms(req);
-      res.status(200).json(result);
-    } else {
+      res.set('total-pages', result.pages);
+      res.set('Access-Control-Expose-Headers', 'total-pages');
+      res.status(200).json(result.gyms);
+    } else if (req.query.page) {
       const result = await gymService.getGyms(req);
+      res.set('total-pages', result.pages);
+      res.set('Access-Control-Expose-Headers', 'total-pages');
+      res.status(200).json(result.gyms);
+    } else {
+      const result = await gymService.getAllGyms(req);
       res.status(200).json(result);
     }
   } catch (err) {
-    res.status(501).json('failed to get gyms');
+    res.status(400).json('failed to get gyms');
   }
 }
 
@@ -72,7 +79,7 @@ async function GetOne (req, res) {
     const result = await gymService.findGym(req);
     res.status(200).json(result);
   } catch (e) {
-    res.status(501).json('Error getting gym');
+    res.status(404).json({ errors: 'Gym does not exist' });
   }
 }
 

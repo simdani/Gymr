@@ -1,7 +1,7 @@
 const Gym = require('../models/Gym');
 const regexHelper = require('../helpers/regexHelper');
 
-// get all gyms
+// get gyms by page
 async function getGyms (req) {
   let perPage = 12; // gyms per page
   let page = (parseInt(req.query.page) || 1); // curent page
@@ -14,6 +14,13 @@ async function getGyms (req) {
     current: page,
     pages: Math.ceil(count / perPage)
   };
+};
+
+// get all gyms
+async function getAllGyms (req) {
+  const gyms = await Gym.find();
+
+  return gyms;
 };
 
 // create new gym
@@ -128,6 +135,7 @@ async function deleteReview (req) {
 
 module.exports = {
   getGyms,
+  getAllGyms,
   createGym,
   updateGym,
   findGym,

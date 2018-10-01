@@ -107,11 +107,14 @@ const getGymsFromApi = (current, keyword, dispatch) => {
     request = `${API_ROOT}/gyms?page=${current}`;
   
   axios.get(request)
-  .then(res => 
+  .then(res => {
     dispatch({
       type: GET_GYMS,
-      payload: res.data
-    })
+      payload: res.data,
+      current: current,
+      totalPages: res.headers['total-pages']
+    });
+    }
   )
   .catch (err => 
     dispatch({
