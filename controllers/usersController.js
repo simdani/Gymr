@@ -28,7 +28,7 @@ async function register (req, res) {
       res.status(201).json(result);
     }
   } catch (e) {
-    res.status(501).json({errors: 'Error when registering...'});
+    res.status(501).json({ errors: 'Error when registering...' });
   }
 }
 
@@ -47,7 +47,7 @@ async function login (req, res) {
       res.status(200).json(result);
     }
   } catch (e) {
-    res.status(501).json({errors: 'Error when logging in'});
+    res.status(501).json({ errors: 'Error when logging in' });
   }
 }
 

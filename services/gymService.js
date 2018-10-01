@@ -58,7 +58,7 @@ async function searchGyms (req) {
   const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
 
   const gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);
-  const count = await Gym.countDocuments({city: regex});
+  const count = await Gym.countDocuments({ city: regex });
 
   return {
     gyms,
