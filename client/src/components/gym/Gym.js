@@ -63,8 +63,8 @@ class Gym extends Component {
 
             <div className="text-left">
               <h5>Details</h5>
-              <p><strong>Description:</strong></p>
-              <p><strong>Website:</strong></p>
+              <p><strong>Description:</strong>{gym.description}</p>
+              <p><strong>Website:</strong>{gym.website}</p>
 
               <hr/>
 
