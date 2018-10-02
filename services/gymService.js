@@ -27,10 +27,14 @@ async function getAllGyms (req) {
 async function createGym (req) {
   const name = req.body.name;
   const city = req.body.city;
+  const description = req.body.description;
+  const website = req.body.website;
 
   const gym = new Gym({
     name,
-    city
+    city,
+    description,
+    website
   });
 
   return gym.save();
@@ -42,9 +46,13 @@ async function updateGym (req) {
 
   const name = req.body.name;
   const city = req.body.city;
+  const description = req.body.description;
+  const website = req.body.website;
 
   gym.name = name;
   gym.city = city;
+  gym.description = description;
+  gym.website = website;
 
   return gym.save();
 }

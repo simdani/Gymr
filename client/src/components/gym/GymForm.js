@@ -18,6 +18,8 @@ class GymForm extends Component {
     this.state = {
       name: '',
       city: '',
+      description: '',
+      website: '',
       completed: false,
       errors: {}
     };
@@ -42,7 +44,9 @@ class GymForm extends Component {
     
     const newGym = {
       name: this.state.name,
-      city: this.state.city
+      city: this.state.city,
+      description: this.state.description,
+      website: this.state.website
     };
 
     this.props.addGym(newGym, () => {
@@ -91,6 +95,28 @@ class GymForm extends Component {
                 onChange={this.onChange}
               />
               {this.state.errors.city && <div className="invalid-feedback d-block">{this.state.errors.city}</div>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="description">Description:</label>
+              <textarea
+                className="form-control"
+                placeholder="enter your description"
+                name="description"
+                onChange={this.onChange}
+              />
+              {this.state.errors.description && <div className="invalid-feedback d-block">{this.state.errors.description}</div>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="website">Website:</label>
+              <input type="text"
+                className="form-control"
+                placeholder="website"
+                name="website"
+                onChange={this.onChange}
+              />
+              {this.state.errors.website && <div className="invalid-feedback d-block">{this.state.errors.website}</div>}
             </div>
 
             <button type="submit" className="btn btn-light">
