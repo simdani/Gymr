@@ -14,6 +14,15 @@ const GymSchema = new Schema({
     minlength: 1,
     maxLength: 60
   },
+  description: {
+    type: String,
+    required: true,
+    minlength: 1
+  },
+  website: {
+    type: String,
+    required: true
+  },
   reviews: [
     {
       user: {
