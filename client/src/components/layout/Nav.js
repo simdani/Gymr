@@ -34,10 +34,10 @@ class Navbar extends Component {
     const authLinks = (
       <ul className="navbar-nav">
         <li className="nav-item">
-        <a href="" className="nav-link">{user.email}</a>
+        <a href="/" className="nav-link">{user.email}</a>
         </li>
         <li className="nav-item">
-          <a href="" onClick={this.onLogoutClick} className="nav-link">Logout <FontAwesomeIcon icon={faSignOutAlt} /></a>
+          <a href="/" onClick={this.onLogoutClick} className="nav-link">Logout <FontAwesomeIcon icon={faSignOutAlt} /></a>
         </li>
       </ul>
     );

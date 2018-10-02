@@ -43,13 +43,12 @@ class GymSearchMain extends Component {
               <h5>Found Gyms:</h5>
             </div>
             <div className="ml-auto dropdown show">
-              <a className="btn btn-secondary dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a href="/" className="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort By
               </a>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a className="dropdown-item" href="">Newest</a>
-                <a className="dropdown-item" href="">Oldest</a>
-                <a className="dropdown-item" href="">Rating</a>
+                <p className="dropdown-item" href="">Newest</p>
+                <p className="dropdown-item" href="">Oldest</p>
               </div>
             </div>        
           </div>
