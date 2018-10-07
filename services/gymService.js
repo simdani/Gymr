@@ -1,4 +1,5 @@
 const Gym = require('../models/Gym');
+const User = require('../models/User');
 const regexHelper = require('../helpers/regexHelper');
 
 // get gyms by page
@@ -141,6 +142,51 @@ async function deleteReview (req) {
   return gym;
 }
 
+// function likeGym (req) {
+//   User.findOne({ _id: req.uesr.id })
+//     .then(profile => {
+//       Gym.findById(req.params.id)
+//         .then(gym => {
+//           if (gym.likes.filter(
+//             like => like.user.toString() === req.user.id
+//           ).length > 0) {
+            
+//           }
+//         })
+//     })
+
+
+//   const findUser = await User.findOne({ _id: req.user.id });
+//   const gym = await Gym.findById(req.params.id);
+//   console.log(gym);
+
+//   // if (gym.likes.filter(like => like.user === req.user.id).length > 0) {
+//   //   console.log('rip');
+//   // }
+
+//   const user = {
+//     user: req.user.id
+//   };
+
+//   await gym.likes.unshift(findUser);
+//   await gym.save();
+//   return gym;
+// }
+
+async function likeGym (req) {
+  const findUser = await User.findOne({ _id: req.user.id });
+  const gym = await Gym.findById(req.params.id);
+  console.log(gym);
+
+  // if (gym.likes.filter(like => like.user === req.user.id).length > 0) {
+  //   console.log('rip');
+  // }
+
+  await gym.likes.unshift(findUser);
+  await gym.save();
+  return gym;
+}
+
 module.exports = {
   getGyms,
   getAllGyms,
@@ -151,5 +197,6 @@ module.exports = {
   deleteGym,
   addReview,
   updateReview,
-  deleteReview
+  deleteReview,
+  likeGym
 };

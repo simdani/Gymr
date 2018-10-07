@@ -24,4 +24,8 @@ router.delete('/:id/reviews/:reviewId', passport.authenticate('jwt', { session: 
 // update gym review
 router.put('/:id/reviews/:reviewId', passport.authenticate('jwt', { session: false }), gymsController.updateReview);
 
+// gym like
+router.post('/:id/like', passport.authenticate('jwt', { session: false }), gymsController.likeGym);
+router.post('/:id/unlike', passport.authenticate('jwt', { session: false }), gymsController.unlikeGym);
+
 module.exports = router;
