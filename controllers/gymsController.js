@@ -2,6 +2,8 @@ const gymService = require('../services/gymService');
 const updateGymReviewValidation = require('../validation/updateGymReview');
 const createGymValidation = require('../validation/createGym');
 
+const Gym = require('../models/Gym');
+
 async function all (req, res) {
   try {
     if (req.query.search) {
@@ -131,6 +133,27 @@ async function updateReview (req, res) {
   }
 }
 
+// like gym
+async function likeGym (req, res) {
+  try {
+    const gym = await Gym.findById(req.params.id);
+    if (gym.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+      res.status(400).json('error liking');
+    } else {
+      await gym.likes.unshift({ user: req.user.id });
+      await gym.save();
+      res.status(201).json(gym);
+    }
+  } catch (e) {
+    res.status(404).json(e);
+  }
+}
+
+// unlike gy
+async function unlikeGym (req, res) {
+  res.status(200).json();
+}
+
 module.exports = {
   all,
   create,
@@ -139,5 +162,7 @@ module.exports = {
   deleteGym,
   addReview,
   deleteReview,
-  updateReview
+  updateReview,
+  likeGym,
+  unlikeGym
 };
