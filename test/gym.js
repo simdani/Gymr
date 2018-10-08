@@ -28,8 +28,7 @@ describe('Gyms', () => {
             console.log(err);
           }
           expect(res).to.have.status(200);
-          expect(res.body.gyms).to.be.a('array');
-          expect(res.body.current).to.be.equal(1);
+          expect(res.body).to.be.a('array');
           done();
         });
     });
@@ -39,7 +38,7 @@ describe('Gyms', () => {
     it('it should post 1 gym with valid data', (done) => {
       chai.request(server)
         .post('/api/v1/gyms')
-        .send({name: 'test', city: 'test1'})
+        .send({ name: 'test', city: 'test1' })
         .end((err, res) => {
           if (err) {
             console.log(err);
@@ -55,12 +54,12 @@ describe('Gyms', () => {
     it('it should not create new gym', (done) => {
       chai.request(server)
         .post('/api/v1/gyms')
-        .send({name: '', city: ''})
+        .send({ name: '', city: '' })
         .end((err, res) => {
           if (err) {
             console.log(err);
           }
-          expect(res).to.have.status(400);
+          expect(res).to.have.status(401);
           done();
         });
     });

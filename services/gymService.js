@@ -150,11 +150,9 @@ async function deleteReview (req) {
 //           if (gym.likes.filter(
 //             like => like.user.toString() === req.user.id
 //           ).length > 0) {
-            
 //           }
 //         })
 //     })
-
 
 //   const findUser = await User.findOne({ _id: req.user.id });
 //   const gym = await Gym.findById(req.params.id);
