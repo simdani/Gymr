@@ -181,7 +181,10 @@ export const updateReview = (updateReview, gymId, reviewId, callback) => dispatc
 export const addLike = gymId => dispatch => {
   axios
     .post(`${API_ROOT}/gyms/${gymId}/like`)
-    .then(res => dispatch(getGym(gymId)))
+    .then(res => dispatch({
+      type: GET_GYM,
+      payload: res.data
+    }))
     .catch(err => 
       dispatch({
         type: GET_ERRORS,
@@ -192,7 +195,10 @@ export const addLike = gymId => dispatch => {
 export const removeLike = gymId => dispatch => {
   axios
     .post(`${API_ROOT}/gyms/${gymId}/unlike`)
-    .then(res => dispatch(getGym(gymId)))
+    .then(res => dispatch({
+      type: GET_GYM,
+      payload: res.data
+    }))
     .catch(err => 
       dispatch({
         type: GET_ERRORS,

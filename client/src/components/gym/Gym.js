@@ -85,7 +85,7 @@ class Gym extends Component {
 
               <hr/>
 
-              {this.findUserLike 
+              {this.findUserLike(gym.likes) 
               ? 
               <span>
                 <button className="btn btn-light mr-1" disabled="true">

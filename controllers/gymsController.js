@@ -138,7 +138,7 @@ async function likeGym (req, res) {
   try {
     const gym = await Gym.findById(req.params.id);
     if (gym.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
-      res.status(400).json('error liking');
+      res.status(400).json({ errors: 'error liking' });
     } else {
       await gym.likes.unshift({ user: req.user.id });
       await gym.save();
@@ -151,7 +151,19 @@ async function likeGym (req, res) {
 
 // unlike gy
 async function unlikeGym (req, res) {
-  res.status(200).json();
+  try {
+    const gym = await Gym.findById(req.params.id);
+    if (gym.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
+      res.status(400).json({ errors: 'You have already liked' });
+    } else {
+      const removeIndex = gym.likes.map(item => item.user.toString()).indexOf(req.user.id);
+      await gym.likes.splice(removeIndex, 1);
+      await gym.save();
+      res.status(201).json(gym);
+    }
+  } catch (e) {
+    res.status(404).json(e);
+  }
 }
 
 module.exports = {
