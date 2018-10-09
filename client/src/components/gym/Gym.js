@@ -85,38 +85,41 @@ class Gym extends Component {
 
               <hr/>
 
-              {this.findUserLike(gym.likes) 
+              { isAuthenticated? 
+
+              (this.findUserLike(gym.likes) 
               ? 
-              <span>
-                <button className="btn btn-light mr-1" disabled="true">
-                  <FontAwesomeIcon className="text-secondary" icon={faThumbsUp} />
-                  <span className="badge badge-light">{gym.likes.length}</span>
-                </button>
-                <button
-                  onClick={this.onUnlikeClick.bind(this, gym._id)}
+                <span>
+                  <button className="btn btn-light mr-1" disabled="true">
+                    <FontAwesomeIcon className="text-secondary" icon={faThumbsUp} />
+                    <span className="badge badge-light">{gym.likes.length}</span>
+                  </button>
+                  <button
+                    onClick={this.onUnlikeClick.bind(this, gym._id)}
+                    type="button"
+                    className="btn btn-light mr-1"
+                  >
+                  <FontAwesomeIcon icon={faThumbsDown} />
+                    <i className="text-secondary fas fa-thumbs-down" />
+                  </button>
+                </span>
+                :
+                <span>
+                  <button
+                  onClick={this.onLikeClick.bind(this, gym._id)}
                   type="button"
                   className="btn btn-light mr-1"
                 >
-                <FontAwesomeIcon icon={faThumbsDown} />
+                <FontAwesomeIcon icon={faThumbsUp} />
+                  <span className="badge badge-light">{gym.likes.length}</span>
+                </button>
+                <button className="btn btn-light mr-1" disabled="true">
+                <FontAwesomeIcon className="text-secondary" icon={faThumbsDown} />
                   <i className="text-secondary fas fa-thumbs-down" />
                 </button>
-              </span>
-              :
-              <span>
-                <button
-                onClick={this.onLikeClick.bind(this, gym._id)}
-                type="button"
-                className="btn btn-light mr-1"
-              >
-              <FontAwesomeIcon icon={faThumbsUp} />
-                <span className="badge badge-light">{gym.likes.length}</span>
-              </button>
-              <button className="btn btn-light mr-1" disabled="true">
-              <FontAwesomeIcon className="text-secondary" icon={faThumbsDown} />
-                <i className="text-secondary fas fa-thumbs-down" />
-              </button>
-              </span>
-              }
+                </span>
+                )
+              : <span className="badge badge-light mb-2"><FontAwesomeIcon icon={faThumbsUp} /> {gym.likes.length}</span> }
 
 
               <h5>User reviews</h5>
