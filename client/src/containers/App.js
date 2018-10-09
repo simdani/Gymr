@@ -20,6 +20,7 @@ import './App.css';
 import 'react-notifications/lib/notifications.css';
 
 import {NotificationContainer} from 'react-notifications';
+import { NotificationManager} from 'react-notifications';
 import GymEditForm from '../components/gym/GymEditForm';
 
 if (localStorage.jwtToken) {
@@ -31,8 +32,10 @@ if (localStorage.jwtToken) {
   // check if token is expired
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
-    store.dispatch(logoutUser());
-    window.location.href = '/';
+    store.dispatch(logoutUser(() => {
+      NotificationManager.success('Logged out successfully!', 'Success');
+      window.location.href = '/';
+    }));
   }
 }
 
