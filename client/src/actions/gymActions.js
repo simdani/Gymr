@@ -178,6 +178,28 @@ export const updateReview = (updateReview, gymId, reviewId, callback) => dispatc
     );
 };
 
+export const addLike = gymId => dispatch => {
+  axios
+    .post(`${API_ROOT}/gyms/${gymId}/like`)
+    .then(res => dispatch(getGym(gymId)))
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      }));
+};
+
+export const removeLike = gymId => dispatch => {
+  axios
+    .post(`${API_ROOT}/gyms/${gymId}/unlike`)
+    .then(res => dispatch(getGym(gymId)))
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      }));
+};
+
 // set gym loading
 export const setGymLoading = () => {
   return {

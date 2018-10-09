@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { getGym, deleteGym } from '../../actions/gymActions';
+import { getGym, deleteGym, addLike, removeLike } from '../../actions/gymActions';
 
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { NotificationManager} from 'react-notifications';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 class Gym extends Component {
   componentDidMount() {
@@ -29,6 +29,23 @@ class Gym extends Component {
       NotificationManager.success('Gym deleted successfully!', 'Success');
       this.props.history.push('/');
     });
+  }
+
+  onLikeClick(id) {
+    this.props.addLike(id);
+  }
+
+  onUnlikeClick(id) {
+    this.props.removeLike(id);
+  }
+
+  findUserLike(likes) {
+    const { auth } = this.props;
+    if (likes.filter(like => like.user === auth.user.id).length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   renderGym(gym) {
@@ -68,6 +85,40 @@ class Gym extends Component {
 
               <hr/>
 
+              {this.findUserLike 
+              ? 
+              <span>
+                <button className="btn btn-light mr-1" disabled="true">
+                  <FontAwesomeIcon className="text-secondary" icon={faThumbsUp} />
+                  <span className="badge badge-light">{gym.likes.length}</span>
+                </button>
+                <button
+                  onClick={this.onUnlikeClick.bind(this, gym._id)}
+                  type="button"
+                  className="btn btn-light mr-1"
+                >
+                <FontAwesomeIcon icon={faThumbsDown} />
+                  <i className="text-secondary fas fa-thumbs-down" />
+                </button>
+              </span>
+              :
+              <span>
+                <button
+                onClick={this.onLikeClick.bind(this, gym._id)}
+                type="button"
+                className="btn btn-light mr-1"
+              >
+              <FontAwesomeIcon icon={faThumbsUp} />
+                <span className="badge badge-light">{gym.likes.length}</span>
+              </button>
+              <button className="btn btn-light mr-1" disabled="true">
+              <FontAwesomeIcon className="text-secondary" icon={faThumbsDown} />
+                <i className="text-secondary fas fa-thumbs-down" />
+              </button>
+              </span>
+              }
+
+
               <h5>User reviews</h5>
               {isAuthenticated ? <ReviewForm gymId={gym._id} /> : (null)}
               
@@ -93,7 +144,13 @@ class Gym extends Component {
   }
 }
 
+Gym.defaultProps = {
+  showActions: true
+};
+
 Gym.propTypes = {
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
   getGym: PropTypes.func.isRequired,
   gym: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
@@ -104,4 +161,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getGym, deleteGym })(Gym);
+export default connect(mapStateToProps, { getGym, deleteGym, addLike, removeLike })(Gym);
