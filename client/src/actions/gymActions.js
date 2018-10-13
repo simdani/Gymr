@@ -102,7 +102,7 @@ export const searchGyms = (current, keyword) => dispatch => {
 const getGymsFromApi = (current, keyword, dispatch) => {
   let request;
   if (keyword !== '') 
-    request = `${API_ROOT}/gyms?search=${keyword}&page=${current}`;
+    request = `${API_ROOT}/gyms?search=${keyword}&page=${current}&sort=date`;
   else
     request = `${API_ROOT}/gyms?page=${current}`;
   

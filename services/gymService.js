@@ -71,10 +71,20 @@ async function searchGyms (req) {
   let perPage = 12; // gyms per page
   let page = (parseInt(req.query.page) || 1); // curent page
 
+  let gyms;
+  let count;
   const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
 
-  const gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);
-  const count = await Gym.countDocuments({ city: regex });
+  console.log('hit em up');
+
+  if (req.query.sort) {
+    console.log('sorting');
+    gyms = await Gym.find({ city: regex }).sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
+  } else {
+    gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);
+  }
+
+  count = await Gym.countDocuments({ city: regex });
 
   return {
     gyms,
