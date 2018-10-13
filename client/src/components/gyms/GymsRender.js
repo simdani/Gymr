@@ -8,8 +8,8 @@ import { getGyms } from '../../actions/gymActions';
 
 class GymsRender extends Component {
   changePage = (pageNumber) => {
-    const { keyword } = this.props.gym;
-    this.props.getGyms(Number(pageNumber), keyword);
+    const { keyword, sort } = this.props.gym;
+    this.props.getGyms(Number(pageNumber), keyword, sort);
   }
 
   render() {

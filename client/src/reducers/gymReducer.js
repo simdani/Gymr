@@ -6,7 +6,8 @@ const initialState = {
   loading: false,
   pages: null,
   current: 1,
-  keyword: ''
+  keyword: '',
+  sort: ''
 };
 
 export default function(state = initialState, action) {
@@ -22,6 +23,7 @@ export default function(state = initialState, action) {
         gyms: action.payload,
         pages: action.totalPages,
         current: action.current,
+        sort: action.sort,
         loading: false
       };
     case GET_GYM:

@@ -86,23 +86,29 @@ export const deleteGym = (gymId, callback) => dispatch => {
     );
 };
 
-export const getGyms = (current, keyword) => dispatch => {
+export const getGyms = (current, keyword, sort) => dispatch => {
   dispatch(setGymLoading());
-  getGymsFromApi(current, keyword, dispatch);
+  getGymsFromApi(current, keyword, sort, dispatch);
 };
 
 
-export const searchGyms = (current, keyword) => dispatch => {
+export const searchGyms = (current, keyword, sort) => dispatch => {
   dispatch({
     type: GYM_SEARCH,
     payload: keyword
-  }, dispatch(getGyms(current, keyword)));
+  }, dispatch(getGyms(current, keyword, sort)));
 };
 
-const getGymsFromApi = (current, keyword, dispatch) => {
+const getGymsFromApi = (current, keyword, sort, dispatch) => {
   let request;
-  if (keyword !== '') 
+  if (keyword !== '' && sort !== '') {
+    request = `${API_ROOT}/gyms?search=${keyword}&page=${current}&sort=${sort}`;
+  }
+  else if (keyword !== '') 
     request = `${API_ROOT}/gyms?search=${keyword}&page=${current}`;
+  else if (sort !== '') {
+    request = `${API_ROOT}/gyms?page=${current}&sort=${sort}`;
+  }
   else
     request = `${API_ROOT}/gyms?page=${current}`;
   
@@ -112,6 +118,7 @@ const getGymsFromApi = (current, keyword, dispatch) => {
       type: GET_GYMS,
       payload: res.data,
       current: current,
+      sort: sort,
       totalPages: res.headers['total-pages']
     });
     }
