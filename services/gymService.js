@@ -7,8 +7,19 @@ async function getGyms (req) {
   let perPage = 12; // gyms per page
   let page = (parseInt(req.query.page) || 1); // curent page
 
-  const gyms = await Gym.find().skip((perPage * page) - perPage).limit(perPage);
-  const count = await Gym.countDocuments();
+  let gyms;
+  let count;
+
+  if (req.query.sort) {
+    if (req.query.sort === 'newest') {
+      gyms = await Gym.find().sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
+    } else if (req.query.sort === 'oldest') {
+      gyms = await Gym.find().sort({ date: 'ascending' }).skip((perPage * page) - perPage).limit(perPage);
+    }
+  } else {
+    gyms = await Gym.find().skip((perPage * page) - perPage).limit(perPage);
+  }
+  count = await Gym.countDocuments();
 
   return {
     gyms,
@@ -75,11 +86,12 @@ async function searchGyms (req) {
   let count;
   const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
 
-  console.log('hit em up');
-
   if (req.query.sort) {
-    console.log('sorting');
-    gyms = await Gym.find({ city: regex }).sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
+    if (req.query.sort === 'newest') {
+      gyms = await Gym.find({ city: regex }).sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
+    } else if (req.query.sort === 'oldest') {
+      gyms = await Gym.find({ city: regex }).sort({ date: 'ascending' }).skip((perPage * page) - perPage).limit(perPage);
+    }
   } else {
     gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);
   }

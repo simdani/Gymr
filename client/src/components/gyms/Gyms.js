@@ -17,12 +17,12 @@ import Pagination from 'react-js-pagination';
 
 class AllGyms extends Component {
   componentDidMount() {
-    this.props.getGyms(this.props.gym.current, this.props.gym.keyword);
+    this.props.getGyms(this.props.gym.current, this.props.gym.keyword, '');
   }
 
   handleClick = (pageNumber) => {
     const { keyword } = this.props.gym;
-    this.props.getGyms(Number(pageNumber), keyword);
+    this.props.getGyms(Number(pageNumber), keyword, '');
   }
 
   renderGyms(gyms, current) {

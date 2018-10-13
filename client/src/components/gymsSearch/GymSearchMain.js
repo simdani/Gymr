@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -12,11 +12,19 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 class GymSearchMain extends Component {
   componentDidMount() {
-    this.props.getGyms(this.props.gym.current, this.props.gym.keyword);
+    this.props.getGyms(this.props.gym.current, this.props.gym.keyword, this.props.gym.sort);
   }
 
   handleChange = (event) => {
-    this.props.searchGyms(1, event.target.value);
+    this.props.searchGyms(1, event.target.value, '');
+  }
+
+  getOldest = () => {
+    this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'oldest');
+  }
+
+  getNewest = () => {
+    this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'newest');
   }
 
   render() {
@@ -28,7 +36,7 @@ class GymSearchMain extends Component {
         <div className="row">
 
           <div className="col-4">
-            <h4><FontAwesomeIcon icon={faSearch} /> Search gyms</h4>
+            <h4 className="mb-3"><FontAwesomeIcon icon={faSearch} /> Search gyms</h4>
             <div className="card text-center">
                 <div className="card-body">
                 <input value={this.props.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
@@ -40,15 +48,15 @@ class GymSearchMain extends Component {
           
           <div className="d-flex">
             <div>
-              <h5>Found Gyms:</h5>
+              <h5>Found gyms in city: {this.props.keyword}</h5>
             </div>
-            <div className="ml-auto dropdown show">
+            <div className="ml-auto dropdown show mb-2">
               <a href="/" className="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sort By
+                { this.props.gym.sort? this.props.gym.sort : <Fragment>Sort by</Fragment> }
               </a>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <p className="dropdown-item" href="">Newest</p>
-                <p className="dropdown-item" href="">Oldest</p>
+                <p onClick={this.getNewest} className="dropdown-item">Newest</p>
+                <p onClick={this.getOldest} className="dropdown-item">Oldest</p>
               </div>
             </div>        
           </div>
