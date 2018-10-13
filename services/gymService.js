@@ -15,6 +15,8 @@ async function getGyms (req) {
       gyms = await Gym.find().sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
     } else if (req.query.sort === 'oldest') {
       gyms = await Gym.find().sort({ date: 'ascending' }).skip((perPage * page) - perPage).limit(perPage);
+    } else if (req.query.sort === 'likes') {
+      gyms = await Gym.find().sort({ likes: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
     }
   } else {
     gyms = await Gym.find().skip((perPage * page) - perPage).limit(perPage);
@@ -91,6 +93,8 @@ async function searchGyms (req) {
       gyms = await Gym.find({ city: regex }).sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
     } else if (req.query.sort === 'oldest') {
       gyms = await Gym.find({ city: regex }).sort({ date: 'ascending' }).skip((perPage * page) - perPage).limit(perPage);
+    } else if (req.query.sort === 'likes') {
+      gyms = await Gym.find({ city: regex }).sort({ likes: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
     }
   } else {
     gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);

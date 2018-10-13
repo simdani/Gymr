@@ -19,12 +19,16 @@ class GymSearchMain extends Component {
     this.props.searchGyms(1, event.target.value, '');
   }
 
-  getOldest = () => {
+  getByOldest = () => {
     this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'oldest');
   }
 
-  getNewest = () => {
+  getByNewest = () => {
     this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'newest');
+  }
+
+  getByLikes = () => {
+    this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'likes');
   }
 
   render() {
@@ -55,8 +59,9 @@ class GymSearchMain extends Component {
                 { this.props.gym.sort? this.props.gym.sort : <Fragment>Sort by</Fragment> }
               </a>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <p onClick={this.getNewest} className="dropdown-item">Newest</p>
-                <p onClick={this.getOldest} className="dropdown-item">Oldest</p>
+                <p onClick={this.getByNewest} className="dropdown-item">Newest</p>
+                <p onClick={this.getByOldest} className="dropdown-item">Oldest</p>
+                <p onClick={this.getByLikes} className="dropdown-item">Likes</p>
               </div>
             </div>        
           </div>

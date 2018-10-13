@@ -5,3 +5,23 @@ body {
   padding: 3rem 1.5rem;
   text-align: center;
 }
+
+.card .box span {
+  display:inline-flex;
+}
+.card .box ul {
+  margin:0;
+  padding:0;
+}
+.card .box ul li {
+  list-style:none;
+  float:left;
+}
+.card .box ul li a {
+  display:block;
+  color:#aaa;
+  margin:0 10px;
+  font-size:20px;
+  transition:0.5s;
+  text-align:center;
+}

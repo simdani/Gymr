@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getGyms } from '../../actions/gymActions';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
+
 class GymsRender extends Component {
   changePage = (pageNumber) => {
     const { keyword, sort } = this.props.gym;
@@ -22,10 +25,19 @@ class GymsRender extends Component {
         <div key={gym._id} className="col-6">
           <div className="card mb-3">
             <h4 className="card-title">
-            <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
-                         
+            <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>               
             </h4>
-            <p>{gym.city}</p>
+            
+            <p className="card-text">{gym.city}</p>
+
+            <div className="card-footer box">
+              <span>
+                <ul>
+                  <li className="mr-2"><FontAwesomeIcon icon={faThumbsUp} />{gym.likes.length} </li>
+                  <li><FontAwesomeIcon icon={faComment}/>{gym.reviews.length}</li>
+                </ul>
+              </span>
+            </div>
           </div>
         </div>
         )}
