@@ -7,6 +7,7 @@ const chaiHttp = require('chai-http');
 const server = require('../server');
 const request = require('supertest');
 const chaiSubset = require('chai-subset');
+const jwtDecode = require('jwt-decode');
 
 // load note model
 const Gym = require('../models/Gym');
@@ -20,6 +21,7 @@ const userCredentials = {
 };
 
 let token;
+let userId;
 const authenticatedUser = request.agent(server);
 
 let gymId;
@@ -37,12 +39,47 @@ describe('Gyms', () => {
         expect(res.body).to.have.property('token');
         expect(res.statusCode).to.equal(200);
         token = res.body.token;
+        let decoded = jwtDecode(token);
+        userId = decoded.id;
         done();
       });
   }, (done) => {
     Gym.deleteMany({}, (err) => {
       console.log(err);
       done();
+    });
+  });
+
+  describe('/POST gym', () => {
+    it('it should post 1 gym with valid data', (done) => {
+      chai.request(server)
+        .post('/api/v1/gyms')
+        .set('Authorization', token)
+        .send({ name: 'test', city: 'test1', description: 'test', website: 'test1' })
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(201);
+          expect(res.body.name).to.be.equal('test');
+          gymId = res.body._id;
+          done();
+        });
+    });
+  });
+
+  describe('/POST gym (with errors)', () => {
+    it('it should not create new gym', (done) => {
+      chai.request(server)
+        .post('/api/v1/gyms')
+        .send({ name: '', city: '' })
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(401);
+          done();
+        });
     });
   });
 
@@ -61,19 +98,16 @@ describe('Gyms', () => {
     });
   });
 
-  describe('/POST gym', () => {
-    it('it should post 1 gym with valid data', (done) => {
+  describe('/GET gym by id', () => {
+    it('it should get one gym by id', (done) => {
       chai.request(server)
-        .post('/api/v1/gyms')
-        .set('Authorization', token)
-        .send({ name: 'test', city: 'test1', description: 'test', website: 'test1' })
+        .get('/api/v1/gyms/' + gymId)
         .end((err, res) => {
           if (err) {
             console.log(err);
           }
-          expect(res).to.have.status(201);
+          expect(res).to.have.status(200);
           expect(res.body.name).to.be.equal('test');
-          gymId = res.body._id;
           done();
         });
     });
@@ -96,31 +130,50 @@ describe('Gyms', () => {
     });
   });
 
-  describe('/GET gym by id', () => {
-    it('it should get one gym by id', (done) => {
+  // likes
+  describe('/POST gym like', () => {
+    it('it should like specific gym', (done) => {
       chai.request(server)
-        .get('/api/v1/gyms/' + gymId)
+        .post('/api/v1/gyms/' + gymId + '/like')
+        .set('Authorization', token)
         .end((err, res) => {
           if (err) {
             console.log(err);
           }
-          expect(res).to.have.status(200);
-          expect(res.body.name).to.be.equal('testas');
+          expect(res).to.have.status(201);
+          expect(res.body.likes).to.containSubset([{user: userId}]);
           done();
         });
     });
   });
 
-  describe('/POST gym (with errors)', () => {
-    it('it should not create new gym', (done) => {
+  describe('/POST gym like (already liked)', () => {
+    it('it should not let like more than one time', (done) => {
       chai.request(server)
-        .post('/api/v1/gyms')
-        .send({ name: '', city: '' })
+        .post('/api/v1/gyms/' + gymId + '/like')
+        .set('Authorization', token)
         .end((err, res) => {
           if (err) {
             console.log(err);
           }
-          expect(res).to.have.status(401);
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('errors');
+          done();
+        });
+    });
+  });
+
+  describe('/POST gym unlike', () => {
+    it('it should unlike specific gym', (done) => {
+      chai.request(server)
+        .post('/api/v1/gyms/' + gymId + '/unlike')
+        .set('Authorization', token)
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(201);
+          expect(res.body.likes).not.to.containSubset([{user: userId}]);
           done();
         });
     });
