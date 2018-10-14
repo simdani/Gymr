@@ -8,6 +8,7 @@ const server = require('../server');
 const request = require('supertest');
 const chaiSubset = require('chai-subset');
 const jwtDecode = require('jwt-decode');
+// const faker = require('faker');
 
 // load note model
 const Gym = require('../models/Gym');
@@ -48,6 +49,20 @@ describe('Gyms', () => {
       console.log(err);
       done();
     });
+  }, (done) => {
+    // populate with fake data
+    // faker.seed(500);
+    // const gym = new Gym({
+    //   name: faker.name.findName(),
+    //   city: faker.name.findName(),
+    //   description: faker.name.findName(),
+    //   website: faker.name.findName()
+    // });
+
+    // gym.save((err) => {
+    //   if (err) console.log(err);
+    // });
+    // done();
   });
 
   describe('/POST gym', () => {
@@ -55,7 +70,7 @@ describe('Gyms', () => {
       chai.request(server)
         .post('/api/v1/gyms')
         .set('Authorization', token)
-        .send({ name: 'test', city: 'test1', description: 'test', website: 'test1' })
+        .send({ name: 'test', city: 'test1kaunas', description: 'test', website: 'test1' })
         .end((err, res) => {
           if (err) {
             console.log(err);
@@ -66,9 +81,6 @@ describe('Gyms', () => {
           done();
         });
     });
-  });
-
-  describe('/POST gym (with errors)', () => {
     it('it should not create new gym', (done) => {
       chai.request(server)
         .post('/api/v1/gyms')
@@ -92,6 +104,64 @@ describe('Gyms', () => {
             console.log(err);
           }
           expect(res).to.have.status(200);
+          expect(res.body.length).to.be.equal(16);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should get first page gyms (12)', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?page=1')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(200);
+          expect(res.body.length).to.be.equal(12);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should get second page gyms (3)', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?page=2')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(200);
+          expect(res.body.length).to.be.equal(4);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should filter gyms by city', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?search=test1kaunas')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(200);
+          expect(res.body.length).to.be.equal(2);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should sort gyms by likes (descending)', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?sort=likes')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(200);
+          expect(res.body.length).to.be.equal(16);
+          expect(res.body[0].likes.length).to.be.gte(res.body[res.body.length - 1].likes.length);
           expect(res.body).to.be.a('array');
           done();
         });
@@ -145,9 +215,7 @@ describe('Gyms', () => {
           done();
         });
     });
-  });
 
-  describe('/POST gym like (already liked)', () => {
     it('it should not let like more than one time', (done) => {
       chai.request(server)
         .post('/api/v1/gyms/' + gymId + '/like')
@@ -232,10 +300,8 @@ describe('Gyms', () => {
           done();
         });
     });
-  });
 
-  describe('/DELETE gym review (not found)', () => {
-    it('it should not find gym review in specific gym', (done) => {
+    it('it should not find gym review in specific gym (not found)', (done) => {
       chai.request(server)
         .delete('/api/v1/gyms/' + gymId + '/reviews/' + 'wrongreview')
         .set('Authorization', token)
@@ -264,10 +330,8 @@ describe('Gyms', () => {
           done();
         });
     });
-  });
 
-  describe('/DELETE gym by id (not found)', () => {
-    it('it should respond with not found when deleting gym with wrong id', (done) => {
+    it('it should respond with not found when deleting gym with wrong id (not found)', (done) => {
       chai.request(server)
         .delete('/api/v1/gyms/' + 'wrongid')
         .set('Authorization', token)

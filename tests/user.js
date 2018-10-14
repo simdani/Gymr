@@ -63,4 +63,24 @@ describe('Users', () => {
         });
     });
   });
+
+  describe('/POST login (wrong data)', () => {
+    it('it should not let login with wrong data', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/login')
+        .send({
+          email: 'wrongdata',
+          password: 'wrongpass'
+        })
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res.redirects.length).to.be.equal(0);
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('email');
+          done();
+        });
+    });
+  });
 });
