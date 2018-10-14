@@ -32,7 +32,19 @@ async function getGyms (req) {
 
 // get all gyms
 async function getAllGyms (req) {
-  const gyms = await Gym.find();
+  let gyms;
+
+  if (req.query.sort) {
+    if (req.query.sort === 'newest') {
+      gyms = await Gym.find().sort({ date: 'descending' });
+    } else if (req.query.sort === 'oldest') {
+      gyms = await Gym.find().sort({ date: 'ascending' });
+    } else if (req.query.sort === 'likes') {
+      gyms = await Gym.find().sort({ likes: 'descending' });
+    }
+  } else {
+    gyms = await Gym.find();
+  }
 
   return gyms;
 };

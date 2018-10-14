@@ -138,7 +138,59 @@ describe('Gyms', () => {
         });
     });
 
-    it('it should filter gyms by city', (done) => {
+    it('it should sort all gyms by likes (descending)', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?sort=likes')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          expect(res).to.have.status(200);
+          expect(res.body[0].likes.length).to.be.gte(res.body[res.body.length - 1].likes.length);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should sort all gyms by newest added date first', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?sort=newest')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+
+          let firstDate = new Date(res.body[0].date);
+          let lastDate = new Date(res.body[res.body.length - 1].date);
+
+          expect(res).to.have.status(200);
+          expect(firstDate).to.be.gte(lastDate);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should sort all gyms by oldest added date first', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?sort=oldest')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+
+          let firstDate = new Date(res.body[0].date);
+          let lastDate = new Date(res.body[res.body.length - 1].date);
+
+          expect(res).to.have.status(200);
+          expect(firstDate).to.be.lte(lastDate);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+  });
+
+  describe('/GET gyms filtered by city', () => {
+    it('it should get sorted gyms by city', (done) => {
       chai.request(server)
         .get('/api/v1/gyms?search=test1kaunas')
         .end((err, res) => {
@@ -152,16 +204,51 @@ describe('Gyms', () => {
         });
     });
 
-    it('it should sort gyms by likes (descending)', (done) => {
+    it('it should sort all gyms by likes (descending) and filter by city', (done) => {
       chai.request(server)
-        .get('/api/v1/gyms?sort=likes')
+        .get('/api/v1/gyms?search=test1kaunas&sort=likes')
         .end((err, res) => {
           if (err) {
             console.log(err);
           }
           expect(res).to.have.status(200);
-          expect(res.body.length).to.be.equal(16);
           expect(res.body[0].likes.length).to.be.gte(res.body[res.body.length - 1].likes.length);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should sort all gyms by newest added date first and filter by city', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?search=test1kaunas&sort=newest')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+
+          let firstDate = new Date(res.body[0].date);
+          let lastDate = new Date(res.body[res.body.length - 1].date);
+
+          expect(res).to.have.status(200);
+          expect(firstDate).to.be.gte(lastDate);
+          expect(res.body).to.be.a('array');
+          done();
+        });
+    });
+
+    it('it should sort all gyms by oldest added date first and filter by city', (done) => {
+      chai.request(server)
+        .get('/api/v1/gyms?search=test1kaunas&sort=oldest')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          }
+
+          let firstDate = new Date(res.body[0].date);
+          let lastDate = new Date(res.body[res.body.length - 1].date);
+
+          expect(res).to.have.status(200);
+          expect(firstDate).to.be.lte(lastDate);
           expect(res.body).to.be.a('array');
           done();
         });
