@@ -34,11 +34,11 @@ class ReviewForm extends Component {
 
     this.props.addReview(gymId, newReview);
     this.setState({ text: '' });
-  }
+  };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   render() {
     return (
@@ -70,14 +70,21 @@ class ReviewForm extends Component {
 }
 
 ReviewForm.propTypes = {
+  addReview: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   gymId: PropTypes.string.isRequired,
   errors: PropTypes.object.isRequired
 };
+
+const mapDispatchToProps = dispatch => ({
+  addReview: (gymId, newReview) => {
+    dispatch(addReview(gymId, newReview));
+  }
+});
 
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addReview })(ReviewForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewForm);

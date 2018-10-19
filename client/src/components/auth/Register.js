@@ -8,8 +8,8 @@ import { GoogleLogin } from 'react-google-login';
 import { NotificationManager} from 'react-notifications';
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: '',
       email: '',
@@ -41,9 +41,7 @@ class Register extends Component {
       access_token: response.accessToken
     };
 
-    this.props.loginGoogle(token, () => {
-      NotificationManager.success('Logged in with google', 'Success');
-    });
+    this.props.loginGoogle(token);
   };
 
   onFailure = () => {
@@ -53,7 +51,7 @@ class Register extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   onSubmit = e => {
     e.preventDefault();
@@ -65,10 +63,8 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registerUser(userData, this.props.history, () => {
-      NotificationManager.success('Registered successfully!', 'Success');
-    });
-  }
+    this.props.registerUser(userData, this.props.history);
+  };
 
   render() {
     return (
@@ -160,9 +156,22 @@ Register.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  loginGoogle: token => {
+    dispatch(loginGoogle(token, () => {
+      NotificationManager.success('Logged in with google', 'Success');
+    }));
+  },
+  registerUser: (userData, redirect) => {
+    dispatch(registerUser(userData, redirect, () => {
+      NotificationManager.success('Registered successfully!', 'Success');
+    }));
+  }
+});
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, {registerUser, loginGoogle})(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

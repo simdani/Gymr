@@ -41,7 +41,7 @@ class GymForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    
+
     const newGym = {
       name: this.state.name,
       city: this.state.city,
@@ -49,15 +49,12 @@ class GymForm extends Component {
       website: this.state.website
     };
 
-    this.props.addGym(newGym, () => {
-      this.props.history.push('/');
-      NotificationManager.success('Gym created successfully!', 'Success');
-    });
-  }
+    this.props.addGym(newGym, this.props.history);
+  };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   render() {
     return (
@@ -137,9 +134,18 @@ GymForm.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  addGym: (newGym, history) => {
+    dispatch(addGym(newGym, () => {
+      history.push('/');
+      NotificationManager.success('Gym created successfully!', 'Success');
+    }));
+  }
+});
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addGym})(GymForm);
+export default connect(mapStateToProps, mapDispatchToProps)(GymForm);

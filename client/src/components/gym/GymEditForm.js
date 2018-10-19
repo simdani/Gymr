@@ -54,7 +54,7 @@ class GymEditForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    
+
     const newGym = {
       name: this.state.name,
       city: this.state.city,
@@ -62,15 +62,12 @@ class GymEditForm extends Component {
       website: this.state.website
     };
 
-    this.props.editGym(this.props.gym.gym._id, newGym, () => {
-      this.props.history.push(`/gyms/${this.props.gym.gym._id}`);
-      NotificationManager.success('Gym updated successfully!', 'Success');
-    });
-  }
+    this.props.editGym(this.props.gym.gym._id, newGym, this.props.history);
+  };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   renderEditForm(gym) {
     return (
@@ -152,7 +149,7 @@ class GymEditForm extends Component {
 
     return (
       <div>
-        {loading || gym === null || Object.keys(gym).length === 0 ? <LoadingSpinner/> : this.renderEditForm(gym) } 
+        {loading || gym === null || Object.keys(gym).length === 0 ? <LoadingSpinner/> : this.renderEditForm(gym) }
       </div>
     );
   }
@@ -166,10 +163,22 @@ GymEditForm.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  getGym: id => {
+    dispatch(getGym(id));
+  },
+  editGym: (id, newGym, history) => {
+    dispatch(editGym(id, newGym, () => {
+      history.push(`/gyms/${id}`);
+      NotificationManager.success('Gym updated successfully!', 'Success');
+    }));
+  }
+});
+
 const mapStateToProps = state => ({
   auth: state.auth,
   gym: state.gym,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { editGym, getGym})(GymEditForm);
+export default connect(mapStateToProps, mapDispatchToProps)(GymEditForm);

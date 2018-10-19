@@ -13,7 +13,7 @@ class GymsRender extends Component {
   changePage = (pageNumber) => {
     const { keyword, sort } = this.props.gym;
     this.props.getGyms(Number(pageNumber), keyword, sort);
-  }
+  };
 
   render() {
     const { gyms, current } = this.props.gym;
@@ -21,13 +21,13 @@ class GymsRender extends Component {
     return (
       <div>
       <div className="row">
-        { gyms.map(gym => 
+        { gyms.map(gym =>
         <div key={gym._id} className="col-6">
           <div className="card mb-3">
             <h4 className="card-title">
-            <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>               
+            <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
             </h4>
-            
+
             <p className="card-text">{gym.city}</p>
 
             <div className="card-footer box">
@@ -63,8 +63,14 @@ GymsRender.propTypes = {
   gym: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  getGyms: (page, keyword, sort) => {
+    dispatch(getGyms(page, keyword, sort));
+  }
+});
+
 const mapStateToProps = state => ({
   gym: state.gym
 });
 
-export default connect(mapStateToProps, {getGyms})(GymsRender);
+export default connect(mapStateToProps, mapDispatchToProps)(GymsRender);

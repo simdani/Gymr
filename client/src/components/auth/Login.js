@@ -8,8 +8,8 @@ import { GoogleLogin } from 'react-google-login';
 import { NotificationManager} from 'react-notifications';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       password: '',
@@ -39,9 +39,7 @@ class Login extends Component {
       access_token: response.accessToken
     };
 
-    this.props.loginGoogle(token, () => {
-      NotificationManager.success('Logged in with google', 'Success');
-    });
+    this.props.loginGoogle(token);
   };
 
   onFailure = () => {
@@ -51,7 +49,7 @@ class Login extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   onSubmit = e => {
     e.preventDefault();
@@ -61,10 +59,8 @@ class Login extends Component {
       password: this.state.password
     };
 
-    this.props.loginUser(userData, () => {
-      NotificationManager.success('Logged in successfully!', 'Success');
-    });
-  }
+    this.props.loginUser(userData);
+  };
 
   render() {
     return (
@@ -132,9 +128,22 @@ Login.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  loginUser: userData => {
+    dispatch(loginUser(userData, () => {
+      NotificationManager.success('Logged in successfully!', 'Success');
+    }));
+  },
+  loginGoogle: token => {
+    dispatch(loginGoogle(token, () => {
+      NotificationManager.success('Logged in with google', 'Success');
+    }));
+  }
+});
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser, loginGoogle})(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

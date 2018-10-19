@@ -21,15 +21,11 @@ class Gym extends Component {
     this.props.getGym(this.props.match.params.id);
   }
 
-  // remove gym
   removeReview = (e, gymId) => {
     e.preventDefault();
 
-    this.props.deleteGym(gymId, () => {
-      NotificationManager.success('Gym deleted successfully!', 'Success');
-      this.props.history.push('/');
-    });
-  }
+    this.props.deleteGym(gymId, this.props.history);
+  };
 
   onLikeClick(id) {
     this.props.addLike(id);
@@ -41,11 +37,7 @@ class Gym extends Component {
 
   findUserLike(likes) {
     const { auth } = this.props;
-    if (likes.filter(like => like.user === auth.user.id).length > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return likes.filter(like => like.user === auth.user.id).length > 0;
   }
 
   renderGym(gym) {
@@ -58,7 +50,7 @@ class Gym extends Component {
             <li className="nav-item">
               <BackButton />
             </li>
-            {isAuthenticated ? 
+            {isAuthenticated ?
             <li className="nav-item ml-auto">
               <Link to={`/gyms/${gym._id}/edit`}>
                 <button className="btn btn-dark mb-2 mr-1">
@@ -85,10 +77,10 @@ class Gym extends Component {
 
               <hr/>
 
-              { isAuthenticated? 
+              { isAuthenticated?
 
-              (this.findUserLike(gym.likes) 
-              ? 
+              (this.findUserLike(gym.likes)
+              ?
                 <span>
                   <button className="btn btn-light mr-1" disabled="true">
                     <FontAwesomeIcon className="text-secondary" icon={faThumbsUp} />
@@ -124,7 +116,7 @@ class Gym extends Component {
 
               <h5>User reviews</h5>
               {isAuthenticated ? <ReviewForm gymId={gym._id} /> : (null)}
-              
+
               { gym.reviews.length !== 0 ?
               <ReviewFeed gymId={ gym._id } reviews={ gym.reviews} />
               : <p>There are no reviews yet.</p>
@@ -141,7 +133,7 @@ class Gym extends Component {
 
     return (
       <div className="starter-template container">
-        {loading || gym === null || Object.keys(gym).length === 0 ? <LoadingSpinner/> : this.renderGym(gym) } 
+        {loading || gym === null || Object.keys(gym).length === 0 ? <LoadingSpinner/> : this.renderGym(gym) }
       </div>
     );
   }
@@ -155,13 +147,32 @@ Gym.propTypes = {
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
   getGym: PropTypes.func.isRequired,
+  deleteGym: PropTypes.func.isRequired,
   gym: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
+
+const mapDispatchToProps = dispatch => ({
+  getGym: gymId => {
+    dispatch(getGym(gymId));
+  },
+  deleteGym: (gymId, history) => {
+    dispatch(deleteGym(gymId, () => {
+      history.push('/');
+      NotificationManager.success('Gym deleted successfully!', 'Success');
+    }));
+  },
+  addLike: id => {
+    dispatch(addLike(id));
+  },
+  removeLike: id => {
+    dispatch(removeLike(id));
+  }
+});
 
 const mapStateToProps = state => ({
   gym: state.gym,
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getGym, deleteGym, addLike, removeLike })(Gym);
+export default connect(mapStateToProps, mapDispatchToProps)(Gym);

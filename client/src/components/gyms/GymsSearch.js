@@ -7,7 +7,7 @@ import { searchGyms } from '../../state-management/actions/gymActions';
 class GymsSeach extends Component {
   handleChange = (event) => {
     this.props.searchGyms(1, event.target.value, '');
-  }
+  };
 
   render() {
     return (
@@ -23,8 +23,14 @@ GymsSeach.propTypes = {
   keyword: PropTypes.string.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  searchGyms: (page, keyword, sort) => {
+    dispatch(searchGyms(page, keyword, sort));
+  }
+});
+
 const mapStateToProps = state => ({
   keyword: state.gym.keyword
 });
 
-export default connect(mapStateToProps, {searchGyms})(GymsSeach);
+export default connect(mapStateToProps, mapDispatchToProps)(GymsSeach);

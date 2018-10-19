@@ -12,10 +12,8 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 class Navbar extends Component {
   onLogoutClick = e => {
     e.preventDefault();
-    this.props.logoutUser(() => {
-      NotificationManager.success('Logged out successfully!', 'Success');
-    });
-  }
+    this.props.logoutUser();
+  };
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
@@ -60,7 +58,7 @@ class Navbar extends Component {
               <li className="nav-item">
                 <Link to ="/gyms/search" className="nav-link">Gym Search</Link>
               </li>
-              {isAuthenticated? 
+              {isAuthenticated?
               <li className="nav-item">
                 <Link to ="/gyms/add" className="nav-link btn btn-primary">Add Gym</Link>
               </li>
@@ -81,8 +79,16 @@ Navbar.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  logoutUser: () => {
+    dispatch(logoutUser(() => {
+      NotificationManager.success('Logged out successfully!', 'Success');
+    }));
+  }
+});
+
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, {logoutUser})(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

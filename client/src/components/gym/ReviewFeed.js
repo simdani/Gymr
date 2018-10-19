@@ -29,34 +29,32 @@ class ReviewFeed extends Component {
     e.preventDefault();
 
     this.props.deleteReview(gymId, reviewId);
-  }
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
 
     const { gymId } = this.props;
-    
-    const updateReview = {
+
+    const updatedReview = {
       text: this.state.text
     };
 
-    this.props.updateReview(updateReview, gymId, this.state.reviewId, () => {
-      this.setState({
-        showModal: false
-      });
-      NotificationManager.success('Review updated successfully!', 'Success');
+    this.props.updateReview(updatedReview, gymId, this.state.reviewId, this.setState);
+    this.setState({
+      showModal:false
     });
-  }
+  };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   toggleModal = () => {
     this.setState({
       showModal: !this.state.showModal
     });
-  }
+  };
 
   showEditModal = () => {
     return (
@@ -79,7 +77,7 @@ class ReviewFeed extends Component {
               </div>
             </div>
 
-            <div className="modal-footer">        
+            <div className="modal-footer">
               <button type="submit" className="btn btn-secondary">
                   Update
               </button>
@@ -87,20 +85,20 @@ class ReviewFeed extends Component {
           </form>
       </Modal>
     );
-  }
+  };
 
   render() {
     const { reviews, gymId } = this.props;
 
     const { user } = this.props.auth;
 
-    return reviews.map(review => 
+    return reviews.map(review =>
       <div key={review._id} className="card card-info">
         <div className="card-body bg-darker">
-          <div className="d-flex">  
-            <p><strong>{review.username} ({review.date})</strong></p>  
-            
-            { review.user === user.id ? 
+          <div className="d-flex">
+            <p><strong>{review.username} ({review.date})</strong></p>
+
+            { review.user === user.id ?
               <p className="ml-auto">
                 <button onClick={() => this.setState({text: review.text, reviewId: review._id, showModal: true})} className="btn btn-light mr-1">
                 <FontAwesomeIcon icon={faEdit} /> Edit
@@ -108,15 +106,15 @@ class ReviewFeed extends Component {
                 <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gymId, review._id)}>
                 <FontAwesomeIcon icon={faTrash} />  Delete
                 </button>
-                
+
 
               </p>
               : (null)
-              
+
             }
-          </div>   
+          </div>
           { this.showEditModal() }
-          
+
           <p>{review.text}</p>
         </div>
       </div>
@@ -125,15 +123,28 @@ class ReviewFeed extends Component {
 }
 
 ReviewFeed.propTypes = {
+  deleteReview: PropTypes.func.isRequired,
+  updateReview: PropTypes.func.isRequired,
   reviews: PropTypes.array.isRequired,
   gymId: PropTypes.string.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  deleteReview: (gymId, reviewId) => {
+    dispatch(deleteReview(gymId, reviewId));
+  },
+  updateReview: (updatedReview, gymId, reviewId) => {
+    dispatch(updateReview(updatedReview, gymId, reviewId, () => {
+      NotificationManager.success('Review updated successfully!', 'Success');
+    }));
+  }
+});
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { deleteReview, updateReview })(ReviewFeed);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewFeed);
