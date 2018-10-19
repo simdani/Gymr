@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-bootstrap4-modal';
-import { updateReview, deleteReview } from '../../actions/gymActions';
+import { updateReview, deleteReview } from '../../state-management/actions/gymActions';
 import { NotificationManager} from 'react-notifications';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

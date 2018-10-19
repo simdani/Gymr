@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BackButton from '../common/BackButton';
 import { connect } from 'react-redux';
-import { loginUser, loginGoogle } from '../../actions/authActions';
+import { loginUser, loginGoogle } from '../../state-management/actions/authActions';
 import { GoogleLogin } from 'react-google-login';
 
 import { NotificationManager} from 'react-notifications';

@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { getGyms, searchGyms } from '../../actions/gymActions';
+import { getGyms, searchGyms } from '../../state-management/actions/gymActions';
 
 import LoadingSpinner from '../common/LoadingSpinner';
 

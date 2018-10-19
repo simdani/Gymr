@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { searchGyms } from '../../actions/gymActions';
+import { searchGyms } from '../../state-management/actions/gymActions';
 
 class GymsSeach extends Component {
   handleChange = (event) => {

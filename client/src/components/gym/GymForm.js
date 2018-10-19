@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import BackButton from '../common/BackButton';
-import { addGym } from '../../actions/gymActions';
+import { addGym } from '../../state-management/actions/gymActions';
 
 import { NotificationManager} from 'react-notifications';
 

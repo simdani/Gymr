@@ -11,7 +11,7 @@ import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { getGyms } from '../../actions/gymActions';
+import { getGyms } from '../../state-management/actions/gymActions';
 
 import Pagination from 'react-js-pagination';
 

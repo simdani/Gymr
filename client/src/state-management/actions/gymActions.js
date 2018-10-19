@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { GET_GYMS, GET_GYM, GYM_SEARCH, ADD_GYM, GYM_LOADING, GET_ERRORS, DELETE_GYM, EDIT_GYM, CLEAR_ERRORS } from './types';
-import { API_ROOT } from '../utils/api-config';
+import { API_ROOT } from '../../utils/api-config';
 
 export const getGym = gymId => dispatch => {
   dispatch(setGymLoading());

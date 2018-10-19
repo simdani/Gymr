@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import jwt_decode from 'jwt-decode';
 import setToken from '../utils/setToken';
-import { setCurrentUser, logoutUser } from '../actions/authActions';
+import { setCurrentUser, logoutUser } from '../state-management/actions/authActions';
 
 import Gyms from '../components/gyms/Gyms';
 import Gym from '../components/gym/Gym';

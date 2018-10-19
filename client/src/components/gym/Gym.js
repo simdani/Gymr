@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { getGym, deleteGym, addLike, removeLike } from '../../actions/gymActions';
+import { getGym, deleteGym, addLike, removeLike } from '../../state-management/actions/gymActions';
 
 import { Link } from 'react-router-dom';
 

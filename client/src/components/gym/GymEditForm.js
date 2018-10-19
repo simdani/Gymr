@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import BackButton from '../common/BackButton';
-import { editGym, getGym } from '../../actions/gymActions';
+import { editGym, getGym } from '../../state-management/actions/gymActions';
 
 import { NotificationManager} from 'react-notifications';
 import LoadingSpinner from '../common/LoadingSpinner';

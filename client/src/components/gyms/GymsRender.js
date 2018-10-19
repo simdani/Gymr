@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { getGyms } from '../../actions/gymActions';
+import { getGyms } from '../../state-management/actions/gymActions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
