@@ -9,15 +9,12 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import GymsRender from '../gyms/GymsRender';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import GymsSearch from './GymsSearch';
 
 class GymSearchMain extends Component {
   componentDidMount() {
     this.props.getGyms(this.props.gym.current, this.props.gym.keyword, this.props.gym.sort);
   }
-
-  handleChange = (event) => {
-    this.props.searchGyms(1, event.target.value, '');
-  };
 
   getByOldest = () => {
     this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'oldest');
@@ -43,8 +40,7 @@ class GymSearchMain extends Component {
             <h4 className="mb-3"><FontAwesomeIcon icon={faSearch} /> Search gyms</h4>
             <div className="card text-center">
                 <div className="card-body">
-                <input value={this.props.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-
+                  <GymsSearch />
               </div>
             </div>
           </div>
@@ -65,7 +61,7 @@ class GymSearchMain extends Component {
               </div>
             </div>
           </div>
-            {gyms === null || loading ? <LoadingSpinner/> : <GymsRender /> }
+            {gyms === null || loading ? <LoadingSpinner/> : <GymsRender col="6" /> }
           </div>
 
          </div>

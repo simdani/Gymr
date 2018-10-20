@@ -12,7 +12,7 @@ class GymsSeach extends Component {
   render() {
     return (
       <div className="input-group mb-3">
-      <input value={this.props.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+      <input value={this.props.keyword} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter city..." />
       </div>
     );
   }

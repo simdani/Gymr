@@ -17,12 +17,13 @@ class GymsRender extends Component {
 
   render() {
     const { gyms, current } = this.props.gym;
+    const { col } = this.props;
 
     return (
       <div>
       <div className="row">
         { gyms.map(gym =>
-        <div key={gym._id} className="col-6">
+        <div key={gym._id} className={'col-' + col}>
           <div className="card mb-3">
             <h4 className="card-title">
             <Link to={`/gyms/${gym._id}`}>{gym.name}</Link>
@@ -60,7 +61,8 @@ class GymsRender extends Component {
 
 GymsRender.propTypes = {
   getGyms: PropTypes.func.isRequired,
-  gym: PropTypes.object.isRequired
+  gym: PropTypes.object.isRequired,
+  col: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
