@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getGyms, searchGyms } from '../../state-management/actions/gymActions';
 
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 import GymsRender from '../gyms/GymsRender';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

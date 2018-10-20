@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import BackButton from '../common/BackButton';
+import BackButton from '../../components/common/BackButton';
 import { addGym } from '../../state-management/actions/gymActions';
 
 import { NotificationManager} from 'react-notifications';

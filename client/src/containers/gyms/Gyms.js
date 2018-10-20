@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import { Link } from 'react-router-dom';
 
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import GymsSearch from './GymsSearch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';

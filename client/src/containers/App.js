@@ -5,13 +5,13 @@ import jwt_decode from 'jwt-decode';
 import setToken from '../utils/setToken';
 import { setCurrentUser, logoutUser } from '../state-management/actions/authActions';
 
-import Gyms from '../components/gyms/Gyms';
-import Gym from '../components/gym/Gym';
-import GymForm from '../components/gym/GymForm';
-import GymSearchMain from '../components/gymsSearch/GymSearchMain';
-import Navbar from '../components/layout/Nav';
-import Login from '../components/auth/Login';
-import Register from '../components/auth/Register';
+import Gyms from './gyms/Gyms';
+import Gym from './gym/Gym';
+import GymForm from './gym/GymForm';
+import GymSearchMain from './gymsSearch/GymSearchMain';
+import Navbar from './layout/Nav';
+import Login from './auth/Login';
+import Register from './auth/Register';
 
 import { Provider } from 'react-redux';
 import store from '../store';
@@ -21,7 +21,7 @@ import 'react-notifications/lib/notifications.css';
 
 import {NotificationContainer} from 'react-notifications';
 import { NotificationManager} from 'react-notifications';
-import GymEditForm from '../components/gym/GymEditForm';
+import GymEditForm from './gym/GymEditForm';
 
 if (localStorage.jwtToken) {
   // set auth token header auth

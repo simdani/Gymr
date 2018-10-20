@@ -7,7 +7,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 export default class BackButton extends Component {
   static contextTypes = {
     router: PropTypes.object
-  }
+  };
 
   render() {
     return (

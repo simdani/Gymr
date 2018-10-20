@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BackButton from '../common/BackButton';
+import BackButton from '../../components/common/BackButton';
 import { connect } from 'react-redux';
-import { loginUser, loginGoogle } from '../../state-management/actions/authActions';
+import { registerUser, loginGoogle } from '../../state-management/actions/authActions';
 import { GoogleLogin } from 'react-google-login';
 
 import { NotificationManager} from 'react-notifications';
+import InputField from '../../components/common/InputField';
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
       email: '',
       password: '',
+      password2: '',
       errors: {}
     };
   }
@@ -55,11 +58,13 @@ class Login extends Component {
     e.preventDefault();
 
     const userData = {
+      username: this.state.username,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      password2: this.state.password2
     };
 
-    this.props.loginUser(userData);
+    this.props.registerUser(userData, this.props.history);
   };
 
   render() {
@@ -74,7 +79,7 @@ class Login extends Component {
             </ul>
           </div>
           <div className="card">
-            <h5 className="card-title">Login</h5>
+            <h5 className="card-title">Register</h5>
             <div className="card-body">
 
             <GoogleLogin
@@ -86,8 +91,20 @@ class Login extends Component {
 
             <form onSubmit={this.onSubmit}>
             <div className="form-group">
+              <label htmlFor="username">Username:</label>
+              <InputField type="text"
+                className="form-control"
+                value={this.state.username}
+                placeholder="Username"
+                name="username"
+                onChange={this.onChange}
+              />
+              {this.state.errors.username && <div className="invalid-feedback d-block">{this.state.errors.username}</div>}
+            </div>
+
+            <div className="form-group">
               <label htmlFor="email">Email:</label>
-              <input type="email"
+              <InputField type="email"
                 className="form-control"
                 value={this.state.email}
                 placeholder="Email"
@@ -98,8 +115,8 @@ class Login extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input type="password"
+              <label htmlFor="password">Password:</label>
+              <InputField type="password"
                 className="form-control"
                 value={this.state.password}
                 placeholder="Password"
@@ -109,8 +126,20 @@ class Login extends Component {
               {this.state.errors.password && <div className="invalid-feedback d-block">{this.state.errors.password}</div>}
             </div>
 
+            <div className="form-group">
+              <label htmlFor="password2">Confirm password:</label>
+              <InputField type="password"
+                className="form-control"
+                value={this.state.password2}
+                placeholder="Confirm password"
+                name="password2"
+                onChange={this.onChange}
+              />
+              {this.state.errors.password2 && <div className="invalid-feedback d-block">{this.state.errors.password2}</div>}
+            </div>
+
             <button type="submit" className="btn btn-light">
-              Login
+              Register
             </button>
             </form>
             </div>
@@ -121,22 +150,22 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   loginGoogle: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: userData => {
-    dispatch(loginUser(userData, () => {
-      NotificationManager.success('Logged in successfully!', 'Success');
-    }));
-  },
   loginGoogle: token => {
     dispatch(loginGoogle(token, () => {
       NotificationManager.success('Logged in with google', 'Success');
+    }));
+  },
+  registerUser: (userData, redirect) => {
+    dispatch(registerUser(userData, redirect, () => {
+      NotificationManager.success('Registered successfully!', 'Success');
     }));
   }
 });
@@ -146,4 +175,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

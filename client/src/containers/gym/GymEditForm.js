@@ -3,11 +3,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import BackButton from '../common/BackButton';
+import BackButton from '../../components/common/BackButton';
 import { editGym, getGym } from '../../state-management/actions/gymActions';
 
 import { NotificationManager} from 'react-notifications';
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';

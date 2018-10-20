@@ -4,8 +4,8 @@ import { getGym, deleteGym, addLike, removeLike } from '../../state-management/a
 
 import { Link } from 'react-router-dom';
 
-import BackButton from '../common/BackButton';
-import LoadingSpinner from '../common/LoadingSpinner';
+import BackButton from '../../components/common/BackButton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import ReviewFeed from './ReviewFeed';
 import ReviewForm from './ReviewForm';
 
