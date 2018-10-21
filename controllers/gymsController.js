@@ -2,6 +2,8 @@ const gymService = require('../services/gymService');
 const updateGymReviewValidation = require('../validation/updateGymReview');
 const createGymValidation = require('../validation/createGym');
 
+const { parser } = require('../helpers/gymUpload');
+
 const Gym = require('../models/Gym');
 
 async function all (req, res) {
@@ -166,6 +168,20 @@ async function unlikeGym (req, res) {
   }
 }
 
+async function fileUploadMiddleware (req, res) {
+  const upload = parser.single('image');
+  upload(req, res, err => {
+    if (err) {
+      res.status(501).json({
+        errors: 'Error when uploading file'
+      });
+    } else {
+      console.log(req.file);
+      res.status(200).json(req.file.secure_url);
+    }
+  });
+}
+
 module.exports = {
   all,
   create,
@@ -176,5 +192,6 @@ module.exports = {
   deleteReview,
   updateReview,
   likeGym,
-  unlikeGym
+  unlikeGym,
+  fileUploadMiddleware
 };
