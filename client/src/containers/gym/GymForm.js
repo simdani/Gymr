@@ -125,12 +125,8 @@ class GymForm extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="image">Image:</label>
-              <input type="file"
-                     className="form-control"
-                     name="image"
-                     onChange={this.handleFileUpload}
-              />
+              <label htmlFor="exampleFormControlFile1">Gym photo (optional)</label>
+              <input type="file" name="image" onChange={this.handleFileUpload} className="form-control-file" id="exampleFormControlFile1"/>
               {this.state.errors.image && <div className="invalid-feedback d-block">{this.state.errors.image}</div>}
             </div>
 
