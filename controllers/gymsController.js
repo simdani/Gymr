@@ -55,7 +55,7 @@ async function create (req, res) {
     const result = await gymService.createGym(req);
     res.status(201).json(result);
   } catch (e) {
-    res.status(501).json('Error creating new gym');
+    res.status(501).json({ errors: 'Error when creating a gym' });
   }
 }
 
@@ -169,14 +169,13 @@ async function unlikeGym (req, res) {
 }
 
 async function fileUploadMiddleware (req, res) {
+  const errors = {};
   const upload = parser.single('image');
   upload(req, res, err => {
     if (err) {
-      res.status(501).json({
-        errors: 'Error when uploading file'
-      });
+      errors.image = 'Error when uploading file';
+      res.status(501).json(errors);
     } else {
-      console.log(req.file);
       res.status(200).json(req.file.secure_url);
     }
   });

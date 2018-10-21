@@ -24,25 +24,37 @@ export const addGym = (postData, data, callback) => dispatch => {
   let image;
   if (data !== null) {
     axios.post(`${API_ROOT}/gyms/files`, data).then((response) => {
-        image = response.data;
-        postData.image = image;
-    });
+      image = response.data;
+      postData.image = image;
+      sendGym(dispatch, postData, callback);
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
   }
+  else {
+    sendGym(dispatch, postData, callback);
+  }
+};
 
-  axios
+function sendGym (dispatch, postData, callback) {
+  return axios
     .post(`${API_ROOT}/gyms`, postData)
     .then(res =>
       dispatch({
-        type: ADD_GYM,
-        gym: {},
-        gyms: [],
-        loading: false,
-        pages: null,
-        current: 1,
-        keyword: ''
-      },
-      dispatch(getGyms),
-      callback())
+          type: ADD_GYM,
+          gym: {},
+          gyms: [],
+          loading: false,
+          pages: null,
+          current: 1,
+          keyword: ''
+        },
+        dispatch(getGyms),
+        callback())
     )
     .catch(err =>
       dispatch({
@@ -50,7 +62,7 @@ export const addGym = (postData, data, callback) => dispatch => {
         payload: err.response.data
       })
     );
-};
+}
 
 export const editGym = (gymId, postData, callback) => dispatch => {
   axios
