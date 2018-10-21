@@ -23,6 +23,8 @@ class GymForm extends Component {
       completed: false,
       errors: {}
     };
+
+    this.data = null;
   }
 
   componentDidMount() {
@@ -49,7 +51,13 @@ class GymForm extends Component {
       website: this.state.website
     };
 
-    this.props.addGym(newGym, this.props.history);
+    this.props.addGym(newGym, this.data, this.props.history);
+  };
+
+  // Component method
+  handleFileUpload = (event) => {
+    this.data = new FormData();
+    this.data.append('image', event.target.files[0]);
   };
 
   onChange = (e) => {
@@ -116,6 +124,16 @@ class GymForm extends Component {
               {this.state.errors.website && <div className="invalid-feedback d-block">{this.state.errors.website}</div>}
             </div>
 
+            <div className="form-group">
+              <label htmlFor="image">Image:</label>
+              <input type="file"
+                     className="form-control"
+                     name="image"
+                     onChange={this.handleFileUpload}
+              />
+              {this.state.errors.image && <div className="invalid-feedback d-block">{this.state.errors.image}</div>}
+            </div>
+
             <button type="submit" className="btn btn-light">
             <FontAwesomeIcon icon={faPencilAlt} /> Create
             </button>
@@ -135,8 +153,8 @@ GymForm.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addGym: (newGym, history) => {
-    dispatch(addGym(newGym, () => {
+  addGym: (newGym, data ,history) => {
+    dispatch(addGym(newGym, data, () => {
       history.push('/');
       NotificationManager.success('Gym created successfully!', 'Success');
     }));

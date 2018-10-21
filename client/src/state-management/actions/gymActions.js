@@ -6,13 +6,13 @@ import { API_ROOT } from '../../utils/api-config';
 export const getGym = gymId => dispatch => {
   dispatch(setGymLoading());
   axios.get(`${API_ROOT}/gyms/${gymId}`)
-  .then(res => 
+  .then(res =>
     dispatch({
       type: GET_GYM,
       payload: res.data
     })
   )
-  .catch(err => 
+  .catch(err =>
     dispatch({
       type: GET_GYM,
       payload: null
@@ -20,21 +20,41 @@ export const getGym = gymId => dispatch => {
   );
 };
 
-export const addGym = (postData, callback) => dispatch => {
-  axios
+export const addGym = (postData, data, callback) => dispatch => {
+  let image;
+  if (data !== null) {
+    axios.post(`${API_ROOT}/gyms/files`, data).then((response) => {
+      image = response.data;
+      postData.image = image;
+      sendGym(dispatch, postData, callback);
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+  }
+  else {
+    sendGym(dispatch, postData, callback);
+  }
+};
+
+function sendGym (dispatch, postData, callback) {
+  return axios
     .post(`${API_ROOT}/gyms`, postData)
     .then(res =>
       dispatch({
-        type: ADD_GYM,
-        gym: {},
-        gyms: [],
-        loading: false,
-        pages: null,
-        current: 1,
-        keyword: ''
-      }, 
-      dispatch(getGyms),
-      callback())
+          type: ADD_GYM,
+          gym: {},
+          gyms: [],
+          loading: false,
+          pages: null,
+          current: 1,
+          keyword: ''
+        },
+        dispatch(getGyms),
+        callback())
     )
     .catch(err =>
       dispatch({
@@ -42,7 +62,7 @@ export const addGym = (postData, callback) => dispatch => {
         payload: err.response.data
       })
     );
-};
+}
 
 export const editGym = (gymId, postData, callback) => dispatch => {
   axios
@@ -56,7 +76,7 @@ export const editGym = (gymId, postData, callback) => dispatch => {
         pages: null,
         current: 1,
         keyword: ''
-      }, 
+      },
       dispatch(getGyms),
       callback())
     )
@@ -68,7 +88,7 @@ export const editGym = (gymId, postData, callback) => dispatch => {
     );
 };
 
-// delete gym 
+// delete gym
 export const deleteGym = (gymId, callback) => dispatch => {
   axios
     .delete(`${API_ROOT}/gyms/${gymId}`)
@@ -78,7 +98,7 @@ export const deleteGym = (gymId, callback) => dispatch => {
         payload: gymId
       }, callback())
     )
-    .catch(err => 
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -104,14 +124,14 @@ const getGymsFromApi = (current, keyword, sort, dispatch) => {
   if (keyword !== '' && sort !== '') {
     request = `${API_ROOT}/gyms?search=${keyword}&page=${current}&sort=${sort}`;
   }
-  else if (keyword !== '') 
+  else if (keyword !== '')
     request = `${API_ROOT}/gyms?search=${keyword}&page=${current}`;
   else if (sort !== '') {
     request = `${API_ROOT}/gyms?page=${current}&sort=${sort}`;
   }
   else
     request = `${API_ROOT}/gyms?page=${current}`;
-  
+
   axios.get(request)
   .then(res => {
     dispatch({
@@ -123,7 +143,7 @@ const getGymsFromApi = (current, keyword, sort, dispatch) => {
     });
     }
   )
-  .catch (err => 
+  .catch (err =>
     dispatch({
       type: GET_GYMS,
       payload: null
@@ -135,13 +155,13 @@ const getGymsFromApi = (current, keyword, sort, dispatch) => {
 export const addReview = (gymId, review) => dispatch => {
   axios
     .post(`${API_ROOT}/gyms/${gymId}/reviews`, review)
-    .then(res => 
+    .then(res =>
       dispatch({
         type: GET_GYM,
         payload: res.data
       }, dispatch({type: CLEAR_ERRORS}))
     )
-    .catch(err => 
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -159,7 +179,7 @@ export const deleteReview = (gymId, reviewId) => dispatch => {
         payload: res.data
       })
     )
-    .catch(err => 
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -177,7 +197,7 @@ export const updateReview = (updateReview, gymId, reviewId, callback) => dispatc
         payload: res.data
       }, dispatch({type: CLEAR_ERRORS}, callback()))
     )
-    .catch(err => 
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -192,7 +212,7 @@ export const addLike = gymId => dispatch => {
       type: GET_GYM,
       payload: res.data
     }))
-    .catch(err => 
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -206,7 +226,7 @@ export const removeLike = gymId => dispatch => {
       type: GET_GYM,
       payload: res.data
     }))
-    .catch(err => 
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data

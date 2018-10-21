@@ -55,12 +55,14 @@ async function createGym (req) {
   const city = req.body.city;
   const description = req.body.description;
   const website = req.body.website;
+  const image = req.body.image;
 
   const gym = new Gym({
     name,
     city,
     description,
-    website
+    website,
+    image
   });
 
   return gym.save();

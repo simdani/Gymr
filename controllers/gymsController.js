@@ -2,6 +2,8 @@ const gymService = require('../services/gymService');
 const updateGymReviewValidation = require('../validation/updateGymReview');
 const createGymValidation = require('../validation/createGym');
 
+const { parser } = require('../helpers/gymUpload');
+
 const Gym = require('../models/Gym');
 
 async function all (req, res) {
@@ -53,7 +55,7 @@ async function create (req, res) {
     const result = await gymService.createGym(req);
     res.status(201).json(result);
   } catch (e) {
-    res.status(501).json('Error creating new gym');
+    res.status(501).json({ errors: 'Error when creating a gym' });
   }
 }
 
@@ -166,6 +168,19 @@ async function unlikeGym (req, res) {
   }
 }
 
+async function fileUploadMiddleware (req, res) {
+  const errors = {};
+  const upload = parser.single('image');
+  upload(req, res, err => {
+    if (err) {
+      errors.image = 'Error when uploading file';
+      res.status(501).json(errors);
+    } else {
+      res.status(200).json(req.file.secure_url);
+    }
+  });
+}
+
 module.exports = {
   all,
   create,
@@ -176,5 +191,6 @@ module.exports = {
   deleteReview,
   updateReview,
   likeGym,
-  unlikeGym
+  unlikeGym,
+  fileUploadMiddleware
 };

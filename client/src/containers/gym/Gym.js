@@ -75,6 +75,8 @@ class Gym extends Component {
               <p><strong>Description:</strong>{gym.description}</p>
               <p><strong>Website:</strong>{gym.website}</p>
 
+              { gym.image && <p><img src={gym.image} alt={gym.name} /></p> }
+
               <hr/>
 
               { isAuthenticated?

@@ -28,4 +28,6 @@ router.put('/:id/reviews/:reviewId', passport.authenticate('jwt', { session: fal
 router.post('/:id/like', passport.authenticate('jwt', { session: false }), gymsController.likeGym);
 router.post('/:id/unlike', passport.authenticate('jwt', { session: false }), gymsController.unlikeGym);
 
+router.post('/files', gymsController.fileUploadMiddleware);
+
 module.exports = router;
