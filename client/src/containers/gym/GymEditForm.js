@@ -22,6 +22,7 @@ class GymEditForm extends Component {
       description: '',
       website: '',
       completed: false,
+      image: '',
       errors: {}
     };
   }
@@ -47,7 +48,8 @@ class GymEditForm extends Component {
         name: nextProps.gym.gym.name,
         city: nextProps.gym.gym.city,
         description: nextProps.gym.gym.description,
-        website: nextProps.gym.gym.website
+        website: nextProps.gym.gym.website,
+        image: nextProps.gym.gym.image
       });
     }
   }
@@ -132,6 +134,12 @@ class GymEditForm extends Component {
               />
               {this.state.errors.website && <div className="invalid-feedback d-block">{this.state.errors.website}</div>}
             </div>
+
+              {this.state.image &&
+              <div className="form-group">
+                <img src={this.state.image} alt={this.state.name}/>
+              </div>
+              }
 
             <button type="submit" className="btn btn-light">
             <FontAwesomeIcon icon={faPencilAlt} /> Update

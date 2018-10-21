@@ -10,12 +10,13 @@ import { NotificationManager} from 'react-notifications';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-
+import ImageUploader from 'react-images-upload';
 
 class GymForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      picture: null,
       name: '',
       city: '',
       description: '',
@@ -41,6 +42,15 @@ class GymForm extends Component {
     }
   }
 
+  onDrop = (picture) => {
+    if (!picture[0]) {
+      this.data = null;
+    } else {
+      this.data = new FormData();
+      this.data.append('image', picture[0]);
+    }
+  };
+
   onSubmit = (e) => {
     e.preventDefault();
 
@@ -52,12 +62,6 @@ class GymForm extends Component {
     };
 
     this.props.addGym(newGym, this.data, this.props.history);
-  };
-
-  // Component method
-  handleFileUpload = (event) => {
-    this.data = new FormData();
-    this.data.append('image', event.target.files[0]);
   };
 
   onChange = (e) => {
@@ -123,10 +127,18 @@ class GymForm extends Component {
               />
               {this.state.errors.website && <div className="invalid-feedback d-block">{this.state.errors.website}</div>}
             </div>
-
             <div className="form-group">
-              <label htmlFor="exampleFormControlFile1">Gym photo (optional)</label>
-              <input type="file" name="image" onChange={this.handleFileUpload} className="form-control-file" id="exampleFormControlFile1"/>
+              <label htmlFor="image">Gym photo (optional):</label>
+              <ImageUploader
+                singleImage={true}
+                name="image"
+                withIcon={true}
+                withPreview={true}
+                buttonText='Choose image'
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+              />
               {this.state.errors.image && <div className="invalid-feedback d-block">{this.state.errors.image}</div>}
             </div>
 
