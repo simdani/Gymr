@@ -10,24 +10,19 @@ async function all (req, res) {
   try {
     if (req.query.search) {
       const result = await gymService.searchGyms(req);
-      exposeHeaders(res, result.pages);
+      exposeHeaders(res, result);
       res.status(200).json(result.gyms);
     } else if (req.query.page) {
       const result = await gymService.getGyms(req);
-      exposeHeaders(res, result.pages);
+      exposeHeaders(res, result);
       res.status(200).json(result.gyms);
     } else {
       const result = await gymService.getAllGyms(req);
       res.status(200).json(result);
     }
   } catch (err) {
-    res.status(400).json('failed to get gyms');
+    res.status(400).json({ errors: 'failed to get gyms' });
   }
-}
-
-function exposeHeaders (res, result) {
-  res.set('total-pages', result.pages);
-  res.set('Access-Control-Expose-Headers', 'total-pages');
 }
 
 async function updateGym (req, res) {
@@ -183,6 +178,11 @@ async function fileUploadMiddleware (req, res) {
     }
   });
 }
+
+const exposeHeaders = (res, result) => {
+  res.set('total-pages', result.pages);
+  res.set('Access-Control-Expose-Headers', 'total-pages');
+};
 
 module.exports = {
   all,
