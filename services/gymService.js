@@ -142,7 +142,7 @@ async function addReview (req) {
   await gym.reviews.unshift(newReview);
   await gym.save();
 
-  return gym;
+  return gym.reviews[0];
 }
 
 // update gym review
@@ -159,7 +159,7 @@ async function updateReview (req) {
 
   gym.save();
 
-  return gym;
+  return gym.reviews[reviewIndex];
 }
 
 async function deleteReview (req) {

@@ -107,9 +107,9 @@ async function deleteReview (req, res) {
   try {
     const result = await gymService.deleteReview(req);
     if (result) {
-      res.status(200).json(result);
+      res.status(200).json({ success: true });
     } else {
-      res.status(404).json({ errors: 'Comment does not exists' });
+      res.status(404).json({ errors: 'Review does not exist' });
     }
   } catch (e) {
     res.status(404).json({ errors: 'Gym review does not exist' });
