@@ -8,18 +8,8 @@ const Gym = require('../models/Gym');
 
 async function all (req, res) {
   try {
-    if (req.query.search) {
-      const result = await gymService.searchGyms(req);
-      exposeHeaders(res, result);
-      res.status(200).json(result.gyms);
-    } else if (req.query.page) {
-      const result = await gymService.getGyms(req);
-      exposeHeaders(res, result);
-      res.status(200).json(result.gyms);
-    } else {
-      const result = await gymService.getAllGyms(req);
-      res.status(200).json(result);
-    }
+    const result = await gymService.getAllGyms(req);
+    res.status(200).json(result);
   } catch (err) {
     res.status(400).json({ errors: 'failed to get gyms' });
   }
