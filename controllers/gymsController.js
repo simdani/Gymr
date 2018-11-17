@@ -1,6 +1,7 @@
 const gymService = require('../services/gymService');
 const updateGymReviewValidation = require('../validation/updateGymReview');
 const createGymValidation = require('../validation/createGym');
+const userRoles = require('../helpers/userRoles');
 
 const { parser } = require('../helpers/gymUpload');
 
@@ -18,7 +19,11 @@ async function all (req, res) {
 async function updateGym (req, res) {
   const { errors, isValid } = createGymValidation(req.body);
 
-  // check validation
+  if (req.user.role !== userRoles.ADMIN) {
+    return res.status(300).json({
+      errors: 'You must have an admin access to delete gym'
+    });
+  }
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -50,16 +55,21 @@ async function create (req, res) {
 // delete gym
 async function deleteGym (req, res) {
   try {
-    const gym = await gymService.deleteGym(req);
-
-    if (!gym) {
-      res.status(404).json({
-        errors: 'Gym not found'
+    if (req.user.role !== userRoles.ADMIN) {
+      res.status(300).json({
+        errors: 'You must have an admin access to delete gym'
       });
     } else {
-      res.status(200).json({
-        success: true
-      });
+      const gym = await gymService.deleteGym(req);
+      if (!gym) {
+        res.status(404).json({
+          errors: 'Gym not found'
+        });
+      } else {
+        res.status(200).json({
+          success: true
+        });
+      }
     }
   } catch (e) {
     res.status(404).json({ errors: 'Gym does not exist' });
@@ -95,11 +105,17 @@ async function addReview (req, res) {
 // delete review
 async function deleteReview (req, res) {
   try {
-    const result = await gymService.deleteReview(req);
-    if (result) {
-      res.status(200).json({ success: true });
+    if (req.user.role !== userRoles.ADMIN) {
+      res.status(300).json({
+        errors: 'You must have an admin access to delete gym'
+      });
     } else {
-      res.status(404).json({ errors: 'Review does not exist' });
+      const result = await gymService.deleteReview(req);
+      if (result) {
+        res.status(200).json({ success: true });
+      } else {
+        res.status(404).json({ errors: 'Review does not exist' });
+      }
     }
   } catch (e) {
     res.status(404).json({ errors: 'Gym review does not exist' });
@@ -168,11 +184,6 @@ async function fileUploadMiddleware (req, res) {
     }
   });
 }
-
-const exposeHeaders = (res, result) => {
-  res.set('total-pages', result.pages);
-  res.set('Access-Control-Expose-Headers', 'total-pages');
-};
 
 module.exports = {
   all,
