@@ -9,8 +9,13 @@ const Gym = require('../models/Gym');
 
 async function all (req, res) {
   try {
-    const result = await gymService.getAllGyms(req);
-    res.status(200).json(result);
+    if (req.query.search) {
+      const result = await gymService.searchGyms(req);
+      res.status(200).json(result);
+    } else {
+      const result = await gymService.getAllGyms(req);
+      res.status(200).json(result);
+    }
   } catch (err) {
     res.status(400).json({ errors: 'failed to get gyms' });
   }
@@ -52,7 +57,6 @@ async function create (req, res) {
   }
 }
 
-// delete gym
 async function deleteGym (req, res) {
   try {
     if (req.user.role !== userRoles.ADMIN) {
@@ -62,7 +66,7 @@ async function deleteGym (req, res) {
     } else {
       const gym = await gymService.deleteGym(req);
       if (!gym) {
-        res.status(404).json({
+        res.status(400).json({
           errors: 'Gym not found'
         });
       } else {
@@ -125,6 +129,12 @@ async function deleteReview (req, res) {
 // update gym review
 async function updateReview (req, res) {
   const { errors, isValid } = updateGymReviewValidation(req.body);
+
+  if (req.user.role !== userRoles.ADMIN) {
+    return res.status(300).json({
+      errors: 'You must have an admin access to delete gym'
+    });
+  }
 
   // check validation
   if (!isValid) {

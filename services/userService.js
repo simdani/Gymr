@@ -46,7 +46,8 @@ async function loginGoogle (req) {
   const payload = {
     id: req.user.id,
     username: req.user.username,
-    email: req.user.email
+    email: req.user.email,
+    role: req.user.role
   };
 
   const token = signToken(payload);

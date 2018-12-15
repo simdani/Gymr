@@ -89,14 +89,14 @@ export const editGym = (gymId, postData, callback) => dispatch => {
 };
 
 // delete gym
-export const deleteGym = (gymId, callback) => dispatch => {
+export const deleteGym = (gymId) => dispatch => {
   axios
     .delete(`${API_ROOT}/gyms/${gymId}`)
     .then(res =>
       dispatch({
         type: DELETE_GYM,
         payload: gymId
-      }, callback())
+      })
     )
     .catch(err =>
       dispatch({

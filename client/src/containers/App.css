@@ -25,3 +25,8 @@ body {
   transition:0.5s;
   text-align:center;
 }
+
+.footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}

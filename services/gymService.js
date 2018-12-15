@@ -94,32 +94,22 @@ async function deleteGym (req) {
 
 // find gyms by city
 async function searchGyms (req) {
-  let perPage = 12; // gyms per page
-  let page = (parseInt(req.query.page) || 1); // curent page
-
   let gyms;
-  let count;
   const regex = new RegExp(regexHelper.escapeRegex(req.query.search), 'gi');
 
   if (req.query.sort) {
     if (req.query.sort === 'newest') {
-      gyms = await Gym.find({ city: regex }).sort({ date: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
+      gyms = await Gym.find({ city: regex }).sort({ date: 'descending' });
     } else if (req.query.sort === 'oldest') {
-      gyms = await Gym.find({ city: regex }).sort({ date: 'ascending' }).skip((perPage * page) - perPage).limit(perPage);
+      gyms = await Gym.find({ city: regex }).sort({ date: 'ascending' });
     } else if (req.query.sort === 'likes') {
-      gyms = await Gym.find({ city: regex }).sort({ likes: 'descending' }).skip((perPage * page) - perPage).limit(perPage);
+      gyms = await Gym.find({ city: regex }).sort({ likes: 'descending' });
     }
   } else {
-    gyms = await Gym.find({ city: regex }).skip((perPage * page) - perPage).limit(perPage);
+    gyms = await Gym.find({ city: regex });
   }
 
-  count = await Gym.countDocuments({ city: regex });
-
-  return {
-    gyms,
-    current: page,
-    pages: Math.ceil(count / perPage)
-  };
+  return gyms;
 }
 
 // find gym by id

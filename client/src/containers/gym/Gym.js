@@ -21,10 +21,13 @@ class Gym extends Component {
     this.props.getGym(this.props.match.params.id);
   }
 
-  removeReview = (e, gymId) => {
+  deleteGym = (e, gymId) => {
     e.preventDefault();
 
-    this.props.deleteGym(gymId, this.props.history);
+    // if (this.props.auth.user === 'ADMIN') {
+    //   console.log('test');
+      this.props.deleteGym(gymId);
+    // }
   };
 
   onLikeClick(id) {
@@ -43,6 +46,8 @@ class Gym extends Component {
   renderGym(gym) {
     const { isAuthenticated } = this.props.auth;
 
+    console.log(this.props.auth);
+
     return (
       <div className="card text-center">
         <div className="card-header">
@@ -50,14 +55,14 @@ class Gym extends Component {
             <li className="nav-item">
               <BackButton />
             </li>
-            {isAuthenticated ?
+            {isAuthenticated && this.props.auth.user.role === 'ADMIN' ?
             <li className="nav-item ml-auto">
               <Link to={`/gyms/${gym._id}/edit`}>
                 <button className="btn btn-dark mb-2 mr-1">
                   <FontAwesomeIcon icon={faEdit} /> Edit gym
                 </button>
               </Link>
-              <button className="btn btn-danger mb-2" onClick={(e) => this.removeReview(e, gym._id)}>
+              <button className="btn btn-danger mb-2" onClick={(e) => this.deleteGym(e, gym._id)}>
               <FontAwesomeIcon icon={faTrash} /> Delete
               </button>
             </li>
@@ -158,11 +163,8 @@ const mapDispatchToProps = dispatch => ({
   getGym: gymId => {
     dispatch(getGym(gymId));
   },
-  deleteGym: (gymId, history) => {
-    dispatch(deleteGym(gymId, () => {
-      history.push('/');
-      NotificationManager.success('Gym deleted successfully!', 'Success');
-    }));
+  deleteGym: (gymId) => {
+    dispatch(deleteGym(gymId));
   },
   addLike: id => {
     dispatch(addLike(id));
