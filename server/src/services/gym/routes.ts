@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
+import { Gym } from "../../models/gym/Gym";
 
 export default [
     {
-        path: "/",
+        path: "/api/v1/gyms",
         method: "get",
         handler: async (req: Request, res: Response) => {
-            res.send("Hello world");
+            const gyms = await Gym.findAll();
+            res.json(gyms);
         }
     }
 ];

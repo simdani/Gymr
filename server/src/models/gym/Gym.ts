@@ -1,30 +1,25 @@
-import {Document, Schema, Model, model} from "mongoose";
-import { IGym } from "../interfaces/gym";
+import {Document, Schema, Model } from "mongoose";
+import { mongoose } from "../../config/database";
 
-export interface IGymModel extends IGym , Document {
-    getName(): string;
-    getCity(): string;
+export interface IGym extends Document {
+    name: string;
+    city: string;
+    description: string;
 }
 
-export var GymSchema: Schema = new Schema({
-    createdAt: Date,
+export interface IGymModel extends Model<IGym> {
+    findAll(): Promise<IGym[]>
+}
+
+const schema = new Schema({
     name: String,
-    city: String
+    city: String,
+    description: String
 });
 
-GymSchema.pre("save", function(next) {
-    let now = new Date();
-    if (!this.createdAt) {
-        this.createdAt = now;
-    }
-    next();
+schema.static("findAll", () => {
+    return Gym.find().exec();
 });
 
-GymSchema.methods.getName = function (): string {
-    return this.name;
-};
-
-GymSchema.methods.getCity = function (): string {
-    return this.city;
-};
+export const Gym = mongoose.model<IGym>("Gym", schema) as IGymModel;
 
