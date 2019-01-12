@@ -1,5 +1,6 @@
 import "reflect-metadata"; // this shim is required
 
+
 // import http from "http";
 // import express from "express";
 // import { applyMiddleware, applyRoutes } from "./utils";
@@ -7,10 +8,15 @@ import "reflect-metadata"; // this shim is required
 // import middleware from "./middleware";
 // import passportConfig from "./config/passport";
 
-import {createExpressServer} from "routing-controllers";
+import {createExpressServer, useContainer as routingUseContainer } from "routing-controllers";
 import {GymController} from "./services/gym/gymController";
+import { Container } from 'typedi';
+
+
+routingUseContainer(Container);
 
 const app = createExpressServer({
+    routePrefix: '/api',
     controllers: [GymController] // we specify controllers we want to use
  });
  

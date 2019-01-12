@@ -9,7 +9,10 @@ require("reflect-metadata"); // this shim is required
 // import passportConfig from "./config/passport";
 const routing_controllers_1 = require("routing-controllers");
 const gymController_1 = require("./services/gym/gymController");
+const typedi_1 = require("typedi");
+routing_controllers_1.useContainer(typedi_1.Container);
 const app = routing_controllers_1.createExpressServer({
+    routePrefix: '/api',
     controllers: [gymController_1.GymController] // we specify controllers we want to use
 });
 app.listen(5000);
