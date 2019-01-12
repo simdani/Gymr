@@ -1,4 +1,4 @@
 // escape string with regex for fuzzy search.
-exports.escapeRegex = (text: string) => {
+export const escapeRegex = (text: string) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };

@@ -1,7 +1,7 @@
 import validator from "validator";
 import { isEmpty } from "./isEmptyValidation";
 
-export function updateGymReview(data: any) {
+export function updateGymReviewValidation(data: any) {
   let errors: any = {};
 
   data.text = !isEmpty(data.text) ? data.text : "";

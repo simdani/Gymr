@@ -2,9 +2,12 @@ import { Document, Schema, Model } from "mongoose";
 import mongoose from "mongoose";
 
 export interface IGym extends Document {
+  website: any;
   name: string;
   city: string;
   description: string;
+  reviews: any[];
+  likes: any[];
 }
 
 export interface IGymModel extends Model<IGym> {
