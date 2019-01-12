@@ -105,17 +105,10 @@ let GymController = class GymController {
     }
     uploadGymImage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const errors = {};
-            const upload = gymUploadHelper_1.parser.single("image");
-            upload(req, res, err => {
-                if (err) {
-                    errors.image = "Error when uploading file";
-                    return res.status(501).json(errors);
-                }
-                else {
-                    return res.status(200).json(req.file.secure_url);
-                }
-            });
+            if (!req.file) {
+                return res.status(400).json({ errors: "Error when uploading image " });
+            }
+            return res.status(200).json(req.file.secure_url);
         });
     }
 };
@@ -203,6 +196,7 @@ __decorate([
 ], GymController.prototype, "unlikeGym", null);
 __decorate([
     routing_controllers_1.Post("/files"),
+    routing_controllers_1.UseBefore(gymUploadHelper_1.parser.single("image")),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),

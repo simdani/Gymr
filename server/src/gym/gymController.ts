@@ -8,7 +8,8 @@ import {
   Param,
   Post,
   Put,
-  Delete
+  Delete,
+  UploadedFile
 } from "routing-controllers";
 import GymProvider from "./gymProvider";
 import { Service } from "typedi";
@@ -114,17 +115,11 @@ export class GymController {
   public async unlikeGym(@Param("id") id: string) {}
 
   @Post("/files")
+  @UseBefore(parser.single("image"))
   public async uploadGymImage(@Req() req: Request, @Res() res: Response) {
-    const errors: any = {};
-    const upload = parser.single("image");
-
-    upload(req, res, err => {
-      if (err) {
-        errors.image = "Error when uploading file";
-        return res.status(501).json(errors);
-      } else {
-        return res.status(200).json(req.file.secure_url);
-      }
-    });
+    if (!req.file) {
+      return res.status(400).json({ errors: "Error when uploading image " });
+    }
+    return res.status(200).json(req.file.secure_url);
   }
 }
