@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 import { JsonController, Get, Req, Res, Post } from "routing-controllers";
 // import UserProvider from "./userProvider";
 import { Service } from "typedi";
@@ -30,15 +30,11 @@ export class UserController {
           role: user.role
         };
 
-        const token = jwt.sign(
-            payload,
-            "super-secret",
-            { expiresIn: 3600 }
-        );
+        const token = jwt.sign(payload, "super-secret", { expiresIn: 3600 });
 
         return res.status(200).json({
           success: true,
-          token: 'Bearer ' + token
+          token: "Bearer " + token
         });
       } else {
         return res.status(400).json("wrong password");
@@ -51,12 +47,11 @@ export class UserController {
 
   @Post("/register")
   public async register(@Req() req: Request, @Res() res: Response) {
-    const user = await User.findOne({email: req.body.email});
+    const user = await User.findOne({ email: req.body.email });
 
     if (user) {
       res.status(400).json("already exists");
     } else {
-
       const newUser = new User({
         username: req.body.username,
         email: req.body.email,

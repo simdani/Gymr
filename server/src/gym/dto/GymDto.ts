@@ -1,5 +1,3 @@
 export default class GymDto {
-  constructor(
-    public name: string
-  ){}
+  constructor(public name: string) {}
 }
