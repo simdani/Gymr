@@ -106,11 +106,14 @@ class ReviewFeed extends Component {
                 <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gymId, review._id)}>
                 <FontAwesomeIcon icon={faTrash} />  Delete
                 </button>
-
-
               </p>
-              : (null)
-
+              :  this.props.auth.user.role === 'ADMIN' ?
+                <p className="ml-auto">
+                  <button className="btn btn-danger" onClick={(e) => this.removeReview(e, gymId, review._id)}>
+                    <FontAwesomeIcon icon={faTrash} />  Delete
+                  </button>
+                </p>
+                : (null)
             }
           </div>
           { this.showEditModal() }

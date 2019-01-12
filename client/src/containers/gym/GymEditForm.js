@@ -28,7 +28,7 @@ class GymEditForm extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.auth.isAuthenticated) {
+    if (!this.props.auth.isAuthenticated || this.props.auth.user.role !== 'ADMIN') {
       this.props.history.push('/');
     }
     else {

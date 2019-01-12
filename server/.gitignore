@@ -1,0 +1,8 @@
+.vscode/
+.eslintrc.js
+node_modules/
+.idea/
+/config/default.json
+/config/dev.json
+/config/test.json
+/config/production.json

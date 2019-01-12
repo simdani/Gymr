@@ -57,6 +57,15 @@ class App extends Component {
             </Switch>
 
            <NotificationContainer/>
+
+            <footer className="text-muted">
+              <div className="container">
+                <p className="float-right">
+                  <a href="#">Back to top</a>
+                </p>
+                <p>© Gymr 2018</p>
+              </div>
+            </footer>
           </div>
         </Router>
       </Provider>

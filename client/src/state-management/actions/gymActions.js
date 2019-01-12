@@ -89,14 +89,14 @@ export const editGym = (gymId, postData, callback) => dispatch => {
 };
 
 // delete gym
-export const deleteGym = (gymId, callback) => dispatch => {
+export const deleteGym = (gymId) => dispatch => {
   axios
     .delete(`${API_ROOT}/gyms/${gymId}`)
     .then(res =>
       dispatch({
         type: DELETE_GYM,
         payload: gymId
-      }, callback())
+      })
     )
     .catch(err =>
       dispatch({
@@ -156,10 +156,7 @@ export const addReview = (gymId, review) => dispatch => {
   axios
     .post(`${API_ROOT}/gyms/${gymId}/reviews`, review)
     .then(res =>
-      dispatch({
-        type: GET_GYM,
-        payload: res.data
-      }, dispatch({type: CLEAR_ERRORS}))
+      dispatch(getGym(gymId), dispatch({type: CLEAR_ERRORS}))
     )
     .catch(err =>
       dispatch({
@@ -174,10 +171,7 @@ export const deleteReview = (gymId, reviewId) => dispatch => {
   axios
     .delete(`${API_ROOT}/gyms/${gymId}/reviews/${reviewId}`)
     .then(res =>
-      dispatch({
-        type: GET_GYM,
-        payload: res.data
-      })
+      dispatch(getGym(gymId))
     )
     .catch(err =>
       dispatch({
@@ -192,10 +186,7 @@ export const updateReview = (updateReview, gymId, reviewId, callback) => dispatc
   axios
     .put(`${API_ROOT}/gyms/${gymId}/reviews/${reviewId}`, updateReview)
     .then(res =>
-      dispatch({
-        type: GET_GYM,
-        payload: res.data
-      }, dispatch({type: CLEAR_ERRORS}, callback()))
+      dispatch(getGym(gymId), dispatch({type: CLEAR_ERRORS}), callback())
     )
     .catch(err =>
       dispatch({
