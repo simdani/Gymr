@@ -24,87 +24,54 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
-// import UserProvider from "./userProvider";
 const typedi_1 = require("typedi");
-const User_1 = require("../models/User");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const passport = require("passport");
-const signToken_1 = require("../utils/signToken");
+const userProvider_1 = __importDefault(require("./userProvider"));
 let UserController = class UserController {
-    constructor() { }
+    constructor(userProvider) {
+        this.userProvider = userProvider;
+    }
     oauthGoogle(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const payload = {
-                    id: req.user.id,
-                    username: req.user.username,
-                    email: req.user.email,
-                    role: req.user.role
-                };
-                const token = signToken_1.signToken(payload);
-                const result = {
-                    success: true,
-                    token: "Bearer " + token
-                };
-                res.status(200).json(result);
+                const result = yield this.userProvider.loginGoogle(req);
+                return res.status(200).json(result);
             }
             catch (e) {
-                res.status(501).json("Error when loggin in with google");
+                return res.status(501).json("Error when loggin in with google");
             }
         });
     }
+    // 
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const email = req.body.email;
-            const password = req.body.password;
-            const user = yield User_1.User.findOne({ email });
-            if (!user) {
-                return res.status(400).json("user not found");
-            }
-            else {
-                const checkPassword = yield bcrypt_1.default.compare(password, user.password);
-                if (checkPassword) {
-                    const payload = {
-                        id: user.id,
-                        username: user.username,
-                        email: user.email,
-                        role: user.role
-                    };
-                    const token = jsonwebtoken_1.default.sign(payload, "super-secret", { expiresIn: 3600 });
-                    return res.status(200).json({
-                        success: true,
-                        token: "Bearer " + token
-                    });
+            try {
+                const result = yield this.userProvider.loginUser(req);
+                if (result) {
+                    return res.status(200).json(result);
                 }
                 else {
-                    return res.status(400).json("wrong password");
+                    return res.status(400).json("user does not exist");
                 }
             }
-            // const allGymsResponse = await this.userProvider.login();
-            // return response.json(allGymsResponse);
+            catch (e) {
+                return res.status(400).json("wrong password");
+            }
         });
     }
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield User_1.User.findOne({ email: req.body.email });
-            if (user) {
-                res.status(400).json("already exists");
+            try {
+                const result = yield this.userProvider.createUser(req);
+                if (result) {
+                    return res.status(200).json(result);
+                }
+                else {
+                    return res.status(400).json("already exists");
+                }
             }
-            else {
-                const newUser = new User_1.User({
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password
-                });
-                const salt = yield bcrypt_1.default.genSalt(10);
-                const hash = yield bcrypt_1.default.hash(newUser.password, salt);
-                newUser.password = hash;
-                const createUser = yield newUser.save();
-                res.status(201).json(createUser);
-                // const salt = await
-                // const gyms = await Gym.findAll();
-                // res.json(gyms);
+            catch (e) {
+                return res.status(400).json("Error creating new user");
             }
         });
     }
@@ -134,7 +101,7 @@ __decorate([
 UserController = __decorate([
     typedi_1.Service(),
     routing_controllers_1.JsonController("/users"),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [userProvider_1.default])
 ], UserController);
 exports.UserController = UserController;
 //# sourceMappingURL=userController.js.map
