@@ -7,8 +7,6 @@ import { User } from "../models/user/User";
 export default (app: Application) => {
     app.use(passport.initialize());
 
-    console.log('passport config');
-
     const opts = {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: "super-secret"

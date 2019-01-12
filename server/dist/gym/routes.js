@@ -1,8 +1,8 @@
+"use strict";
 // import {Request, RequestHandler, Response} from "express";
 // import { Gym } from "../../models/gym/Gym";
 // import passport from "passport";
 // import { getAll } from "./gymController";
-
 // export default [
 //     {
 //         path: "/api/v1/gyms",
@@ -13,3 +13,4 @@
 //         ]
 //     }
 // ];
+//# sourceMappingURL=routes.js.map

@@ -21,7 +21,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const Gym_1 = require("../../models/gym/Gym");
+const Gym_1 = require("../models/gym/Gym");
 const getAllGymsResponse_1 = __importDefault(require("./responses/getAllGymsResponse"));
 const GymDto_1 = __importDefault(require("./dto/GymDto"));
 let GymProvider = class GymProvider {

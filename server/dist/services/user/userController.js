@@ -24,32 +24,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
-const gymProvider_1 = __importDefault(require("./gymProvider"));
+// import UserProvider from "./userProvider";
 const typedi_1 = require("typedi");
-const passport = require("passport");
-let GymController = class GymController {
-    constructor(gymProvider) {
-        this.gymProvider = gymProvider;
-    }
-    getAll(request, response) {
+const User_1 = require("../../models/user/User");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+let UserController = class UserController {
+    constructor() { }
+    login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const allGymsResponse = yield this.gymProvider.getAll();
-            return response.json(allGymsResponse.gyms);
+            const email = req.body.email;
+            const password = req.body.password;
+            const user = yield User_1.User.findOne({ email });
+            if (!user) {
+                return res.status(400).json("user not found");
+            }
+            else {
+                const checkPassword = yield bcrypt_1.default.compare(password, user.password);
+                if (checkPassword) {
+                    const payload = {
+                        id: user.id,
+                        username: user.username,
+                        email: user.email,
+                        role: user.role
+                    };
+                    const token = jsonwebtoken_1.default.sign(payload, "super-secret", { expiresIn: 3600 });
+                    return res.status(200).json({
+                        success: true,
+                        token: 'Bearer ' + token
+                    });
+                }
+                else {
+                    return res.status(400).json("wrong password");
+                }
+            }
+            // const allGymsResponse = await this.userProvider.login();
+            // return response.json(allGymsResponse);
         });
     }
 };
 __decorate([
-    routing_controllers_1.Get("/gyms"),
-    routing_controllers_1.UseBefore(passport.authenticate('jwt', { session: false })),
+    routing_controllers_1.Post("/login"),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], GymController.prototype, "getAll", null);
-GymController = __decorate([
+], UserController.prototype, "login", null);
+UserController = __decorate([
     typedi_1.Service(),
     routing_controllers_1.JsonController(),
-    __metadata("design:paramtypes", [gymProvider_1.default])
-], GymController);
-exports.GymController = GymController;
-//# sourceMappingURL=gymController.js.map
+    __metadata("design:paramtypes", [])
+], UserController);
+exports.UserController = UserController;
+//# sourceMappingURL=userController.js.map

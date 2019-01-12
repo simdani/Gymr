@@ -1,36 +1,37 @@
-import "reflect-metadata"; // this shim is required
+import "reflect-metadata";
 
+import express from "express";
+import passportConfig from "./config/passport";
 
-// import http from "http";
-// import express from "express";
-// import { applyMiddleware, applyRoutes } from "./utils";
-// import routes from "./services";
-// import middleware from "./middleware";
-// import passportConfig from "./config/passport";
+import cors from "cors";
+import parser from "body-parser";
+import compression from "compression";
 
-import {createExpressServer, useContainer as routingUseContainer } from "routing-controllers";
-import {GymController} from "./services/gym/gymController";
+import {useExpressServer, useContainer as routingUseContainer } from "routing-controllers";
+import {GymController} from "./gym/gymController";
+import {UserController} from "./user/userController";
 import { Container } from 'typedi';
+import mongoose from "mongoose";
 
+let app = express();
 
 routingUseContainer(Container);
 
-const app = createExpressServer({
+mongoose.connect("mongodb://testas:testas123@ds135952.mlab.com:35952/gymr-dev", { useNewUrlParser: true })
+    .then(() => console.log('MongoDb connected...'))
+    .catch(err => console.log(err));
+
+passportConfig(app);
+
+app.use(cors({ credentials: true, origin: true }))
+app.use(parser.urlencoded({ extended: true }));
+app.use(parser.json());
+app.use(compression());
+
+useExpressServer(app, {
     routePrefix: '/api',
-    controllers: [GymController] // we specify controllers we want to use
+    controllers: [GymController,
+    UserController] // we specify controllers we want to use
  });
- 
+
  app.listen(5000);
-
-// const router = express();
-// passportConfig(router);
-
-// applyMiddleware(middleware, router);
-// applyRoutes(routes, router);
-
-// const { PORT = 5000 } = process.env;
-// const server = http.createServer(router);
-
-// server.listen(PORT, () =>
-//     console.log(`Server is running http://localhost:${PORT}...`)
-// );

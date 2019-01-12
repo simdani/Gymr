@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const database_1 = require("../../config/database");
+const mongoose_2 = __importDefault(require("mongoose"));
 const schema = new mongoose_1.Schema({
     username: {
         type: String
@@ -36,5 +39,5 @@ schema.static("saveUser", (user) => {
 // schema.static("findAll", () => {
 //     return Gym.find().exec();
 // });
-exports.User = database_1.mongoose.model("User", schema);
+exports.User = mongoose_2.default.model("User", schema);
 //# sourceMappingURL=User.js.map

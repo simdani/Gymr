@@ -1,5 +1,5 @@
 import {Document, Schema, Model } from "mongoose";
-import { mongoose } from "../../config/database";
+import mongoose from "mongoose";
 
 export interface IUser extends Document {
     username: string;

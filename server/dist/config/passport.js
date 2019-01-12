@@ -9,7 +9,6 @@ const passport_1 = __importDefault(require("passport"));
 const User_1 = require("../models/user/User");
 exports.default = (app) => {
     app.use(passport_1.default.initialize());
-    console.log('passport config');
     const opts = {
         jwtFromRequest: passport_jwt_2.ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: "super-secret"
