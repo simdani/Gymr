@@ -133,7 +133,7 @@ __decorate([
 ], UserController.prototype, "register", null);
 UserController = __decorate([
     typedi_1.Service(),
-    routing_controllers_1.JsonController(),
+    routing_controllers_1.JsonController("/users"),
     __metadata("design:paramtypes", [])
 ], UserController);
 exports.UserController = UserController;

@@ -10,7 +10,7 @@ import passport = require("passport");
 import { signToken } from "../utils/signToken";
 
 @Service()
-@JsonController()
+@JsonController("/users")
 export class UserController {
   constructor() {}
 

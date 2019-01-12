@@ -27,7 +27,7 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 app.use(compression_1.default());
 routing_controllers_1.useExpressServer(app, {
-    routePrefix: "/api",
+    routePrefix: "/api/v1",
     controllers: [gymController_1.GymController, userController_1.UserController] // we specify controllers we want to use
 });
 app.listen(5000);

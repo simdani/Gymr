@@ -29,14 +29,15 @@ const typedi_1 = require("typedi");
 const Gym_1 = require("../models/Gym");
 const passport = require("passport");
 const createGymValidation_1 = require("../validations/createGymValidation");
+const gymUploadHelper_1 = require("../helpers/gymUploadHelper");
 let GymController = class GymController {
     constructor(gymProvider) {
         this.gymProvider = gymProvider;
     }
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const allGymsResponse = yield this.gymProvider.getAll();
-            return res.json(allGymsResponse.gyms);
+            const allGymsResponse = yield Gym_1.Gym.findAll();
+            return res.json(allGymsResponse);
         });
     }
     create(req, res) {
@@ -67,6 +68,56 @@ let GymController = class GymController {
             }
         });
     }
+    getOne(id, req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield Gym_1.Gym.findById({
+                    _id: id
+                });
+                return res.status(200).json(result);
+            }
+            catch (e) {
+                res.status(404).json({ errors: "Gym does not exist" });
+            }
+        });
+    }
+    updateGym(id) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    deleteGym(id) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    // probably i need to create another controller
+    addReview(id) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    deleteReview(id, reviewId) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    updateReview(id, reviewId) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    likeGym(id) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    unlikeGym(id) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    uploadGymImage(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const errors = {};
+            const upload = gymUploadHelper_1.parser.single("image");
+            upload(req, res, err => {
+                if (err) {
+                    errors.image = "Error when uploading file";
+                    return res.status(501).json(errors);
+                }
+                else {
+                    return res.status(200).json(req.file.secure_url);
+                }
+            });
+        });
+    }
 };
 __decorate([
     routing_controllers_1.Get("/"),
@@ -83,6 +134,80 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], GymController.prototype, "create", null);
+__decorate([
+    routing_controllers_1.Get("/:id"),
+    __param(0, routing_controllers_1.Param("id")),
+    __param(1, routing_controllers_1.Req()),
+    __param(2, routing_controllers_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "getOne", null);
+__decorate([
+    routing_controllers_1.Put("/:id"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "updateGym", null);
+__decorate([
+    routing_controllers_1.Delete("/:id"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "deleteGym", null);
+__decorate([
+    routing_controllers_1.Post("/:id/reviews"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "addReview", null);
+__decorate([
+    routing_controllers_1.Delete("/:id/reviews/:reviewId"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __param(1, routing_controllers_1.Param("reviewId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "deleteReview", null);
+__decorate([
+    routing_controllers_1.Put("/:id/reviews/:reviewId"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __param(1, routing_controllers_1.Param("reviewId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "updateReview", null);
+__decorate([
+    routing_controllers_1.Put("/:id/like"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "likeGym", null);
+__decorate([
+    routing_controllers_1.Put("/:id/unlike"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Param("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "unlikeGym", null);
+__decorate([
+    routing_controllers_1.Post("/files"),
+    __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "uploadGymImage", null);
 GymController = __decorate([
     typedi_1.Service(),
     routing_controllers_1.JsonController("/gyms"),

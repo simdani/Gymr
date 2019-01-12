@@ -7,12 +7,12 @@ import GymDto from "./dto/GymDto";
 export default class GymProvider {
   constructor() {}
 
-  public async getAll(): Promise<GetAllGymsResponse> {
-    const gyms = await Gym.findAll();
+  // public async getAll(): Promise<GetAllGymsResponse> {
+  //   const gyms = await Gym.findAll();
 
-    const resultItems = gyms.map(entry => new GymDto(entry.name));
-    console.log(resultItems);
+  //   // const resultItems = gyms.map(entry => new GymDto(entry.id, entry.name));
+  //   // console.log(resultItems);
 
-    return new GetAllGymsResponse(resultItems);
-  }
+  //   return new GetAllGymsResponse(gyms);
+  // }
 }

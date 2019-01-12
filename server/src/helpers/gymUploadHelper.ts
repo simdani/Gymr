@@ -1,12 +1,12 @@
-const multer = require("multer");
-const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
-const config = require("config");
+import multer from "multer";
+import cloudinary from "cloudinary";
+import cloudinaryStorage from "multer-storage-cloudinary";
+import config from "config";
 
 cloudinary.config({
-  cloud_name: config.CLOUD_NAME,
-  api_key: config.CLOUDINARY_API_KEY,
-  api_secret: config.CLOUDINARY_SECRET
+  cloud_name: config.get("CLOUD_NAME"),
+  api_key: config.get("CLOUDINARY_API_KEY"),
+  api_secret: config.get("CLOUDINARY_SECRET")
 });
 
 const storage = cloudinaryStorage({
@@ -16,4 +16,4 @@ const storage = cloudinaryStorage({
   transformation: [{ width: 500, height: 500, crop: "limit" }]
 });
 
-exports.parser = multer({ storage: storage });
+export const parser = multer({ storage: storage });

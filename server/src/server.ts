@@ -37,7 +37,7 @@ app.use(parser.json());
 app.use(compression());
 
 useExpressServer(app, {
-  routePrefix: "/api",
+  routePrefix: "/api/v1",
   controllers: [GymController, UserController] // we specify controllers we want to use
 });
 
