@@ -26,29 +26,66 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const gymProvider_1 = __importDefault(require("./gymProvider"));
 const typedi_1 = require("typedi");
+const Gym_1 = require("../models/Gym");
 const passport = require("passport");
+const createGymValidation_1 = require("../validations/createGymValidation");
 let GymController = class GymController {
     constructor(gymProvider) {
         this.gymProvider = gymProvider;
     }
-    getAll(request, response) {
+    getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const allGymsResponse = yield this.gymProvider.getAll();
-            return response.json(allGymsResponse.gyms);
+            return res.json(allGymsResponse.gyms);
+        });
+    }
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { errors, isValid } = createGymValidation_1.validateCreateGym(req.body);
+            // check validation
+            if (!isValid) {
+                return res.status(400).json(errors);
+            }
+            try {
+                const name = req.body.name;
+                const city = req.body.city;
+                const description = req.body.description;
+                const website = req.body.website;
+                const image = req.body.image;
+                const gym = new Gym_1.Gym({
+                    name,
+                    city,
+                    description,
+                    website,
+                    image
+                });
+                yield gym.save();
+                return res.status(201).json(gym);
+            }
+            catch (e) {
+                res.status(501).json({ errors: "Error when creating a gym" });
+            }
         });
     }
 };
 __decorate([
-    routing_controllers_1.Get("/gyms"),
-    routing_controllers_1.UseBefore(passport.authenticate('jwt', { session: false })),
+    routing_controllers_1.Get("/"),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], GymController.prototype, "getAll", null);
+__decorate([
+    routing_controllers_1.Post("/"),
+    routing_controllers_1.UseBefore(passport.authenticate("jwt", { session: false })),
+    __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], GymController.prototype, "create", null);
 GymController = __decorate([
     typedi_1.Service(),
-    routing_controllers_1.JsonController(),
+    routing_controllers_1.JsonController("/gyms"),
     __metadata("design:paramtypes", [gymProvider_1.default])
 ], GymController);
 exports.GymController = GymController;

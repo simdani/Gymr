@@ -21,7 +21,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const Gym_1 = require("../models/gym/Gym");
+const Gym_1 = require("../models/Gym");
 const getAllGymsResponse_1 = __importDefault(require("./responses/getAllGymsResponse"));
 const GymDto_1 = __importDefault(require("./dto/GymDto"));
 let GymProvider = class GymProvider {
@@ -29,7 +29,7 @@ let GymProvider = class GymProvider {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const gyms = yield Gym_1.Gym.findAll();
-            const resultItems = gyms.map((entry) => new GymDto_1.default(entry.name));
+            const resultItems = gyms.map(entry => new GymDto_1.default(entry.name));
             console.log(resultItems);
             return new getAllGymsResponse_1.default(resultItems);
         });

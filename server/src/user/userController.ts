@@ -1,16 +1,42 @@
 import { Request, Response } from "express";
-import { JsonController, Get, Req, Res, Post } from "routing-controllers";
+import { JsonController, Req, Res, Post, UseBefore } from "routing-controllers";
 // import UserProvider from "./userProvider";
 import { Service } from "typedi";
 
-import { User } from "../models/user/User";
+import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import passport = require("passport");
+import { signToken } from "../utils/signToken";
 
 @Service()
 @JsonController()
 export class UserController {
   constructor() {}
+
+  @Post("/oauth/google")
+  @UseBefore(passport.authenticate("googleToken", { session: false }))
+  public async oauthGoogle(@Req() req: Request, @Res() res: Response) {
+    try {
+      const payload = {
+        id: req.user.id,
+        username: req.user.username,
+        email: req.user.email,
+        role: req.user.role
+      };
+
+      const token = signToken(payload);
+
+      const result = {
+        success: true,
+        token: "Bearer " + token
+      };
+
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(501).json("Error when loggin in with google");
+    }
+  }
 
   @Post("/login")
   public async login(@Req() req: Request, @Res() res: Response) {

@@ -1,1 +1,1 @@
-{"version":3,"file":"GymDto.js","sourceRoot":"","sources":["../../../src/gym/dto/GymDto.ts"],"names":[],"mappings":";;AAAA,MAAqB,MAAM;IACzB,YACS,IAAY;QAAZ,SAAI,GAAJ,IAAI,CAAQ;IACnB,CAAC;CACJ;AAJD,yBAIC"}
+{"version":3,"file":"GymDto.js","sourceRoot":"","sources":["../../../src/gym/dto/GymDto.ts"],"names":[],"mappings":";;AAAA,MAAqB,MAAM;IACzB,YAAmB,IAAY;QAAZ,SAAI,GAAJ,IAAI,CAAQ;IAAG,CAAC;CACpC;AAFD,yBAEC"}

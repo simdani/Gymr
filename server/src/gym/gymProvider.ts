@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { Gym } from "../models/gym/Gym";
+import { Gym } from "../models/Gym";
 import GetAllGymsResponse from "./responses/getAllGymsResponse";
 import GymDto from "./dto/GymDto";
 

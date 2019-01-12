@@ -5,6 +5,7 @@ import passportConfig from "./config/passport";
 
 import cors from "cors";
 import parser from "body-parser";
+import config from "config";
 import compression from "compression";
 
 import {
@@ -22,7 +23,7 @@ routingUseContainer(Container);
 
 mongoose
   .connect(
-    "mongodb://testas:testas123@ds135952.mlab.com:35952/gymr-dev",
+    config.get("DATABASE_URL"),
     { useNewUrlParser: true }
   )
   .then(() => console.log("MongoDb connected..."))

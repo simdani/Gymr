@@ -1,5 +1,6 @@
 import { Document, Schema, Model } from "mongoose";
 import mongoose from "mongoose";
+import { USER_ROLES } from "../enums/userRoles";
 
 export interface IUser extends Document {
   username: string;
@@ -24,7 +25,7 @@ const schema = new Schema({
   },
   role: {
     type: String,
-    default: "USER",
+    default: USER_ROLES.USER,
     required: true
   },
   google: {
@@ -45,9 +46,5 @@ schema.static("findUser", (email: string) => {
 schema.static("saveUser", (user: IUser) => {
   return user.save();
 });
-
-// schema.static("findAll", () => {
-//     return Gym.find().exec();
-// });
 
 export const User = mongoose.model<IUser>("User", schema) as IUserModel;

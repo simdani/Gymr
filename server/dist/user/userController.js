@@ -26,11 +26,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 // import UserProvider from "./userProvider";
 const typedi_1 = require("typedi");
-const User_1 = require("../models/user/User");
+const User_1 = require("../models/User");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const passport = require("passport");
+const signToken_1 = require("../utils/signToken");
 let UserController = class UserController {
     constructor() { }
+    oauthGoogle(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const payload = {
+                    id: req.user.id,
+                    username: req.user.username,
+                    email: req.user.email,
+                    role: req.user.role
+                };
+                const token = signToken_1.signToken(payload);
+                const result = {
+                    success: true,
+                    token: "Bearer " + token
+                };
+                res.status(200).json(result);
+            }
+            catch (e) {
+                res.status(501).json("Error when loggin in with google");
+            }
+        });
+    }
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const email = req.body.email;
@@ -51,7 +74,7 @@ let UserController = class UserController {
                     const token = jsonwebtoken_1.default.sign(payload, "super-secret", { expiresIn: 3600 });
                     return res.status(200).json({
                         success: true,
-                        token: 'Bearer ' + token
+                        token: "Bearer " + token
                     });
                 }
                 else {
@@ -86,6 +109,14 @@ let UserController = class UserController {
         });
     }
 };
+__decorate([
+    routing_controllers_1.Post("/oauth/google"),
+    routing_controllers_1.UseBefore(passport.authenticate("googleToken", { session: false })),
+    __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "oauthGoogle", null);
 __decorate([
     routing_controllers_1.Post("/login"),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
