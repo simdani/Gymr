@@ -115,21 +115,21 @@ let GymProvider = class GymProvider {
             let gyms;
             let count;
             if (req.query.sort) {
-                if (req.query.sort === "newest") {
+                if (req.query.sort === 'newest') {
                     gyms = yield Gym_1.Gym.find()
-                        .sort({ date: "descending" })
+                        .sort({ date: 'descending' })
                         .skip(perPage * page - perPage)
                         .limit(perPage);
                 }
-                else if (req.query.sort === "oldest") {
+                else if (req.query.sort === 'oldest') {
                     gyms = yield Gym_1.Gym.find()
-                        .sort({ date: "ascending" })
+                        .sort({ date: 'ascending' })
                         .skip(perPage * page - perPage)
                         .limit(perPage);
                 }
-                else if (req.query.sort === "likes") {
+                else if (req.query.sort === 'likes') {
                     gyms = yield Gym_1.Gym.find()
-                        .sort({ likes: "descending" })
+                        .sort({ likes: 'descending' })
                         .skip(perPage * page - perPage)
                         .limit(perPage);
                 }
@@ -152,14 +152,14 @@ let GymProvider = class GymProvider {
         return __awaiter(this, void 0, void 0, function* () {
             let gyms;
             if (req.query.sort) {
-                if (req.query.sort === "newest") {
-                    gyms = yield Gym_1.Gym.find().sort({ date: "descending" });
+                if (req.query.sort === 'newest') {
+                    gyms = yield Gym_1.Gym.find().sort({ date: 'descending' });
                 }
-                else if (req.query.sort === "oldest") {
-                    gyms = yield Gym_1.Gym.find().sort({ date: "ascending" });
+                else if (req.query.sort === 'oldest') {
+                    gyms = yield Gym_1.Gym.find().sort({ date: 'ascending' });
                 }
-                else if (req.query.sort === "likes") {
-                    gyms = yield Gym_1.Gym.find().sort({ likes: "descending" });
+                else if (req.query.sort === 'likes') {
+                    gyms = yield Gym_1.Gym.find().sort({ likes: 'descending' });
                 }
             }
             else {
@@ -175,23 +175,23 @@ let GymProvider = class GymProvider {
             let page = parseInt(req.query.page) || 1; // curent page
             let gyms;
             let count;
-            const regex = new RegExp(regexHelper_1.escapeRegex(req.query.search), "gi");
+            const regex = new RegExp(regexHelper_1.escapeRegex(req.query.search), 'gi');
             if (req.query.sort) {
-                if (req.query.sort === "newest") {
+                if (req.query.sort === 'newest') {
                     gyms = yield Gym_1.Gym.find({ city: regex })
-                        .sort({ date: "descending" })
+                        .sort({ date: 'descending' })
                         .skip(perPage * page - perPage)
                         .limit(perPage);
                 }
-                else if (req.query.sort === "oldest") {
+                else if (req.query.sort === 'oldest') {
                     gyms = yield Gym_1.Gym.find({ city: regex })
-                        .sort({ date: "ascending" })
+                        .sort({ date: 'ascending' })
                         .skip(perPage * page - perPage)
                         .limit(perPage);
                 }
-                else if (req.query.sort === "likes") {
+                else if (req.query.sort === 'likes') {
                     gyms = yield Gym_1.Gym.find({ city: regex })
-                        .sort({ likes: "descending" })
+                        .sort({ likes: 'descending' })
                         .skip(perPage * page - perPage)
                         .limit(perPage);
                 }
@@ -201,7 +201,7 @@ let GymProvider = class GymProvider {
                     .skip(perPage * page - perPage)
                     .limit(perPage);
             }
-            count = yield Gym_1.Gym.countDocuments();
+            count = yield Gym_1.Gym.countDocuments({ city: regex });
             return {
                 gyms,
                 current: page,

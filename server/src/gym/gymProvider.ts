@@ -1,8 +1,8 @@
-import { Service } from "typedi";
-import { Gym } from "../models/Gym";
-import GetAllGymsResponse from "./responses/getAllGymsResponse";
-import GymDto from "./dto/GymDto";
-import { escapeRegex } from "../helpers/regexHelper";
+import { Service } from 'typedi';
+import { Gym } from '../models/Gym';
+import GetAllGymsResponse from './responses/getAllGymsResponse';
+import GymDto from './dto/GymDto';
+import { escapeRegex } from '../helpers/regexHelper';
 
 @Service()
 export default class GymProvider {
@@ -114,19 +114,19 @@ export default class GymProvider {
     let count;
 
     if (req.query.sort) {
-      if (req.query.sort === "newest") {
+      if (req.query.sort === 'newest') {
         gyms = await Gym.find()
-          .sort({ date: "descending" })
+          .sort({ date: 'descending' })
           .skip(perPage * page - perPage)
           .limit(perPage);
-      } else if (req.query.sort === "oldest") {
+      } else if (req.query.sort === 'oldest') {
         gyms = await Gym.find()
-          .sort({ date: "ascending" })
+          .sort({ date: 'ascending' })
           .skip(perPage * page - perPage)
           .limit(perPage);
-      } else if (req.query.sort === "likes") {
+      } else if (req.query.sort === 'likes') {
         gyms = await Gym.find()
-          .sort({ likes: "descending" })
+          .sort({ likes: 'descending' })
           .skip(perPage * page - perPage)
           .limit(perPage);
       }
@@ -149,12 +149,12 @@ export default class GymProvider {
     let gyms;
 
     if (req.query.sort) {
-      if (req.query.sort === "newest") {
-        gyms = await Gym.find().sort({ date: "descending" });
-      } else if (req.query.sort === "oldest") {
-        gyms = await Gym.find().sort({ date: "ascending" });
-      } else if (req.query.sort === "likes") {
-        gyms = await Gym.find().sort({ likes: "descending" });
+      if (req.query.sort === 'newest') {
+        gyms = await Gym.find().sort({ date: 'descending' });
+      } else if (req.query.sort === 'oldest') {
+        gyms = await Gym.find().sort({ date: 'ascending' });
+      } else if (req.query.sort === 'likes') {
+        gyms = await Gym.find().sort({ likes: 'descending' });
       }
     } else {
       gyms = await Gym.find();
@@ -170,22 +170,22 @@ export default class GymProvider {
 
     let gyms;
     let count;
-    const regex = new RegExp(escapeRegex(req.query.search), "gi");
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
     if (req.query.sort) {
-      if (req.query.sort === "newest") {
+      if (req.query.sort === 'newest') {
         gyms = await Gym.find({ city: regex })
-          .sort({ date: "descending" })
+          .sort({ date: 'descending' })
           .skip(perPage * page - perPage)
           .limit(perPage);
-      } else if (req.query.sort === "oldest") {
+      } else if (req.query.sort === 'oldest') {
         gyms = await Gym.find({ city: regex })
-          .sort({ date: "ascending" })
+          .sort({ date: 'ascending' })
           .skip(perPage * page - perPage)
           .limit(perPage);
-      } else if (req.query.sort === "likes") {
+      } else if (req.query.sort === 'likes') {
         gyms = await Gym.find({ city: regex })
-          .sort({ likes: "descending" })
+          .sort({ likes: 'descending' })
           .skip(perPage * page - perPage)
           .limit(perPage);
       }
@@ -195,7 +195,7 @@ export default class GymProvider {
         .limit(perPage);
     }
 
-    count = await Gym.countDocuments();
+    count = await Gym.countDocuments({ city: regex });
 
     return {
       gyms,
