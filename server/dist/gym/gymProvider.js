@@ -171,23 +171,42 @@ let GymProvider = class GymProvider {
     // find gyms by city
     searchGyms(req) {
         return __awaiter(this, void 0, void 0, function* () {
+            let perPage = 12; // gyms per page
+            let page = parseInt(req.query.page) || 1; // curent page
             let gyms;
+            let count;
             const regex = new RegExp(regexHelper_1.escapeRegex(req.query.search), "gi");
             if (req.query.sort) {
                 if (req.query.sort === "newest") {
-                    gyms = yield Gym_1.Gym.find({ city: regex }).sort({ date: "descending" });
+                    gyms = yield Gym_1.Gym.find({ city: regex })
+                        .sort({ date: "descending" })
+                        .skip(perPage * page - perPage)
+                        .limit(perPage);
                 }
                 else if (req.query.sort === "oldest") {
-                    gyms = yield Gym_1.Gym.find({ city: regex }).sort({ date: "ascending" });
+                    gyms = yield Gym_1.Gym.find({ city: regex })
+                        .sort({ date: "ascending" })
+                        .skip(perPage * page - perPage)
+                        .limit(perPage);
                 }
                 else if (req.query.sort === "likes") {
-                    gyms = yield Gym_1.Gym.find({ city: regex }).sort({ likes: "descending" });
+                    gyms = yield Gym_1.Gym.find({ city: regex })
+                        .sort({ likes: "descending" })
+                        .skip(perPage * page - perPage)
+                        .limit(perPage);
                 }
             }
             else {
-                gyms = yield Gym_1.Gym.find({ city: regex });
+                gyms = yield Gym_1.Gym.find({ city: regex })
+                    .skip(perPage * page - perPage)
+                    .limit(perPage);
             }
-            return gyms;
+            count = yield Gym_1.Gym.countDocuments();
+            return {
+                gyms,
+                current: page,
+                pages: Math.ceil(count / perPage)
+            };
         });
     }
 };

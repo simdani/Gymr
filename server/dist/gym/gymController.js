@@ -41,11 +41,15 @@ let GymController = class GymController {
             try {
                 if (req.query.search) {
                     const result = yield this.gymProvider.searchGyms(req);
-                    return res.status(200).json(result);
+                    res.set("total-pages", result.pages.toString());
+                    res.set("Access-Control-Expose-Headers", "total-pages");
+                    return res.status(200).json(result.gyms);
                 }
                 else {
-                    const result = yield this.gymProvider.getAllGyms(req);
-                    return res.status(200).json(result);
+                    const result = yield this.gymProvider.getGyms(req);
+                    res.set("total-pages", result.pages.toString());
+                    res.set("Access-Control-Expose-Headers", "total-pages");
+                    return res.status(200).json(result.gyms);
                 }
             }
             catch (err) {

@@ -1,70 +1,113 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from "react";
 
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import { getGyms, searchGyms } from '../../state-management/actions/gymActions';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getGyms, searchGyms } from "../../state-management/actions/gymActions";
 
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
-import GymsRender from '../gyms/GymsRender';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import GymsSearch from './GymsSearch';
+import GymsRender from "../gyms/GymsRender";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import GymsSearch from "./GymsSearch";
 
 class GymSearchMain extends Component {
   componentDidMount() {
-    this.props.getGyms(this.props.gym.current, this.props.gym.keyword, this.props.gym.sort);
+    this.props.getGyms(
+      this.props.gym.current,
+      this.props.gym.keyword,
+      this.props.gym.sort
+    );
   }
 
   getByOldest = () => {
-    this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'oldest');
+    this.props.searchGyms(
+      this.props.gym.current,
+      this.props.gym.keyword,
+      "oldest"
+    );
   };
 
   getByNewest = () => {
-    this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'newest');
+    this.props.searchGyms(
+      this.props.gym.current,
+      this.props.gym.keyword,
+      "newest"
+    );
   };
 
   getByLikes = () => {
-    this.props.searchGyms(this.props.gym.current, this.props.gym.keyword, 'likes');
+    this.props.searchGyms(
+      this.props.gym.current,
+      this.props.gym.keyword,
+      "likes"
+    );
   };
+
+  componentWillUnmount() {
+    console.log("SEARCH UNMOUNTED");
+  }
 
   render() {
     const { gyms, loading } = this.props.gym;
 
     return (
       <div className="starter-template container">
-
         <div className="row">
-
           <div className="col-4">
-            <h4 className="mb-3"><FontAwesomeIcon icon={faSearch} /> Search gyms</h4>
+            <h4 className="mb-3">
+              <FontAwesomeIcon icon={faSearch} /> Search gyms
+            </h4>
             <div className="card text-center">
-                <div className="card-body">
-                  <GymsSearch />
+              <div className="card-body">
+                <GymsSearch />
               </div>
             </div>
           </div>
           <div className="col-8">
-
-          <div className="d-flex">
-            <div>
-              <h5>Found gyms in city: {this.props.keyword}</h5>
-            </div>
-            <div className="ml-auto dropdown show mb-2">
-              <a href="/" className="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                { this.props.gym.sort? this.props.gym.sort : <Fragment>Sort by</Fragment> }
-              </a>
-              <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <p onClick={this.getByNewest} className="dropdown-item">Newest</p>
-                <p onClick={this.getByOldest} className="dropdown-item">Oldest</p>
-                <p onClick={this.getByLikes} className="dropdown-item">Likes</p>
+            <div className="d-flex">
+              <div>
+                <h5>Found gyms in city: {this.props.keyword}</h5>
+              </div>
+              <div className="ml-auto dropdown show mb-2">
+                <a
+                  href="/"
+                  className="btn btn-secondary dropdown-toggle"
+                  role="button"
+                  id="dropdownMenuLink"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {this.props.gym.sort ? (
+                    this.props.gym.sort
+                  ) : (
+                    <Fragment>Sort by</Fragment>
+                  )}
+                </a>
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <p onClick={this.getByNewest} className="dropdown-item">
+                    Newest
+                  </p>
+                  <p onClick={this.getByOldest} className="dropdown-item">
+                    Oldest
+                  </p>
+                  <p onClick={this.getByLikes} className="dropdown-item">
+                    Likes
+                  </p>
+                </div>
               </div>
             </div>
+            {gyms === null || loading ? (
+              <LoadingSpinner />
+            ) : (
+              <GymsRender col="6" />
+            )}
           </div>
-            {gyms === null || loading ? <LoadingSpinner/> : <GymsRender col="6" /> }
-          </div>
-
-         </div>
+        </div>
       </div>
     );
   }
@@ -91,4 +134,7 @@ const mapStateToProps = state => ({
   keyword: state.gym.keyword
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GymSearchMain);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GymSearchMain);

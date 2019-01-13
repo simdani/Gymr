@@ -31,10 +31,14 @@ export class GymController {
     try {
       if (req.query.search) {
         const result = await this.gymProvider.searchGyms(req);
-        return res.status(200).json(result);
+        res.set("total-pages", result.pages.toString());
+        res.set("Access-Control-Expose-Headers", "total-pages");
+        return res.status(200).json(result.gyms);
       } else {
-        const result = await this.gymProvider.getAllGyms(req);
-        return res.status(200).json(result);
+        const result = await this.gymProvider.getGyms(req);
+        res.set("total-pages", result.pages.toString());
+        res.set("Access-Control-Expose-Headers", "total-pages");
+        return res.status(200).json(result.gyms);
       }
     } catch (err) {
       return res.status(400).json({ errors: "failed to get gyms" });

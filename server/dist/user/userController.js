@@ -42,7 +42,7 @@ let UserController = class UserController {
             }
         });
     }
-    // 
+    // TODO: add validations
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -59,6 +59,7 @@ let UserController = class UserController {
             }
         });
     }
+    // TODO: add validations
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

@@ -165,22 +165,43 @@ export default class GymProvider {
 
   // find gyms by city
   async searchGyms(req: any) {
+    let perPage = 12; // gyms per page
+    let page = parseInt(req.query.page) || 1; // curent page
+
     let gyms;
+    let count;
     const regex = new RegExp(escapeRegex(req.query.search), "gi");
 
     if (req.query.sort) {
       if (req.query.sort === "newest") {
-        gyms = await Gym.find({ city: regex }).sort({ date: "descending" });
+        gyms = await Gym.find({ city: regex })
+          .sort({ date: "descending" })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
       } else if (req.query.sort === "oldest") {
-        gyms = await Gym.find({ city: regex }).sort({ date: "ascending" });
+        gyms = await Gym.find({ city: regex })
+          .sort({ date: "ascending" })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
       } else if (req.query.sort === "likes") {
-        gyms = await Gym.find({ city: regex }).sort({ likes: "descending" });
+        gyms = await Gym.find({ city: regex })
+          .sort({ likes: "descending" })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
       }
     } else {
-      gyms = await Gym.find({ city: regex });
+      gyms = await Gym.find({ city: regex })
+        .skip(perPage * page - perPage)
+        .limit(perPage);
     }
 
-    return gyms;
+    count = await Gym.countDocuments();
+
+    return {
+      gyms,
+      current: page,
+      pages: Math.ceil(count / perPage)
+    };
   }
 
   // public async getAll(): Promise<GetAllGymsResponse> {
